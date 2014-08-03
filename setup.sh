@@ -9,7 +9,7 @@ sudo apt-get update
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties ctags autojump
 
 # autojump
-echo '. /usr/share/autojump/autojump.sh' >> .bash_profile
+echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
 
 # vim
 echo "Setting up neobundle"
