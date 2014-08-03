@@ -4,7 +4,7 @@ A few dotfiles to make my life easier when working on other people's systems at 
 
 ## Requirements
 
-A Debian-based (or Ubuntu-based) distribution.
+A Debian-based (or Ubuntu-based) operating system.
 
 ## Usage
 
