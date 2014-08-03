@@ -1,3 +1,5 @@
+# Note: This script is for a Debian-based distribution
+
 THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # apt
@@ -5,6 +7,9 @@ sudo apt-get update
 
 # packages
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties ctags autojump
+
+# autojump
+echo '. /usr/share/autojump/autojump.sh' >> .bash_profile
 
 # vim
 echo "Setting up neobundle"
@@ -19,7 +24,7 @@ mkdir -p $HOME/.vim/.cache/backup
 # bash aliases
 echo "Appending to .bash_aliases"
 cat $THIS_DIR/.bash_aliases >> $HOME/.bash_aliases
-echo '. $HOME/.bash_aliases' >> $HOME/.bashrc
+echo '. $HOME/.bash_aliases' >> $HOME/.bash_profile
 
 # .gitconfig
 echo "Appending to .gitconfig"
@@ -27,11 +32,11 @@ cat $THIS_DIR/.gitconfig >> $HOME/.gitconfig
 
 # rbenv
 git clone git://github.com/sstephenson/rbenv.git .rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $HOME/.bashrc
-echo 'eval "$(rbenv init -)"' >> $HOME/.bashrc
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $HOME/.bash_profile
+echo 'eval "$(rbenv init -)"' >> $HOME/.bash_profile
 exec $SHELL
 git clone git://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> $HOME/.bashrc
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> $HOME/.bash_profile
 exec $SHELL
 
 # ruby 2.1.2
