@@ -7,11 +7,11 @@ sudo apt-get update
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties ctags
 
 # .gemrc
-cat $THIS_DIR/.gemrc >> $HOME/.gemrc
+cat $THIS_DIR/.gemrc > $HOME/.gemrc
 
 # vim
 curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh
-cat $THIS_DIR/.vimrc >> $HOME/.vimrc
+cat $THIS_DIR/.vimrc > $HOME/.vimrc
 mkdir $HOME/.vim/.cache/swap
 mkdir $HOME/.vim/.cache/undo
 mkdir $HOME/.vim/.cache/backup
@@ -38,5 +38,5 @@ rbenv global 2.1.2
 ruby -v
 
 # rubocop
-cat $THIS_DIR/.rubocop.yml >> $HOME/.rubocop.yml
+cat $THIS_DIR/.rubocop.yml > $HOME/.rubocop.yml
 gem install rubocop -V
