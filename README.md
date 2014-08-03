@@ -1,6 +1,6 @@
 # portable-dotfiles
 
-A few dotfiles to make my life easier when working on other people's systems. YMMV.
+A few dotfiles to make my life easier when working on other people's systems at Lighthouse Labs. YMMV.
 
 ## Requirements
 
