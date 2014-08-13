@@ -31,7 +31,7 @@ echo "Appending to .gitconfig"
 cat $THIS_DIR/.gitconfig >> $HOME/.gitconfig
 
 # rbenv
-git clone git://github.com/sstephenson/rbenv.git .rbenv
+git clone git://github.com/sstephenson/rbenv.git $HOME/.rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $HOME/.bash_profile
 echo 'eval "$(rbenv init -)"' >> $HOME/.bash_profile
 exec $SHELL
