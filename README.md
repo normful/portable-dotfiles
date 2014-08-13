@@ -1,7 +1,9 @@
 # portable-dotfiles
 
-Some dotfiles and a setup script to keep myself from going crazy while working on other people's machines (servers included). This is not meant to be an exhaustive setup script, but rather just the essentials to make myself feel at home.
+- These dotfiles and setup scripts are meant to keep myself from being annoyed while working on other people's machines (servers included). 
+- These scripts are not meant to be an exhaustive, but only provide the essentials.
+- Carefully examine the scripts before executing them to ensure that you only install what you need.
 
 ## Requirements
 
-A Debian-based (or Ubuntu-based) operating system.
+- A Debian-based (or Ubuntu-based) operating system.
