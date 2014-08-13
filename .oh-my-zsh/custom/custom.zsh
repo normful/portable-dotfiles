@@ -1,4 +1,4 @@
 ZSH_THEME="jreese"
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f ~/.bash_profile ]; then
+    . ~/.bash_profile
 fi
