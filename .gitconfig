@@ -1,6 +1,6 @@
 [core]
     autocrlf = input
-    safecrlf = true
+    safecrlf = warn
     editor = vim
 [color]
     ui = true
