@@ -93,11 +93,6 @@ autocmd InsertLeave * :set relativenumber
 autocmd FileType c,cpp,css,scss,html,eruby,java,php,javascript,python,ruby,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 
-" Set indenting
-autocmd FileType c,cpp,css,scss,ruby,html,eruby set tabstop=2
-autocmd FileType c,cpp,css,scss,ruby,html,eruby set softtabstop=2
-autocmd FileType c,cpp,css,scss,ruby,html,eruby set shiftwidth=2
-
 " Invisible aka hidden characters
 set listchars=tab:▶\ ,eol:■,trail:•
 highlight NonText guifg=#606060
@@ -256,9 +251,6 @@ nnoremap <silent> <localleader>i :set list!<CR>
 " Toggle wrap
 nnoremap <silent> <localleader>w :set wrap!<CR>
 
-" Toggle absolute and relative line numbers
-nnoremap <silent> <localleader>l :call g:ToggleLineNumbering()<CR>
-
 " Toggle search highlight
 nnoremap <silent> <localleader>h :set hlsearch!<CR>
 
@@ -299,29 +291,23 @@ cnoremap <c-l> <S-right>
 " Color Schemes {{{2
 NeoBundle 'flazz/vim-colorschemes'
 
-" Airline {{{2
-NeoBundle 'bling/vim-airline'
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_theme = "tomorrow"
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
-let g:airline_symbols.space = "\ua0"
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#tagbar#flags = ''
-let g:airline#extensions#tagbar#flags = 'f'
-let g:airline#extensions#tagbar#flags = 's'
-let g:airline#extensions#tagbar#flags = 'p'
-let g:airline#extensions#ctrlp#color_template = 'replace'
+" Status Line {{{2
+set statusline=%f%m%r%h%w%q\ 
+set statusline+=%{fugitive#statusline()}\    
+set statusline+=[%{strlen(&fenc)?&fenc:&enc}]
+set statusline+=%=      "left/right separator
+set statusline+=\ C%c     "cursor column
+set statusline+=\ L%l/%L   "cursor line/total lines
+set statusline+=\ %P    "percent through file
+
+" Relative and Absolute Line Numbers {{{2
+NeoBundle 'myusuf3/numbers.vim'
+
+" Indent Level Indicators {{{2
+NeoBundle 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=darkgrey
 
 " Rainbow Parentheses {{{2
 NeoBundle 'luochen1990/rainbow'
@@ -421,25 +407,31 @@ autocmd FileType unite call s:unite_settings()
 nmap <space> [unite]
 nnoremap [unite] <nop>
 
+" These are Unite mappings. Take note of what's after -buffer-name=
 nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr><c-u>
 nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async<cr><c-u>
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
 nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
-nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+nnoremap <silent> [unite]g :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
 nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
 nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
 
 NeoBundleLazy 'osyo-manga/unite-airline_themes', {'autoload':{'unite_sources':'airline_themes'}} "{{{3
 nnoremap <silent> [unite]a :<C-u>Unite -winheight=10 -auto-preview -buffer-name=airline_themes airline_themes<cr>
+
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}} "{{{3
 nnoremap <silent> [unite]c :<C-u>Unite -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<cr>
+
 NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':['tag','tag/file']}} "{{{3
 nnoremap <silent> [unite]t :<C-u>Unite -auto-resize -buffer-name=tag tag tag/file<cr>
+
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}} "{{{3
 nnoremap <silent> [unite]o :<C-u>Unite -auto-resize -buffer-name=outline outline<cr>
+
 NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}} "{{{3
 nnoremap <silent> [unite]h :<C-u>Unite -auto-resize -buffer-name=help help<cr>
+
 NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen','unite_sources':['junkfile','junkfile/new']}} "{{{3
 let g:junkfile#directory=expand("~/.vim/.cache/junk")
 nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
@@ -470,11 +462,11 @@ nnoremap <silent> <leader>cb :TCommentBlock<CR>
 vnoremap <silent> <leader>cb :TCommentBlock<CR>
 
 " Autocomplete {{{2
-" NeoBundle 'Shougo/neocomplete.vim'
-" let g:neocomplete#enable_at_startup=1
-" let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
-" " The following overwrites completefunc which is overwritten by vim-rails
-" let g:neocomplete#force_overwrite_completefunc=1
+NeoBundle 'Shougo/neocomplete.vim'
+let g:neocomplete#enable_at_startup=1
+let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
+" The following overwrites completefunc which is overwritten by vim-rails
+let g:neocomplete#force_overwrite_completefunc=1
 
 " Autoend {{{2
 NeoBundle 'tpope/vim-endwise'
@@ -495,6 +487,9 @@ NeoBundle 'tpope/vim-surround'
 autocmd FileType php let b:surround_45 = "<?php \r ?>"
 autocmd FileType eruby let g:surround_45 = "<% \r %>"
 autocmd FileType eruby let g:surround_61 = "<%= \r %>"
+
+" Multiline Select {{{2
+NeoBundle 'terryma/vim-multiple-cursors'
 
 " Substitution and Typo Correction {{{2
 NeoBundle 'tpope/vim-abolish'
@@ -519,9 +514,14 @@ nnoremap <silent> <leader>gd :Gdiff<CR>
 NeoBundle 'gregsexton/gitv'
 nnoremap <silent> <leader>gv :Gitv<CR>
 nnoremap <silent> <leader>gV :Gitv!<CR>
+NeoBundle 'airblade/vim-gitgutter'
+let g:gitgutter_highlight_lines = 0
 
 " Heroku {{{2
 NeoBundle 'tpope/vim-heroku'
+
+" Databases {{{2
+NeoBundle 'vim-scripts/dbext.vim'
 
 " LaTeX {{{2
 NeoBundle 'LaTeX-Suite-aka-Vim-LaTeX'
@@ -533,6 +533,7 @@ nnoremap <leader><leader>ll :!pdflatex -interaction=nonstop %<CR>
 
 " Markdown and Pandoc {{{2
 NeoBundle 'vim-pandoc/vim-pandoc'
+NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc_syntax_fill_codeblocks = 1
 
 " C/C++ {{{2
@@ -540,12 +541,29 @@ NeoBundle 'vim-scripts/c.vim'
 NeoBundle 'CRefVim'
 NeoBundle 'vim-scripts/a.vim'
 
-" Ctags {{{2
+" Tags {{{2
 NeoBundle 'xolox/vim-easytags'
+let g:easytags_by_filetype = '~/.vim/.cache/tags'
+let g:easytags_async = 1
+let g:easytags_include_members = 1
+let g:easytags_languages = {
+\  'javascript': {
+\    'cmd': 'ctags'
+\  },
+\  'ruby': {
+\    'cmd': 'ripper-tags'
+\  }
+\}
 nnoremap <Leader>ct :!ctags-proj.sh<CR>
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'majutsushi/tagbar'
+if executable('jsctags')
+  let g:tagbar_type_javascript = {
+    \'ctagsbin' : '/usr/local/bin/jsctags'
+    \ }
+endif
 nmap <F8> :TagbarToggle<CR>
+" for jsctags: use mozilla/doctorjs, not ramitos/jsctags
 
 " HTML {{{2
 NeoBundle 'mattn/emmet-vim'
@@ -562,33 +580,99 @@ let g:user_emmet_settings = {
 \  },
 \}
 
-" Haml, SASS, SCSS {{{2
+" Slim {{{2
+NeoBundle 'slim-template/vim-slim'
+
+" Jade {{{2
+NeoBundle 'digitaltoad/vim-jade'
+
+" CSS {{{2
+
+" SASS, SCSS, Haml {{{2
 NeoBundle 'tpope/vim-haml'
+
+" LESS {{{2
+NeoBundle 'groenewege/vim-less'
+
+" Stylus {{{2
+NeoBundle 'wavded/vim-stylus'
 
 " JSON {{{2
 NeoBundle 'tpope/vim-jdaddy'
+NeoBundle 'elzr/vim-json'
 
 " JavaScript {{{2
+NeoBundle 'pangloss/vim-javascript'
+let g:javascript_enable_domhtmlcss = 1
+
+NeoBundle 'maksimr/vim-jsbeautify'
+" Specify vim-jsbeautify styling in ~/.editorconfig
+autocmd FileType javascript vnoremap <buffer> <localleader>b :call BeautifyRange()
+function BeautifyRange()
+    setlocal modifiable
+    call RangeJsBeautify()
+endfunction
+
+NeoBundle 'marijnh/tern_for_vim'
+let g:tern#command = ['tern', '--no-port-file']
+let g:tern_show_signature_in_pum = 1
+
+NeoBundle 'jimmyhchan/dustjs.vim'
+
+function! RunWithNode()
+    let node_command = "node"
+    let current_file = shellescape(expand('%:p'))
+    let output = system(node_command . " " . current_file)
+    echon output
+endfunction
+command! -nargs=0 RunWithNode call RunWithNode()
+nnoremap <silent> <leader>node :RunWithNode<CR>
+
+" Run Jasmine tests
+nnoremap <leader>jas :wa \|! jasmine-node spec --noColor <CR>
 
 " CoffeeScript {{{2
 NeoBundle 'kchmck/vim-coffee-script'
+let g:coffee_compile_vert = 1
+let g:coffee_watch_vert = 1
+let g:coffee_run_vert = 1
+autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
+NeoBundle 'lukaszkorecki/CoffeeTags'
+let g:CoffeeAutoTagIncludeVars=1
 
 " Ruby {{{2
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-rbenv'
+NeoBundle 'thoughtbot/vim-rspec'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-rails'
+command -bar -nargs=1 OpenURL :!google-chrome <args>
 NeoBundle 'tpope/vim-bundler'
-NeoBundle 'ecomba/vim-ruby-refactoring'
+NeoBundle 'ecomba/vim-ruby-refactoring' "docs: https://relishapp.com/despo/vim-ruby-refactoring/docs
 NeoBundle 'ngmy/vim-rubocop'
 nnoremap <silent> <leader>rc :RuboCop<CR>
 let g:vimrubocop_config = '$HOME/.rubocop.yml'
 
+" Scala {{{2
+NeoBundle 'derekwyatt/vim-scala'
+
+" Go {{{2
+NeoBundle 'fatih/vim-go'
+
 " ICO, PNG, GIF {{{2
 NeoBundle 'tpope/vim-afterimage'
 
-" Syntax Checking {{{2
+" Syntax Checking {q{{2
 NeoBundle 'scrooloose/syntastic'
+let g:syntastic_check_on_open = 0
+let g:syntastic_html_checkers = ['w3']
+let g:syntastic_html_validator_parser = "html5"
+let g:syntastic_html_tidy_exec = "/usr/local/bin/tidy"
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_jshint_exec='/usr/local/bin/jshint'
+
+" Syntax Highlighting in Range {{{2
+NeoBundle 'vim-scripts/SyntaxRange'
 
 " Micellaneous Functions and Autocommands {{{1
 
@@ -641,14 +725,6 @@ function! StripTrailingWhitespace() "{{{2
     let @/=_s
     call cursor(l, c)
 endfunction
-
-function! g:ToggleLineNumbering() "{{{2
-    if(&rnu == 1)
-        set number
-    else
-        set relativenumber
-    endif
-endfunc
 
 function! WordFrequency() range "{{{2
   let all = split(join(getline(a:firstline, a:lastline)), '\A\+')
@@ -730,3 +806,16 @@ function! PrintFile(fname)
   call delete(a:fname)
   return v:shell_error
 endfunc
+
+" Manually set tab settings
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set tabstop=2
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set softtabstop=2
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set shiftwidth=2
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set expandtab
+
+autocmd FileType pandoc set tabstop=4
+autocmd FileType pandoc set softtabstop=4
+autocmd FileType pandoc set shiftwidth=4
+
+" Git commit messages
+autocmd FileType gitcommit setlocal spell textwidth=72
