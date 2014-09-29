@@ -276,17 +276,17 @@ cnoremap <c-k> <up>
 cnoremap <c-h> <S-left>
 cnoremap <c-l> <S-right>
 
-" Plugin Options and Mappings {{{1
+" Plugins, Plugin Options, and Plugin Mappings {{{1
 
 " NeoBundle Dependencies {{{2
-" NeoBundle 'Shougo/vimproc.vim', {
-"       \ 'build' : {
-"       \     'windows' : 'tools\\update-dll-mingw',
-"       \     'cygwin' : 'make -f make_cygwin.mak',
-"       \     'mac' : 'make -f make_mac.mak',
-"       \     'unix' : 'make -f make_unix.mak',
-"       \    },
-"       \ }
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build' : {
+      \     'windows' : 'tools\\update-dll-mingw',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
 
 " Color Schemes {{{2
 NeoBundle 'flazz/vim-colorschemes'
@@ -312,7 +312,10 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=darkg
 " Rainbow Parentheses {{{2
 NeoBundle 'luochen1990/rainbow'
 nnoremap <silent> <localleader>r :RainbowToggle<CR>
-autocmd VimEnter * RainbowToggle
+
+let g:rainbow_blacklist = ['fileextensiontoblacklist', 'anotherfileextensiontoblacklist']
+autocmd VimEnter * if index(g:rainbow_blacklist, &ft) < 0 | RainbowToggle
+
 let g:rainbow_conf = {
 \   'guifgs': ['royalblue1', 'magenta', 'green', 'red'],
 \   'ctermfgs': ['blue', 'magenta', 'green', 'red'],
@@ -535,6 +538,14 @@ nnoremap <leader><leader>ll :!pdflatex -interaction=nonstop %<CR>
 NeoBundle 'vim-pandoc/vim-pandoc'
 NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc_syntax_fill_codeblocks = 1
+autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
+autocmd! BufRead,BufNewFile,BufEnter *HTML*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
+autocmd! BufRead,BufNewFile,BufEnter *CSS*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
+autocmd! BufRead,BufNewFile,BufEnter *JavaScript*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
+autocmd! BufRead,BufNewFile,BufEnter *Scala*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["scala", "json", "css", "html", "sql", "xml"]
+autocmd! BufRead,BufNewFile,BufEnter *Ruby*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["ruby", "json", "css", "html", "yaml", "sql", "xml"]
+autocmd! BufRead,BufNewFile,BufEnter *PHP*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["php", "json", "css", "html", "sql", "xml"]
+autocmd! BufRead,BufNewFile,BufEnter *Python*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["python", "json", "css", "html", "sql", "xml"]
 
 " C/C++ {{{2
 NeoBundle 'vim-scripts/c.vim'
@@ -602,7 +613,9 @@ NeoBundle 'tpope/vim-jdaddy'
 NeoBundle 'elzr/vim-json'
 
 " JavaScript {{{2
-NeoBundle 'pangloss/vim-javascript'
+autocmd FileType javascript set dictionary+=$HOME/.vim/dict/node.dict
+
+NeoBundle 'jelera/vim-javascript-syntax'
 let g:javascript_enable_domhtmlcss = 1
 
 NeoBundle 'maksimr/vim-jsbeautify'
@@ -618,6 +631,8 @@ let g:tern#command = ['tern', '--no-port-file']
 let g:tern_show_signature_in_pum = 1
 
 NeoBundle 'jimmyhchan/dustjs.vim'
+NeoBundle 'moll/vim-node'
+NeoBundle 'ahayman/vim-nodejs-complete'
 
 function! RunWithNode()
     let node_command = "node"
@@ -631,12 +646,34 @@ nnoremap <silent> <leader>node :RunWithNode<CR>
 " Run Jasmine tests
 nnoremap <leader>jas :wa \|! jasmine-node spec --noColor <CR>
 
+
 " CoffeeScript {{{2
+autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
+autocmd FileType coffee set dictionary+=$HOME/.vim/dict/node.dict
+
 NeoBundle 'kchmck/vim-coffee-script'
+
+let coffee_compiler = '/usr/local/bin/iced'
+
+" Automatically run 'cake build' on save
+autocmd BufNewFile,BufReadPost *.coffee compiler cake
+autocmd BufWritePost *.coffee make build
+
+" <leader>c to CoffeeCompile into scratch buffer
+map <leader>c :CoffeeCompile<CR>
+
+" Visual select lines then <leader>c to CoffeeCompile selection into scratch buffer
+vnoremap <leader>c <esc>:'<,'>:CoffeeCompile<CR>
+
+" :C[n] jumps to line [n] in the CoffeeCompile scratch buffer
+command -nargs=1 C CoffeeCompile | :<args>
+
+" Note: q closes CoffeeCompile scratch buffer
+
 let g:coffee_compile_vert = 1
 let g:coffee_watch_vert = 1
 let g:coffee_run_vert = 1
-autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
+
 NeoBundle 'lukaszkorecki/CoffeeTags'
 let g:CoffeeAutoTagIncludeVars=1
 

@@ -23,6 +23,8 @@ echo "Creating vim swap, undo, and backup folders"
 mkdir -p $HOME/.vim/.cache/swap
 mkdir -p $HOME/.vim/.cache/undo
 mkdir -p $HOME/.vim/.cache/backup
+mkdir -p $HOME/.vim/dict
+cat $THIS_DIR/.vim/dict/node.dict > $HOME/.vim/dict/node.dict
 
 # bash aliases
 echo "Appending to .bash_aliases"
@@ -69,3 +71,4 @@ sudo chsh -s $(which zsh)
 curl -L http://install.ohmyz.sh | sh
 echo "Creating or replacing custom.zsh"
 cat $THIS_DIR/.oh-my-zsh/custom/custom.zsh > $HOME/.oh-my-zsh/custom/custom.zsh
+
