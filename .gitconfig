@@ -59,15 +59,10 @@
 
     # git log --grep="something appearing in a commit message"
 
-    # pull
-    pull = pull --all
-
     # ls-files
     ls = ls-files . --exclude-standard
     li = ls-files . --exclude-standard --others --ignored
     
-    # push
-    p = push -u --all                 # push
     pod = push origin --delete        # delete remote branch <BRANCHNAME>
 
     # rebase
@@ -120,12 +115,12 @@
 [format]
     pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
-	prompt = false
+    prompt = false
 [merge]
     summary = true
     verbosity = 1
-	tool = vimdiff
-	conflictstyle = diff3
+    tool = vimdiff
+    conflictstyle = diff3
 [apply]
     whitespace = nowarn
 [branch]
@@ -133,7 +128,7 @@
 [push]
     # 'git push' will push the current branch to its tracking branch
     # the usual default is to push all branches
-	default = matching
+    default = matching
 [diff]
     # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
     # instead of a/b/c/d as prefixes for patches
