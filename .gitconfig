@@ -28,7 +28,8 @@
     chunkyadd = add --patch           # stage commits chunk by chunk
 
     # branch
-    b = branch --color=always --verbose
+    b = branch --color=always -vv     # branch alias to add color and verbosity
+    ba = branch -a --color=always -vv # show all branches
 
     # commit
     c = commit                        # commit
