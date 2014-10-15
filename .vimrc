@@ -598,6 +598,7 @@ NeoBundle 'slim-template/vim-slim'
 NeoBundle 'digitaltoad/vim-jade'
 
 " CSS {{{2
+NeoBundle 'miripiruni/CSScomb-for-Vim.git'
 
 " SASS, SCSS, Haml {{{2
 NeoBundle 'tpope/vim-haml'
@@ -652,6 +653,7 @@ autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
 autocmd FileType coffee set dictionary+=$HOME/.vim/dict/node.dict
 
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'noc7c9/vim-iced-coffee-script'
 
 let coffee_compiler = '/usr/local/bin/iced'
 
@@ -661,6 +663,9 @@ autocmd BufWritePost *.coffee make build
 
 " <leader>c to CoffeeCompile into scratch buffer
 map <leader>c :CoffeeCompile<CR>
+
+" <leader>r to CoffeeRun into scratch buffer
+map <leader>r :CoffeeRun<CR>
 
 " Visual select lines then <leader>c to CoffeeCompile selection into scratch buffer
 vnoremap <leader>c <esc>:'<,'>:CoffeeCompile<CR>
