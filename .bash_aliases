@@ -39,7 +39,7 @@ alias sgr='bundle exec shotgun -p 3000'
 # thin
 alias thin='bundle exec thin start -p 3000 -R config.ru -V'
 # iptables
-alias iptableslist='iptables -L -v'
-alias iptableslistn='iptables -L -v -n'
-alias iptablesnatlist='iptables -t nat -L -v'
-alias iptablesnatlistn='iptables -t nat -L -v -n'
+alias iptableslist='sudo iptables -L -v'
+alias iptableslistn='sudo iptables -L -v -n'
+alias iptablesnatlist='sudo iptables -t nat -L -v'
+alias iptablesnatlistn='sudo iptables -t nat -L -v -n'
