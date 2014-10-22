@@ -27,6 +27,15 @@
     ap = add --patch                  # stage commits chunk by chunk
     chunkyadd = add --patch           # stage commits chunk by chunk
 
+    ae = add -e                       # stage commits by manually editing patch
+
+    # apply
+    apc = apply --stat                # see stats before patching
+    apc = apply --check               # check before patching
+
+    # am
+    ams = am --signoff                # Usage: git ams < fixes.patch
+
     # branch
     b = branch --color=always -vv     # branch alias to add color and verbosity
     ba = branch -a --color=always -vv # show all branches
@@ -55,6 +64,9 @@
     last  = diff --word-diff=color HEAD^             # changes between second-last commit and (both staged and unstaged changes)
     lastu = diff --word-diff=color HEAD^ -U1000      # changes between second-last commit and (both staged and unstaged changes), with context
 
+    # format-patch
+    fps = format-patch --stdout       # Usage: git fps [ <since> | <revision range> ] > fixes.patch
+
     # fetch
     f = fetch                         # update local copy of remote repository
 
@@ -71,8 +83,10 @@
     merge = merge --no-ff
 
     # ls-files
+    index = ls-files --stage          # show contents of .git/index for current directory
     ls = ls-files . --exclude-standard
-    
+
+    # push
     pod = push origin --delete        # delete remote branch <BRANCHNAME>
 
     # rebase
@@ -120,7 +134,8 @@
     stat = status                     # status
 
     # tag
-    t = tag -n                        # show tags with <n> lines of each tag message
+    t = tag 
+    taglist = tag -l -n1              # show tag list with first line of tag annotation or commit message
 
     # svn helpers
     svnr = svn rebase
