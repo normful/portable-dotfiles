@@ -40,17 +40,21 @@
     b = branch --color=always -vv     # branch alias to add color and verbosity
     ba = branch -a --color=always -vv # show all branches
 
+    # bundle
+    bc = bundle create                # git bundle create repo.bundle master
+
     # commit
     c = commit                        # commit
     cm = commit -m                    # commit with message
-    amend = commit --amend            # amend last commit (to fix commit message: git commit --amend -m "fixed msg")
+    amend = commit --amend --no-edit  # amend last commit without changing commit message
+    amendm = commit --amend           # amend last commit and change commit message
 
     # checkout
     co = checkout                     # checkout
     cb = checkout -b                  # create and switch to a new branch
 
     # cherry-pick
-    cp = cherry-pick -x               # grab a change from a branch
+    cp = cherry-pick -x -s            # cherry pick
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
@@ -81,17 +85,19 @@
 
     # merge
     merge = merge --no-ff
+    mergeff = merge --ff-only
 
     # ls-files
     index = ls-files --stage          # show contents of .git/index for current directory
     ls = ls-files . --exclude-standard
 
     # push
-    pod = push origin --delete        # delete remote branch <BRANCHNAME>
+    pd = push --delete                # git push --delete origin remote-branch-to-delete
 
     # rebase
-    rc = rebase --continue            # continue rebase
-    rs = rebase --skip                # skip rebase
+    rb = rebase                       # rebase
+    rbc = rebase --continue           # continue rebase
+    rbs = rebase --skip               # skip rebase
 
     # remote
     r = remote -v                     # show remotes (verbose)
@@ -102,6 +108,7 @@
     reflog = reflog                   # show log of changes to refs
 
     # reset
+    rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     unstage     = reset HEAD          # unstage files
     chunkyreset = reset --patch HEAD  # unstage file hunks selectively
     uncommit    = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
@@ -129,9 +136,8 @@
     ssh5 = stash show -p --stat --word-diff=color stash@{5}
 
     # status
-    s = status                        # status
-    st = status                       # status
-    stat = status                     # status
+    s = status
+    #s = status -s -b -uall
 
     # tag
     t = tag 
@@ -142,10 +148,17 @@
     svnd = svn dcommit
     svnl = svn log --oneline --show-commit
 
+    # plumbing
+    cf = cat-file      # `git cat-file` on a tree object will mess up your terminal; use ls-tree for tree objects
+    lst = ls-tree                      
+    ui = update-index
+    wt = write-tree
+    ct = commit-tree
+
     # maintenance
-    count-objects = count-objects -v
     gc = gc
     fsck = fsck --full
+    count-objects = count-objects -v
 [apply]
     whitespace = nowarn
 [branch]
