@@ -37,11 +37,16 @@
     ams = am --signoff                # Usage: git ams < fixes.patch
 
     # branch
-    b = branch --color=always -vv     # branch alias to add color and verbosity
-    ba = branch -a --color=always -vv # show all branches
+    b = branch -avv --color=always    # show all branches
 
     # bundle
     bc = bundle create                # git bundle create repo.bundle master
+
+    # clean
+    cdf = clean -df                   # force delete untracked files and directories
+
+    # clone
+    cloen = clone                     # catch typo
 
     # commit
     c = commit                        # commit
@@ -52,9 +57,12 @@
     # checkout
     co = checkout                     # checkout
     cb = checkout -b                  # create and switch to a new branch
+    ours = "!f() { git co --ours $@ && git add $@; }; f"
+    theirs = "!f() { git co --theirs $@ && git add $@; }; f"
 
     # cherry-pick
     cp = cherry-pick -x -s            # cherry pick
+    cpa = cherry-pick --abort         # cherry pick abort
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
@@ -68,6 +76,9 @@
     last  = diff --word-diff=color HEAD^             # changes between second-last commit and (both staged and unstaged changes)
     lastu = diff --word-diff=color HEAD^ -U1000      # changes between second-last commit and (both staged and unstaged changes), with context
 
+    # fixup
+    fu = !git add --all . && git commit --fixup=@    # add all updated and deleted; then commit with message "fixup! ... @'s message"
+
     # format-patch
     fps = format-patch --stdout       # Usage: git fps [ <since> | <revision range> ] > fixes.patch
 
@@ -76,6 +87,12 @@
 
     # grep
     grep = grep --break --show-function --function-context
+
+    ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore # git ignore <path-to-file-to-add-to-.gitignore>
+    ig     = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore # git ignore <path-to-file-to-add-to-.gitignore>
+
+    # initial commit
+    in = !git init && git add . && git commit -m \"initial commit\"
 
     # log
     l   = log --graph --abbrev-commit --decorate --all                      --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
@@ -94,8 +111,14 @@
     # push
     pd = push --delete                # git push --delete origin remote-branch-to-delete
 
+    # pull rebase
+    prb = pull --rebase               # git fetch + git rebase on upstream tracking branch
+
     # rebase
-    rb = rebase                       # rebase
+    rebaes = rebase                   # catch typo
+    rb  = rebase --autosquash -i      # rebase interactive with autosquash
+    rbi = rebase --autosquash -i      # rebase interactive with autosquash
+    rba = rebase --abort              # abort rebase
     rbc = rebase --continue           # continue rebase
     rbs = rebase --skip               # skip rebase
 
@@ -105,14 +128,16 @@
 
     # refs
     refs = show-ref                   # show refs
-    reflog = reflog                   # show log of changes to refs
+    rl = reflog                       # show log of changes to refs
 
     # reset
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     unstage     = reset HEAD          # unstage files
+    us          = reset HEAD          # unstage files
     chunkyreset = reset --patch HEAD  # unstage file hunks selectively
     uncommit    = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
     undocommit  = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
+    wipe        = !git add --all && git commit --quiet -m 'WIPE SAVEPOINT' && git reset HEAD~1 --hard # use git reflog to get back to this unreachable commit
 
     filelog = log -u                  # show changes to a file
     mt = mergetool                    # fire up the merge tool
