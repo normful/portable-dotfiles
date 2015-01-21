@@ -36,8 +36,12 @@
     # am
     ams = am --signoff                # Usage: git ams < fixes.patch
 
+    # bisect
+    bs = bisect
+
     # branch
     b = branch -avv --color=always    # show all branches
+    untrack = branch -d -r            # Usage: git untrack origin/master
 
     # bundle
     bc = bundle create                # git bundle create repo.bundle master
@@ -46,7 +50,11 @@
     cdf = clean -df                   # force delete untracked files and directories
 
     # clone
+    cl = clone                        # clone
     cloen = clone                     # catch typo
+    shcl = clone --depth 1
+    shallowclone = clone --depth 1
+    shallowcloen = clone --depth 1
 
     # commit
     c = commit                        # commit
@@ -57,8 +65,9 @@
     # checkout
     co = checkout                     # checkout
     cb = checkout -b                  # create and switch to a new branch
-    ours = "!f() { git co --ours $@ && git add $@; }; f"
-    theirs = "!f() { git co --theirs $@ && git add $@; }; f"
+    track = checkout -t
+    coours   = "!f() { git co --ours   $@ && git add $@; }; f"
+    cotheirs = "!f() { git co --theirs $@ && git add $@; }; f"
 
     # cherry-pick
     cp = cherry-pick -x -s            # cherry pick
@@ -76,6 +85,10 @@
     last  = diff --word-diff=color HEAD^             # changes between second-last commit and (both staged and unstaged changes)
     lastu = diff --word-diff=color HEAD^ -U1000      # changes between second-last commit and (both staged and unstaged changes), with context
 
+    dbase   = diff --base --word-diff=color
+    dours   = diff --ours --word-diff=color
+    dtheirs = diff --theirs --word-diff=color
+
     # fixup
     fu = !git add --all . && git commit --fixup=@    # add all updated and deleted; then commit with message "fixup! ... @'s message"
 
@@ -83,7 +96,8 @@
     fps = format-patch --stdout       # Usage: git fps [ <since> | <revision range> ] > fixes.patch
 
     # fetch
-    f = fetch                         # update local copy of remote repository
+    f = fetch                         
+    fa = fetch --all                 
 
     # grep
     grep = grep --break --show-function --function-context
@@ -96,23 +110,33 @@
 
     # log
     l   = log --graph --abbrev-commit --decorate --all                      --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
-    ll  = log --stat  --abbrev-commit --decorate --all                      --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
+    ll  = log --graph --abbrev-commit --decorate --all --stat               --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
     lll = log --graph --abbrev-commit --decorate --all -p --word-diff=color --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
-    # git log --grep="something appearing in a commit message"
+    # More usage cases:
+    # git lll FILENAME
+    # git lll --grep="search commit messages"
+    axe = !sh -c 'git log -S"$0"'                                   # search through the log
+    pending = !sh -c 'git --no-pager log "$0"/HEAD..HEAD && echo'   # show commits that haven't been pushed to the remote yet
 
     # merge
     merge = merge --no-ff
     mergeff = merge --ff-only
+    ma = merge --abort
 
     # ls-files
     index = ls-files --stage          # show contents of .git/index for current directory
     ls = ls-files . --exclude-standard
 
     # push
-    pd = push --delete                # git push --delete origin remote-branch-to-delete
+    pd     = push --delete            # git push --delete origin remote-branch-to-delete
+    mirror = push --mirror            # git mirror private-backup-repo
 
     # pull rebase
-    prb = pull --rebase               # git fetch + git rebase on upstream tracking branch
+    prb = pull --rebase               # git fetch + git rebase onto FETCH_HEAD
+    pullrb = pull --rebase            # git fetch + git rebase onto FETCH_HEAD
+
+    # pull changes, show commits since last pull/push
+    pullwithlog = !sh -c 'git pull "$0" HEAD && git log --pretty=format:\"%Cred%ae %Creset- %C(yellow)%s %Creset(%ar)\" HEAD@{1}..'
 
     # rebase
     rebaes = rebase                   # catch typo
@@ -134,9 +158,15 @@
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     unstage     = reset HEAD          # unstage files
     us          = reset HEAD          # unstage files
-    chunkyreset = reset --patch HEAD  # unstage file hunks selectively
+    rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
+    setto       = reset --hard        # goto ref
+    undoto      = reset --soft        # undo to ref
+    goto        = reset --soft        # go to ref
     uncommit    = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
+    un          = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
+    undo        = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
     undocommit  = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
+    chunkyreset = reset --patch HEAD  # unstage file hunks selectively
     wipe        = !git add --all && git commit --quiet -m 'WIPE SAVEPOINT' && git reset HEAD~1 --hard # use git reflog to get back to this unreachable commit
 
     filelog = log -u                  # show changes to a file
@@ -184,6 +214,15 @@
     gc = gc
     fsck = fsck --full
     count-objects = count-objects -v
+
+    # removes remote branches that have been merged into HEAD
+    cleanremotes = !"f() { git branch -r --merged | cut -d \\  -f 3 | while read branch; do test `git rev-parse $branch` == `git rev-parse HEAD` && echo \"skipping branch $branch\" || (echo \"deleting branch $branch\" && echo $branch | sed 's/\\//\\ :/' | xargs -t git push ); done }; f"
+
+    # update all remotes, pruning removed tracking branches
+    updateremotes = remote update --prune
+
+    # update all submodules
+    submodulespull = submodule foreach "git checkout master && git pull origin master"
 [apply]
     whitespace = nowarn
 [branch]
