@@ -41,7 +41,7 @@
 
     # branch
     b = branch -avv --color=always    # show all branches
-    untrack = branch -d -r            # Usage: git untrack origin/master
+    track = branch -u                 # Usage: git track origin/feature
 
     # bundle
     bc = bundle create                # git bundle create repo.bundle master
@@ -72,6 +72,7 @@
     # cherry-pick
     cp = cherry-pick -x -s            # cherry pick
     cpa = cherry-pick --abort         # cherry pick abort
+    cpn = cherry-pick -n              # cherry pick changes and stage them, but don't commit
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
@@ -155,7 +156,6 @@
     rl = reflog                       # show log of changes to refs
 
     # reset
-    rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     unstage     = reset HEAD          # unstage files
     us          = reset HEAD          # unstage files
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
