@@ -19,8 +19,8 @@
 
     # add
     a  = add                          # stage     modified         created
-    au = add --update .               # stage all modified deleted        
-    aa = add --all    .               # stage all modified deleted created
+    au = add --update                 # stage all modified deleted        
+    aa = add --all                    # stage all modified deleted created
 
     ai = add -i                       # stage interactive
 
@@ -28,6 +28,8 @@
     chunkyadd = add --patch           # stage commits chunk by chunk
 
     ae = add -e                       # stage commits by manually editing patch
+
+    ane = !git a -N $1 && git a -e $1 # add intent and manually edit patch (for untracked files)
 
     # apply
     apc = apply --stat                # see stats before patching
@@ -40,39 +42,43 @@
     bs = bisect
 
     # branch
-    b = branch -avv --color=always    # show all branches
+    b     = branch -vv --list --contains @
+    bc    = branch -vv --list --contains @
+    bm    = branch -vv --list --merged @
+    bnm   = branch -vv --list --no-merged @
     track = branch -u                 # Usage: git track origin/feature
+    sup = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
 
     # bundle
-    bc = bundle create                # git bundle create repo.bundle master
+    bunc = bundle create              # git bundle create repo.bundle master
 
     # clean
     cdf = clean -df                   # force delete untracked files and directories
 
     # clone
-    cl = clone                        # clone
-    cloen = clone                     # catch typo
-    shcl = clone --depth 1
-    shallowclone = clone --depth 1
-    shallowcloen = clone --depth 1
+    cl    = clone                     # clone
+    cloen = clone                     # cloen (catch typo)
+    shallowclone = clone --depth 1    # shallow clone
+    shallowcloen = clone --depth 1    # shallow clone (catch typo)
+    shcl         = clone --depth 1    # shallow clone (catch typo)
 
     # commit
-    c = commit                        # commit
-    cm = commit -m                    # commit with message
-    amend = commit --amend --no-edit  # amend last commit without changing commit message
+    c      = commit                   # commit
+    cm     = commit -m                # commit with message
+    amend  = commit --amend --no-edit # amend last commit without changing commit message
     amendm = commit --amend           # amend last commit and change commit message
 
     # checkout
-    co = checkout                     # checkout
-    cb = checkout -b                  # create and switch to a new branch
+    co    = checkout                  # checkout
+    cb    = checkout -b               # create and switch to a new branch
     track = checkout -t
     coours   = "!f() { git co --ours   $@ && git add $@; }; f"
     cotheirs = "!f() { git co --theirs $@ && git add $@; }; f"
 
     # cherry-pick
-    cp = cherry-pick -x -s            # cherry pick
-    cpa = cherry-pick --abort         # cherry pick abort
+    cp  = cherry-pick -x -s           # cherry pick
     cpn = cherry-pick -n              # cherry pick changes and stage them, but don't commit
+    cpa = cherry-pick --abort         # cherry pick abort
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
@@ -94,7 +100,7 @@
     fu = !git add --all . && git commit --fixup=@    # add all updated and deleted; then commit with message "fixup! ... @'s message"
 
     # format-patch
-    fps = format-patch --stdout       # Usage: git fps [ <since> | <revision range> ] > fixes.patch
+    fps = format-patch --stdout                      # Usage: git fps [ <since> | <revision range> ] > fixes.patch
 
     # fetch
     f = fetch                         
@@ -120,21 +126,21 @@
     pending = !sh -c 'git --no-pager log "$0"/HEAD..HEAD && echo'   # show commits that haven't been pushed to the remote yet
 
     # merge
-    merge = merge --no-ff
+    merge   = merge --no-ff
     mergeff = merge --ff-only
-    ma = merge --abort
+    ma      = merge --abort
 
     # ls-files
+    ls    = ls-files . --exclude-standard
     index = ls-files --stage          # show contents of .git/index for current directory
-    ls = ls-files . --exclude-standard
 
     # push
     pd     = push --delete            # git push --delete origin remote-branch-to-delete
     mirror = push --mirror            # git mirror private-backup-repo
 
     # pull rebase
-    prb = pull --rebase               # git fetch + git rebase onto FETCH_HEAD
     pullrb = pull --rebase            # git fetch + git rebase onto FETCH_HEAD
+    prb    = pull --rebase            # git fetch + git rebase onto FETCH_HEAD
 
     # pull changes, show commits since last pull/push
     pullwithlog = !sh -c 'git pull "$0" HEAD && git log --pretty=format:\"%Cred%ae %Creset- %C(yellow)%s %Creset(%ar)\" HEAD@{1}..'
@@ -167,6 +173,7 @@
     undo        = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
     undocommit  = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
     chunkyreset = reset --patch HEAD  # unstage file hunks selectively
+    chunkyunstage = reset --patch HEAD  # unstage file hunks selectively
     wipe        = !git add --all && git commit --quiet -m 'WIPE SAVEPOINT' && git reset HEAD~1 --hard # use git reflog to get back to this unreachable commit
 
     filelog = log -u                  # show changes to a file
@@ -175,6 +182,9 @@
     sha1 = ls-tree master             # shows hashes of files in current folder
 
     show = show --word-diff=color     # shows the lines in a commit (instead of using git diff HEAD~3 HEAD~2
+
+    # shortlog
+    ppl = shortlog -n -s -e
 
     # stash
     ss = stash save                   # stash changes with name (save changes and add to stack)
