@@ -166,14 +166,15 @@
     us          = reset HEAD          # unstage files
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     setto       = reset --hard        # goto ref
-    undoto      = reset --soft        # undo to ref
-    goto        = reset --soft        # go to ref
-    uncommit    = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
-    un          = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
-    undo        = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
-    undocommit  = reset --soft  HEAD^ # go back before last commit, with files in uncommitted state
+    undoto      = reset --mixed       # undo to ref, with files unstaged
+    goto        = reset --mixed       # go   to ref, with files unstaged
+    un          = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
+    undo        = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
+    uncommit    = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
+    undocommit  = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
+    undostaged  = reset --soft  HEAD^ # go back before last commit, with files staged
     chunkyreset = reset --patch HEAD  # unstage file hunks selectively
-    chunkyunstage = reset --patch HEAD  # unstage file hunks selectively
+    chunkyunstage = reset --patch HEAD# unstage file hunks selectively
     wipe        = !git add --all && git commit --quiet -m 'WIPE SAVEPOINT' && git reset HEAD~1 --hard # use git reflog to get back to this unreachable commit
 
     filelog = log -u                  # show changes to a file
