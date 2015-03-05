@@ -187,6 +187,15 @@
     # shortlog
     ppl = shortlog -n -s -e
 
+    # polish
+    # Usage: git polish b1 b2 master  Checks out a new branch b1 and creates a squashed commit of all commits from master to HEAD
+    #                                 Checks out a new branch b2 from the squashed commit, then undoes the commit, unstages all the changes, and is now ready for selective re-staging with git ap and git ane
+    polish = !sh -c 'git checkout -b $0 && git reset --hard $2 && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout -b $1 && git reset --mixed HEAD^'
+
+    # squash
+    # Usage: git squash s1 master     Checks out a new branch called s1 and creates a squashed commit of all commits from master to HEAD
+    squash = !sh -c 'git checkout -b $0 && git reset --hard $1 && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG'
+
     # stash
     ss = stash save                   # stash changes with name (save changes and add to stack)
     sl = stash list                   # list stashes
