@@ -1,0 +1,110 @@
+!-----------------------------------------------------
+! FIRST RUN
+!-----------------------------------------------------
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Pause      
+! 66       ---> Caps_Lock   ---> lock
+! 9        ---> Escape
+!
+add lock = Pause      
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Pause       ---> lock
+! 66       ---> Caps_Lock   ---> lock
+! 9        ---> Escape
+!
+remove lock = Caps_Lock
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Pause       ---> lock
+! 66       ---> Caps_Lock 
+! 9        ---> Escape
+!
+keycode 66 = Escape Escape Escape Escape
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Pause       ---> lock
+! 66       ---> Escape 
+! 9        ---> Escape
+!
+keycode 9 = NoSymbol NoSymbol NoSymbol NoSymbol
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Pause       ---> lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+keycode 127 = Caps_Lock Caps_Lock Caps_Lock Caps_Lock
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+add lock = Caps_Lock
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock   ---> lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+remove lock = Escape
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock   ---> lock
+! 66       ---> Escape
+! 9        ---> NoSymbol
+!
+!-----------------------------------------------------
+! SECOND AND ALL OTHER SUBSEQUENT RUNS
+!-----------------------------------------------------
+!
+! add lock = Pause      
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock   ---> lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+! remove lock = Caps_Lock
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+! keycode 66 = Escape Escape Escape Escape
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+! keycode 9 = NoSymbol NoSymbol NoSymbol NoSymbol
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+! keycode 127 = Caps_Lock Caps_Lock Caps_Lock Caps_Lock
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+! add lock = Caps_Lock
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock   ---> lock
+! 66       ---> Escape 
+! 9        ---> NoSymbol
+!
+! remove lock = Escape
+!
+! KEYCODE  ---> KEYSYM      ---> MODIFIER
+! 127      ---> Caps_Lock   ---> lock
+! 66       ---> Escape
+! 9        ---> NoSymbol
