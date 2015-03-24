@@ -299,7 +299,7 @@ autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 
 " Strip trailing white space and ^M characters for these file types
-autocmd FileType c,coffee,cpp,css,scss,html,iced,eruby,java,php,javascript,python,ruby,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType coffee,cpp,css,scss,html,iced,eruby,java,php,javascript,python,ruby,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 
 " Invisible aka hidden characters
@@ -775,7 +775,7 @@ nnoremap <leader><leader>ll :!pdflatex -interaction=nonstop %<CR>
 " NeoBundle 'vim-pandoc/vim-pandoc'
 " NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc_syntax_fill_codeblocks = 1
-autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml", "asm", "java", "c"]
+autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml", "asm", "java", "c", "python"]
 autocmd! BufRead,BufNewFile,BufEnter *HTML*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *CSS*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *JavaScript*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
@@ -929,6 +929,9 @@ command -bar -nargs=1 OpenURL :!google-chrome <args>
 " NeoBundle 'ngmy/vim-rubocop'
 nnoremap <silent> <leader>rc :RuboCop<CR>
 let g:vimrubocop_config = '$HOME/.rubocop.yml'
+
+" Python {{{2
+NeoBundle 'klen/python-mode'
 
 " Scala {{{2
 " NeoBundle 'derekwyatt/vim-scala'
