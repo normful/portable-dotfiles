@@ -48,6 +48,7 @@
     bnm   = branch -vv --list --no-merged @
     track = branch -u                 # Usage: git track origin/feature
     sup = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+    bd = !sh -c 'git branch -D $0'    # delete branch
 
     # bundle
     bunc = bundle create              # git bundle create repo.bundle master
@@ -67,6 +68,7 @@
     cm     = commit -m                # commit with message
     amend  = commit --amend --no-edit # amend last commit without changing commit message
     amendm = commit --amend           # amend last commit and change commit message
+    amenddate = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f"  # amend last commit's timestamp to now without changing commit message
 
     # checkout
     co    = checkout                  # checkout
@@ -79,6 +81,7 @@
     cp  = cherry-pick -x -s           # cherry pick
     cpn = cherry-pick -n              # cherry pick changes and stage them, but don't commit
     cpa = cherry-pick --abort         # cherry pick abort
+    cpc = cherry-pick --continue      # cherry pick continue
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
@@ -182,7 +185,10 @@
 
     sha1 = ls-tree master             # shows hashes of files in current folder
 
-    show = show --word-diff=color     # shows the lines in a commit (instead of using git diff HEAD~3 HEAD~2
+    sh = show --word-diff=color       # show changes in a commit with colored word diffs
+
+    # rev-parse
+    rp = rev-parse                    # Usage: git rp @   shows the full hash of HEAD
 
     # shortlog
     ppl = shortlog -n -s -e
