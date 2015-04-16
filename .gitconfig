@@ -188,7 +188,8 @@
     sh = show --word-diff=color       # show changes in a commit with colored word diffs
 
     # rev-parse
-    rp = rev-parse                    # Usage: git rp @   shows the full hash of HEAD
+    rl = rev-list --format=%B --max-count=1 # Usage: git rl @ shows full hash of HEAD and commit message
+    rp = rev-parse                          # Usage: git rp @   shows the full hash of HEAD
 
     # shortlog
     ppl = shortlog -n -s -e
