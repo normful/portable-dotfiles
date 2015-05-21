@@ -18,6 +18,8 @@
     la = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t = \\2/' 
 
     # add
+    a2 = add ../../                   # stage     modified         created
+    a3 = add ../../../                # stage     modified         created
     a  = add                          # stage     modified         created
     au = add --update                 # stage all modified deleted        
     aa = add --all                    # stage all modified deleted created
@@ -58,7 +60,7 @@
 
     # clone
     cl    = clone                     # clone
-    cloen = clone                     # cloen (catch typo)
+    cloen = clone                     # clone (catch typo)
     shallowclone = clone --depth 1    # shallow clone
     shallowcloen = clone --depth 1    # shallow clone (catch typo)
     shcl         = clone --depth 1    # shallow clone (catch typo)
@@ -66,6 +68,7 @@
     # commit
     c      = commit                   # commit
     cm     = commit -m                # commit with message
+    cmb    = commit -m 'build'        # commit with 'build' message
     amend  = commit --amend --no-edit # amend last commit without changing commit message
     amendm = commit --amend           # amend last commit and change commit message
     amenddate = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f"  # amend last commit's timestamp to now without changing commit message
@@ -169,6 +172,7 @@
     us          = reset HEAD          # unstage files
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     setto       = reset --hard        # goto ref
+    seto        = reset --hard        # goto ref
     undoto      = reset --mixed       # undo to ref, with files unstaged
     goto        = reset --mixed       # go   to ref, with files unstaged
     un          = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
@@ -260,6 +264,7 @@
     linenumber = true
     patterntype = perl
 [merge]
+    defaultToUpstream = true
     summary = true
     verbosity = 1
     conflictstyle = diff3
@@ -267,3 +272,8 @@
     prompt = false
 [push]
     default = simple
+[rebase]
+    autosquash = true
+[rerere]
+    enabled = true
+    autoupdate = true
