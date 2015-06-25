@@ -18,11 +18,11 @@
     la = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t = \\2/' 
 
     # add
-    a2 = add ../../                   # stage     modified         created
-    a3 = add ../../../                # stage     modified         created
-    a  = add                          # stage     modified         created
-    au = add --update                 # stage all modified deleted        
-    aa = add --all                    # stage all modified deleted created
+    a  = add                          # stage modified         created
+    a2 = add ../../                   # stage modified         created
+    a3 = add ../../../                # stage modified         created
+    au = add --update                 # stage modified deleted        
+    aa = add --all                    # stage modified deleted created
 
     ai = add -i                       # stage interactive
 
@@ -88,6 +88,7 @@
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
+    ds    = diff --word-diff=color --stat            # unstaged changes statistics
 
     dc    = diff --word-diff=color --cached          # staged changes
     dcu   = diff --word-diff=color --cached -U1000   # staged changes, with context
@@ -240,6 +241,7 @@
     ui = update-index
     wt = write-tree
     ct = commit-tree
+    cobj = count-objects --verbose --human-readable
 
     # maintenance
     gc = gc
