@@ -199,14 +199,13 @@
     # shortlog
     ppl = shortlog -n -s -e
 
-    # polish
-    # Usage: git polish b1 b2 master  Checks out a new branch b1 and creates a squashed commit of all commits from master to HEAD
-    #                                 Checks out a new branch b2 from the squashed commit, then undoes the commit, unstages all the changes, and is now ready for selective re-staging with git ap and git ane
-    polish = !sh -c 'git checkout -b $0 && git reset --hard $2 && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout -b $1 && git reset --mixed HEAD^'
-
     # squash
     # Usage: git squash s1 master     Checks out a new branch called s1 and creates a squashed commit of all commits from master to HEAD
     squash = !sh -c 'git checkout -b $0 && git reset --hard $1 && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG'
+
+    # review
+    # Usage: git review               Backs up current commit, creates a squashed commit of all commits from HEAD to HEAD's origin branch, sets original branch to remote branch with changes unstaged, ready for selective restaging
+    review = !sh -c 'git checkout -b `date +'%b%d-%H%M%p-bu'` && git checkout @{-1} && git checkout origin/`git rev-parse --abbrev-ref HEAD` && git checkout HEAD@{1} && git checkout -b `date +'%b%d-%H%M%p-sq'` && git reset --hard HEAD@{2} && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout @{-5} && git reset --hard @{-1} && git reset --mixed HEAD^'
 
     # stash
     ss = stash save                   # stash changes with name (save changes and add to stack)
