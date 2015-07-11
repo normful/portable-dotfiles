@@ -61,7 +61,8 @@ NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}}
 NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen','unite_sources':['junkfile','junkfile/new']}}
 
 " Sessions {{{2
-NeoBundle 'tpope/vim-obsession'
+" NeoBundle 'tpope/vim-obsession'
+" NeoBundle 'dhruvasagar/vim-prosession'
 
 " File Navigation {{{2
 NeoBundle 'matchit.zip'
@@ -78,6 +79,7 @@ NeoBundle 'tpope/vim-repeat'
 
 " Comments {{{2
 NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'heavenshell/vim-jsdoc'
 
 " Autocomplete {{{2
 NeoBundle 'Shougo/neocomplete.vim'
@@ -139,8 +141,8 @@ NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'LaTeX-Suite-aka-Vim-LaTeX'
 
 " Markdown and Pandoc {{{2
-NeoBundle 'vim-pandoc/vim-pandoc'
-NeoBundle 'vim-pandoc/vim-pandoc-syntax'
+" NeoBundle 'vim-pandoc/vim-pandoc'
+" NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 
 " Binary {{{2
 NeoBundle 'ressu/hexman.vim'
@@ -155,9 +157,9 @@ NeoBundle 'fatih/vim-go'
 NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
 
 " Tags {{{2
-NeoBundle 'xolox/vim-easytags'
+" NeoBundle 'xolox/vim-easytags'
 NeoBundle 'xolox/vim-misc'
-NeoBundle 'majutsushi/tagbar'
+" NeoBundle 'majutsushi/tagbar'
 
 " HTML {{{2
 NeoBundle 'mattn/emmet-vim'
@@ -167,6 +169,9 @@ NeoBundle 'slim-template/vim-slim'
 
 " Jade {{{2
 NeoBundle 'digitaltoad/vim-jade'
+
+" ECO {{{2
+NeoBundle 'AndrewRadev/vim-eco'
 
 " CSS {{{2
 NeoBundle 'miripiruni/CSScomb-for-Vim.git'
@@ -204,6 +209,9 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'ecomba/vim-ruby-refactoring' "docs: https://relishapp.com/despo/vim-ruby-refactoring/docs
 NeoBundle 'ngmy/vim-rubocop'
+
+" Python {{{2
+NeoBundle 'len/python-mode'
 
 " Scala {{{2
 NeoBundle 'derekwyatt/vim-scala'
@@ -492,10 +500,16 @@ command! -nargs=0 SummarizeTabs call SummarizeTabs()
 command! -nargs=* Stab call Stab()
 nnoremap <silent> <localleader><tab> :Stab<CR>
 
+" Summarize a CoffeeScript class
+nnoremap <silent> <localleader>s :call CoffeeClassSummary()<CR>
+
 " Copy current file's absolute path to clipboard
 if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
   nnoremap <localleader>cp :let @+=expand("%:p")<CR>
 endif
+
+" Scroll all open windows simultaneously
+nnoremap <silent> <localleader>sb :windo set scrollbind!<CR>
 
 " Allow saving of files as sudo after forgetting to start vim with sudo
 cmap w!! w !sudo tee > /dev/null %
@@ -655,6 +669,7 @@ nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile j
 
 " Sessions {{{2
 " NeoBundle 'tpope/vim-obsession'
+" NeoBundle 'dhruvasagar/vim-prosession'
 
 " File Navigation {{{2
 " NeoBundle 'matchit.zip'
@@ -680,6 +695,7 @@ nnoremap <silent> <leader>cl :TComment<CR>
 vnoremap <silent> <leader>cl :TComment<CR>
 nnoremap <silent> <leader>cb :TCommentBlock<CR>
 vnoremap <silent> <leader>cb :TCommentBlock<CR>
+" NeoBundle 'heavenshell/vim-jsdoc'
 
 " Autocomplete {{{2
 " NeoBundle 'Shougo/neocomplete.vim'
@@ -772,6 +788,7 @@ let g:Tex_ViewRuleComplete_html = '/opt/firefox/firefox-bin $*/index.html &'
 nnoremap <leader><leader>ll :!pdflatex -interaction=nonstop %<CR>
 
 " Markdown and Pandoc {{{2
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " NeoBundle 'vim-pandoc/vim-pandoc'
 " NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc_syntax_fill_codeblocks = 1
@@ -841,6 +858,9 @@ let g:user_emmet_settings = {
 " Jade {{{2
 " NeoBundle 'digitaltoad/vim-jade'
 
+" ECO {{{2
+" NeoBundle 'AndrewRadev/vim-eco'
+
 " CSS {{{2
 " NeoBundle 'miripiruni/CSScomb-for-Vim.git'
 
@@ -865,7 +885,7 @@ let g:javascript_enable_domhtmlcss = 1
 
 " NeoBundle 'maksimr/vim-jsbeautify'
 " Specify vim-jsbeautify styling in ~/.editorconfig
-autocmd FileType javascript vnoremap <buffer> <localleader>b :call BeautifyRange()<CR>
+autocmd FileType javascript,json,coffee,coffee.iced-coffee nnoremap <buffer> <localleader>b :call BeautifyRange()<CR>
 function BeautifyRange()
     setlocal modifiable
     call RangeJsBeautify()
@@ -1018,6 +1038,10 @@ function! WordFrequency() range "{{{2
 endfunction
 command! -range=% WordFrequency <line1>,<line2>call WordFrequency()
 
+function! CoffeeClassSummary() "{{{2
+  g!/^.\+ = require\|^\S\+\|^  [@\S]/d
+endfunction
+
 " Commands to run last (gui and color scheme related) {{{1
 
 " Color the cursor absolute number at the left margin
@@ -1051,6 +1075,10 @@ if has("gui_running")
         " Windows gVim
         set lines=999 columns=999
         set guifont=Bitstream\ Vera\ Sans\ Mono:h14
+    elseif has("gui_running")
+        " OS X MacVim
+        set lines=999 columns=999
+        set guifont=Monaco:h16
     else
         " Terminal Vim
         if exists("+lines")
@@ -1089,12 +1117,14 @@ autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set softtabstop=
 autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set shiftwidth=2
 autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set expandtab
 
-autocmd FileType pandoc set tabstop=4
-autocmd FileType pandoc set softtabstop=4
-autocmd FileType pandoc set shiftwidth=4
-autocmd FileType pandoc set nospell
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+autocmd FileType pandoc,markdown set tabstop=6
+autocmd FileType pandoc,markdown set softtabstop=4
+autocmd FileType pandoc,markdown set shiftwidth=4
+autocmd FileType pandoc,markdown set nospell
 
 autocmd FileType gitcommit setlocal spell textwidth=72
+autocmd FileType crontab setlocal nobackup nowritebackup
 
 " Manual project specific overrides
 function! ProjectSpecificSettings()
