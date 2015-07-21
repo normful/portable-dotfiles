@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<root>
+    <vkopenurldef>
+        <name>KeyCode::VK_OPEN_URL_APP_Finder</name>
+        <url type="file">/System/Library/CoreServices/Finder.app</url>
+    </vkopenurldef>
+    <item>
+        <name>OPTION_R + N opens Finder</name>
+        <identifier>private.right_option_n</identifier>
+        <autogen>
+            __KeyToKey__
+            KeyCode::N, ModifierFlag::OPTION_R,
+            KeyCode::VK_OPEN_URL_APP_Finder
+        </autogen>
+    </item>
+    <item>
+        <name>OPTION_R + F opens Finder</name>
+        <identifier>private.right_option_f</identifier>
+        <autogen>
+            __KeyToKey__
+            KeyCode::F, ModifierFlag::OPTION_R,
+            KeyCode::VK_OPEN_URL_APP_Finder
+        </autogen>
+    </item>
+    <vkopenurldef>
+        <name>KeyCode::VK_OPEN_URL_APP_KeyRemap4Macbook</name>
+        <url type="file">/Applications/KeyRemap4MacBook.app</url>
+    </vkopenurldef>
+    <item>
+        <name>OPTION_R + M opens KeyRemap4MacBook</name>
+        <identifier>private.right_option_m</identifier>
+        <autogen>
+            __KeyToKey__
+            KeyCode::M, ModifierFlag::OPTION_R,
+            KeyCode::VK_OPEN_URL_APP_KeyRemap4Macbook,
+        </autogen>
+    </item>
+    <vkopenurldef>
+        <name>KeyCode::VK_OPEN_URL_APP_Google_Chrome</name>
+        <url type="file">/Applications/Google Chrome.app</url>
+    </vkopenurldef>
+    <item>
+        <name>OPTION_R + C opens Google Chrome</name>
+        <identifier>private.right_option_c</identifier>
+        <autogen>
+            __KeyToKey__
+            KeyCode::C, ModifierFlag::OPTION_R,
+            KeyCode::VK_OPEN_URL_APP_Google_Chrome,
+        </autogen>
+    </item>
+    <vkopenurldef>
+        <name>KeyCode::VK_OPEN_URL_APP_iTerm</name>
+        <url type="file">/Applications/iTerm.app</url>
+    </vkopenurldef>
+    <item>
+        <name>OPTION_R + T opens iTerm</name>
+        <identifier>private.right_option_t</identifier>
+        <autogen>
+            __KeyToKey__
+            KeyCode::T, ModifierFlag::OPTION_R,
+            KeyCode::VK_OPEN_URL_APP_iTerm,
+        </autogen>
+    </item>
+    <vkopenurldef>
+        <name>KeyCode::VK_OPEN_URL_SHELL_mvim</name>
+        <url type="shell">
+            <![CDATA[    ~/bin/mvim    ]]>
+        </url>
+    </vkopenurldef>
+    <item>
+        <name>OPTION_R + V opens MacVim via launcher script</name>
+        <identifier>private.right_option_v</identifier>
+        <autogen>
+            __KeyToKey__
+            KeyCode::V, ModifierFlag::OPTION_R,
+            KeyCode::VK_OPEN_URL_SHELL_mvim,
+        </autogen>
+    </item>
+    <item>
+        <name>CONTROL_L + TAB sends COMMAND_L + TAB only in Terminal</name>
+        <identifier>private.control_l_tab_to_command_l_tab_only_in_terminal</identifier>
+        <only>TERMINAL</only>
+        <autogen>
+            __KeyToKey__
+            KeyCode::TAB, ModifierFlag::CONTROL_L,
+            KeyCode::TAB, ModifierFlag::COMMAND_L,
+        </autogen>
+    </item>
+    <item>
+        <name>CONTROL_L + BACKQUOTE sends COMMAND_L + BACKQUOTE only in Terminal</name>
+        <identifier>private.control_l_backquote_to_command_l_backquote_only_in_terminal</identifier>
+        <only>TERMINAL</only>
+        <autogen>
+            __KeyToKey__
+            KeyCode::BACKQUOTE, ModifierFlag::CONTROL_L,
+            KeyCode::BACKQUOTE, ModifierFlag::COMMAND_L,
+        </autogen>
+    </item>
+</root>
