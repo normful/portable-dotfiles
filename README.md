@@ -7,5 +7,4 @@
     - Caps Lock -> Esc
     - Esc       -> Nothing
     - Pause     -> Caps Lock
-
-    - TODO: Add OSX and Windows equivalent.
+- Use KeyRemap4MacBook, a.k.a. [Karabiner](https://pqrs.org/osx/karabiner/), for a similar mapping on OS X
