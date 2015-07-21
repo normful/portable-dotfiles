@@ -57,6 +57,8 @@
 
     # clean
     cdf = clean -df                   # force delete untracked files and directories
+    cdf2 = clean -df ../../           # force delete untracked files and directories
+    cdf3 = clean -df ../../../        # force delete untracked files and directories
 
     # clone
     cl    = clone                     # clone
@@ -71,6 +73,7 @@
     cmb    = commit -m 'build'        # commit with 'build' message
     amend  = commit --amend --no-edit # amend last commit without changing commit message
     amendm = commit --amend           # amend last commit and change commit message
+    amenmd = commit --amend           # amend last commit and change commit message (catch typo)
     amenddate = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f"  # amend last commit's timestamp to now without changing commit message
 
     # checkout
@@ -88,6 +91,8 @@
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
+    du    = diff --word-diff=color -U1000            # unstaged changes, with context
+
     ds    = diff --word-diff=color --stat            # unstaged changes statistics
 
     dc    = diff --word-diff=color --cached          # staged changes
@@ -194,7 +199,7 @@
 
     # rev-parse
     rl = rev-list --format=%B --max-count=1 # Usage: git rl @ shows full hash of HEAD and commit message
-    rp = rev-parse                          # Usage: git rp @   shows the full hash of HEAD
+    rp = rev-parse                          # Usage: git rp @ shows the full hash of HEAD
 
     # shortlog
     ppl = shortlog -n -s -e
