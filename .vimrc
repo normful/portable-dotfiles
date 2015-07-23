@@ -211,7 +211,7 @@ NeoBundle 'ecomba/vim-ruby-refactoring' "docs: https://relishapp.com/despo/vim-r
 NeoBundle 'ngmy/vim-rubocop'
 
 " Python {{{2
-NeoBundle 'len/python-mode'
+NeoBundle 'klen/python-mode'
 
 " Scala {{{2
 NeoBundle 'derekwyatt/vim-scala'
@@ -951,7 +951,7 @@ nnoremap <silent> <leader>rc :RuboCop<CR>
 let g:vimrubocop_config = '$HOME/.rubocop.yml'
 
 " Python {{{2
-NeoBundle 'klen/python-mode'
+" NeoBundle 'klen/python-mode'
 
 " Scala {{{2
 " NeoBundle 'derekwyatt/vim-scala'
