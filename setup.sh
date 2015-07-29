@@ -72,3 +72,6 @@ curl -L http://install.ohmyz.sh | sh
 echo "Creating or replacing custom.zsh"
 cat $THIS_DIR/.oh-my-zsh/custom/custom.zsh > $HOME/.oh-my-zsh/custom/custom.zsh
 
+# opp.zsh
+ln -s $THIS_DIR/opp $HOME/opp
+ln -s $THIS_DIR/opp.zsh $HOME/opp.zsh
