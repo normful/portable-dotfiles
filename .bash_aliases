@@ -12,7 +12,7 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 alias ls='ls -lhAtr'
-alias l='ls -lhAtr'
+alias l='ls -lhAtr --color=always'
 # git
 alias g='git'
 alias gs='git status'
