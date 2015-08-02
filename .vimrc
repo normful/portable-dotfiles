@@ -134,6 +134,9 @@ NeoBundle 'tpope/vim-heroku'
 " Databases {{{2
 NeoBundle 'vim-scripts/dbext.vim'
 
+" Web APIs {{{2
+NeoBundle 'mattn/webapi-vim'
+
 " EditorConfig {{{2
 NeoBundle 'editorconfig/editorconfig-vim'
 
@@ -159,7 +162,7 @@ NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
 " Tags {{{2
 " NeoBundle 'xolox/vim-easytags'
 NeoBundle 'xolox/vim-misc'
-" NeoBundle 'majutsushi/tagbar'
+NeoBundle 'majutsushi/tagbar'
 
 " HTML {{{2
 NeoBundle 'mattn/emmet-vim'
@@ -215,6 +218,9 @@ NeoBundle 'klen/python-mode'
 
 " Scala {{{2
 NeoBundle 'derekwyatt/vim-scala'
+
+" 日本語 {{{2
+NeoBundle 'nsue/googletranslate-vim'
 
 " ICO, PNG, GIF {{{2
 NeoBundle 'tpope/vim-afterimage'
@@ -747,25 +753,19 @@ let g:table_mode_corner = '|'
 
 " Git {{{2
 " NeoBundle 'tpope/vim-fugitive'
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
-nnoremap <silent> <leader>gr :Gremove<CR>
-nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-" nnoremap <silent> <leader>gp :Git push<CR>
 " NeoBundle 'gregsexton/gitv'
 nnoremap <silent> <leader>gv :Gitv --all<CR>
 nnoremap <silent> <leader>gV :Gitv!<CR>
 " NeoBundle 'airblade/vim-gitgutter'
 let g:gitgutter_highlight_lines = 0
 let g:gitgutter_map_keys = 0
-nnoremap <Leader>ggN <Plug>GitGutterPrevHunk
-nnoremap <Leader>ggn <Plug>GitGutterNextHunk
-nnoremap <Leader>ggs <Plug>GitGutterStageHunk
-nnoremap <Leader>ggr <Plug>GitGutterRevertHunk
-nnoremap <Leader>ggp <Plug>GitGutterPreviewHunk
+nnoremap <silent> <leader>gh :GitGutterLineHighlightsToggle<CR>
+nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
+nnoremap <silent> <leader>gp :GitGutterPrevHunk<CR>
+nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
+nnoremap <silent> <leader>gs :GitGutterStageHunk<CR>
+nnoremap <silent> <leader>gu :GitGutterRevertHunk<CR>
+nnoremap <silent> <leader>gr :GitGutterRevertHunk<CR>
 
 " tmux {{{2
 " NeoBundle 'tmux-plugins/vim-tmux'
@@ -775,6 +775,9 @@ nnoremap <Leader>ggp <Plug>GitGutterPreviewHunk
 
 " Databases {{{2
 " NeoBundle 'vim-scripts/dbext.vim'
+
+" Web APIs {{{2
+" NeoBundle 'mattn/webapi-vim'
 
 " EditorConfig {{{2
 " NeoBundle 'editorconfig/editorconfig-vim'
@@ -831,7 +834,7 @@ nnoremap <Leader>ct :!ctags-proj.sh<CR>
 " NeoBundle 'majutsushi/tagbar'
 if executable('jsctags')
   let g:tagbar_type_javascript = {
-    \'ctagsbin' : '/usr/sbin/jsctags'
+    \'ctagsbin' : '/usr/local/bin/ctags'
     \ }
 endif
 nmap <F8> :TagbarToggle<CR>
@@ -955,6 +958,16 @@ let g:vimrubocop_config = '$HOME/.rubocop.yml'
 
 " Scala {{{2
 " NeoBundle 'derekwyatt/vim-scala'
+
+" 日本語 {{{2
+" NeoBundle 'nsue/googletranslate-vim'
+let g:googletranslate_apikey = $GOOGLE_TRANSLATE_API_KEY
+
+" For possible locales, see https://cloud.google.com/translate/v2/using_rest#language-params
+let g:googletranslate_locale = 'ja'
+
+" Places the translation in the "@ register and in a new buffer
+let g:googletranslate_options = ["register", "buffer"]
 
 " ICO, PNG, GIF {{{2
 " NeoBundle 'tpope/vim-afterimage'
