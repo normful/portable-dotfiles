@@ -51,5 +51,4 @@ ln -s $THIS_DIR/opp $HOME/opp
 ln -s $THIS_DIR/opp.zsh $HOME/opp.zsh
 
 # zsh
-sudo chsh -s /bin/zsh $(whoami)
-echo 'To change default shell to zsh: sudo chsh -s /bin/zsh username'
+sudo chsh -s /bin/zsh `whoami`
