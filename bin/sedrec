@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "usage: sedrec old new (must be within git repository)"
+    exit 1
+fi
+
+if [ -z "$2" ]; then
+    echo "usage: sedrec old new (must be within git repository)"
+    exit 1
+fi
+
+git grep -lz "$1" | xargs -0 perl -i'' -pE "s/$1/$2/g"
