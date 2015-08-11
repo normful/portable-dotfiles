@@ -16,6 +16,10 @@ sudo apt-get install autojump tree zsh
 # autojump
 echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
 
+# tmux
+echo "Symlinking .tmux.conf"
+ln -s $THIS_DIR/.tmux.conf $HOME/.tmux.conf
+
 # vim
 echo "Setting up neobundle"
 curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh
