@@ -1,0 +1,650 @@
+" vim: fdm=marker nowrap ts=4 sw=4 sts=4 et
+" Author: Norman Sue
+"
+" NeoBundle Setup {{{1
+
+if has('vim_starting')
+    set nocompatible
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+" Plugins {{{1
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" NeoBundle Dependencies {{{2
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build' : {
+      \     'windows' : 'tools\\update-dll-mingw',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
+
+" Color Schemes {{{2
+NeoBundle 'flazz/vim-colorschemes'
+
+" Relative and Absolute Line Numbers {{{2
+NeoBundle 'myusuf3/numbers.vim'
+
+" Indent Level Indicators {{{2
+NeoBundle 'nathanaelkane/vim-indent-guides'
+
+" File Explorers {{{2
+NeoBundle 'scrooloose/nerdtree'
+
+" Enhanced . repeat {{{2
+NeoBundle 'tpope/vim-repeat'
+
+" Surround {{{2
+NeoBundle 'tpope/vim-surround'
+
+" Substitution and Typo Correction {{{2
+NeoBundle 'tpope/vim-abolish'
+
+" Git {{{2
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'airblade/vim-gitgutter'
+
+" HTML {{{2
+NeoBundle 'mattn/emmet-vim'
+
+" JSON {{{2
+NeoBundle 'tpope/vim-jdaddy'
+NeoBundle 'elzr/vim-json'
+
+" JavaScript {{{2
+NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'maksimr/vim-jsbeautify'
+NeoBundle 'moll/vim-node'
+NeoBundle 'geekjuice/vim-spec'
+" NeoBundle 'ahayman/vim-nodejs-complete'
+
+" CoffeeScript {{{2
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'noc7c9/vim-iced-coffee-script'
+
+" Syntax Checking {{{2
+NeoBundle 'scrooloose/syntastic'
+
+call neobundle#end()
+
+" General Options {{{1
+
+" Appearance
+set background=dark
+set nocursorline                " highlight current line
+set nocursorcolumn              " highlight current column
+set tabpagemax=15               " only show 15 tabs
+set linespace=0                 " No extra spaces between rows
+set lazyredraw
+if !has("gui_running")
+    set term=xterm-256color     " required for vim-powerline
+endif
+set laststatus=2                " required for vim-powerline
+set ttyfast                     " fast terminal
+set shortmess+=I                " hide startup message
+set encoding=utf-8              " set vim's encoding for buffers, registers, etc.
+
+" Mouse
+set mouse=a                     " automatically enable mouse usage
+set mousehide                   " hide the mouse cursor while typing
+
+set scrolloff=3                 " keep 3 lines above and below cursor
+set showmode                    " display the current mode
+set showcmd                     " show (partial) command in bottom right
+
+" Windows
+set laststatus=2                " last window always has status line
+set splitbelow                  " split windows below
+set splitright                  " vsplit windows to the right
+set diffopt=vertical
+
+set title
+set hidden
+set modeline                    " enable vim modelines
+set nospell                     " no spell check
+set backspace=indent,eol,start  " allow backspacing over these
+set scrolljump=5
+
+" Swap, backup, and undo files
+set swapfile
+set directory=~/.vim/.cache/swap
+set backup
+set backupdir=~/.vim/.cache/backup
+set undofile
+set undodir=~/.vim/.cache/undo
+
+set history=1000                " long history
+set autoread                    " automatically reload file changed outside vim
+
+" Indenting
+set autoindent                  " indent at the same level of the previous line
+set expandtab                   " expands tabs into spaces. real tabs are inserted with CTRL-V<TAB>
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+" Searching
+set ignorecase                  " case insensitive search
+set smartcase                   " case sensitive when uc present
+set showmatch                   " show matching brackets/parentheses
+set incsearch                   " incremental search
+set hlsearch                    " highlight search terms
+set gdefault                    " :s has g flag on by default
+
+" Line wrapping
+set nowrap                      " do not wrap long lines
+set linebreak                   " when wrapping is set, break at words
+
+" Folding
+set foldenable                  " auto fold code
+set foldmethod=marker           " markers tell where folds start and end
+set foldlevel=0                 " default fold level
+
+" Line numbering
+set number                      " Line numbering on
+set relativenumber              " Relative line numbering
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
+" Strip trailing white space and ^M characters for these file types
+autocmd FileType coffee,cpp,css,scss,html,iced,eruby,java,php,javascript,python,ruby,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
+
+" Invisible aka hidden characters
+set listchars=tab:▶\ ,eol:■,trail:•
+highlight NonText guifg=#606060
+highlight SpecialKey guifg=#606060
+
+" Tag files
+set tags=./tags,./TAGS,tags,TAGS,/usr/include/tags
+
+" Clipboard
+if has ('x') && has ('gui')     " on Linux: Use + register for copy & paste
+    set clipboard=unnamedplus
+elseif has ('gui')              " on Windows and Mac: Use * register for copy & paste
+    set clipboard=unnamed
+endif
+
+" Wildmenu
+set wildmenu
+set wildmode=list:longest
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX files
+set wildignore+=*.luac                           " Lua byte code
+set wildignore+=migrations                       " Django migrations
+set wildignore+=*.pyc                            " Python byte code
+set wildignore+=*.orig                           " Merge resolution files
+
+" Status Line
+set statusline=%f%m%r%h%w%q\ 
+set statusline+=%{fugitive#statusline()}\    
+set statusline+=[%{strlen(&fenc)?&fenc:&enc}]
+set statusline+=%=      "left/right separator
+set statusline+=\ C%c     "cursor column
+set statusline+=\ L%l/%L   "cursor line/total lines
+set statusline+=\ %P    "percent through file
+
+" General Mappings {{{1
+
+" Leader: Commma
+let mapleader = ","
+
+" Localleader: Single back slash
+let maplocalleader = "\\"
+
+" Disable arrow keys
+nmap <up> <nop>
+nmap <down> <nop>
+nmap <left> <nop>
+nmap <right> <nop>
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+
+" Disable CTRL-D and CTRL-U to get in habit of not using them
+" map <C-u> :echo "Use { instead."<CR>
+" imap <C-u> :echo "Use { instead."<CR>
+" map <C-d> :echo "Use } instead."<CR>
+" imap <C-d> :echo "Use } instead."<CR>
+
+" Disable accidental Undo line
+nnoremap U :echo "U pressed. Turn Caps Lock off."<CR>
+
+" Disable accidental :Ex mode
+nnoremap Q <nop>
+
+" Fix typos
+command! -bang -nargs=* -complete=file E e<bang> <args>
+command! -bang -nargs=* -complete=file W w<bang> <args>
+command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+command! -bang Wa wa<bang>
+command! -bang WA wa<bang>
+command! -bang Q q<bang>
+command! -bang QA qa<bang>
+command! -bang Qa qa<bang>
+
+" Easier quitting multiple files without saving
+nnoremap <leader>q :conf qa!<CR>
+
+" Browse oldfiles - mnemonic: (p)reviously used files
+nnoremap <localleader>p :bro ol<CR>
+
+" Quick file editing
+nnoremap <leader>ev :100vsplit ~/.vimrc<CR>
+nnoremap <leader>eg :100vsplit ~/.gitconfig<CR>
+nnoremap <leader>ez :100vsplit ~/.zshrc<CR>
+nnoremap <leader>eb :100vsplit ~/.bashrc<CR>
+nnoremap <leader>et :100vsplit ~/.tmux.conf<CR>
+nnoremap <leader>essh :100vsplit ~/.ssh/config<CR>
+nnoremap <leader>eig :100vsplit ~/.gitignore_global<CR>
+
+" Toggle between .c and .s file within the same folder
+nnoremap <leader>asm :vsplit %:p:s,.s$,.X123X,:s,.c$,.s,:s,.X123X$,.c,<CR>
+
+" Toggle between .cpp and .hpp file within the same folder
+nnoremap <leader>hpp :vsplit %:p:s,.hpp$,.X123X,:s,.cpp$,.hpp,:s,.X123X$,.cpp,<CR>
+
+" Note -- Toggle between .cpp or .c and .h file within the same folder is
+" S-F2 (provided by c.vim)
+
+" Source aka reload .vimrc
+nnoremap <leader>rv :so $MYVIMRC<CR>
+
+" Switching buffers quickly
+nnoremap gn :bn<CR>
+nnoremap gp :bp<CR>
+nnoremap gd :bd<CR>
+
+" Visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv
+
+" For navigating wrapped lines
+nmap j gj
+nmap k gk
+nmap ^ g^
+nmap 0 g0
+nmap $ g$
+vmap j gj
+vmap k gk
+vmap ^ g^
+vmap 0 g0
+vmap $ g$
+
+" Horizontal scrolling
+map zl zL
+map zh zH
+
+" Window navigation
+nnoremap <leader>, <C-W>p
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
+nnoremap <silent> <leader>o :only<CR>
+nnoremap <silent> <leader>m <C-W>_<C-W><Bar>
+
+" Buffer navigation
+nnoremap <leader>w :bdelete<CR>
+
+" Mark
+nnoremap ' `
+nnoremap ` '
+
+" Bracket matching
+nnoremap <tab> %
+vnoremap <tab> %
+
+" Search with ERE regex, not vim's default 'magic' regex
+nnoremap / /\v
+vnoremap / /\v
+
+" Code fold level
+nmap <leader>f0 :set foldlevel=0<CR>
+nmap <leader>f1 :set foldlevel=1<CR>
+nmap <leader>f2 :set foldlevel=2<CR>
+nmap <leader>f3 :set foldlevel=3<CR>
+nmap <leader>f4 :set foldlevel=4<CR>
+nmap <leader>f5 :set foldlevel=5<CR>
+nmap <leader>f6 :set foldlevel=6<CR>
+nmap <leader>f7 :set foldlevel=7<CR>
+nmap <leader>f8 :set foldlevel=8<CR>
+
+" Toggle invisible aka hidden characters
+nnoremap <silent> <localleader>i :set list!<CR>
+
+" Toggle wrap
+nnoremap <silent> <localleader>w :set wrap!<CR>
+
+" Toggle search highlight
+nnoremap <silent> <localleader>h :set hlsearch!<CR>
+
+" Set textwidth=40 for gqip hard  wrapping
+nnoremap <silent> <localleader>t :set textwidth=40<CR>
+
+" Toggle syntax highlighting
+nnoremap <silent> <localleader>y :set syntax=on<CR>
+
+" Strip trailing white space
+nnoremap <silent> <localleader>s :call StripTrailingWhitespace()<CR>
+
+" :Stab sets tabstop, softtabstop and shiftwidth to the same value
+command! -nargs=0 SummarizeTabs call SummarizeTabs()
+command! -nargs=* Stab call Stab()
+nnoremap <silent> <localleader><tab> :Stab<CR>
+
+" Summarize a CoffeeScript class
+nnoremap <silent> <localleader>s :call CoffeeClassSummary()<CR>
+
+" Copy current file's absolute path to clipboard
+if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
+  nnoremap <localleader>cp :let @+=expand("%:p")<CR>
+endif
+
+" Scroll all open windows simultaneously
+nnoremap <silent> <localleader>sb :windo set scrollbind!<CR>
+
+" Allow saving of files as sudo after forgetting to start vim with sudo
+cmap w!! w !sudo tee > /dev/null %
+
+" Navigation
+cnoremap <c-j> <down>
+cnoremap <c-k> <up>
+cnoremap <c-h> <S-left>
+cnoremap <c-l> <S-right>
+
+" Plugins, Plugin Options, and Plugin Mappings {{{1
+
+" NeoBundle Dependencies {{{2
+" NeoBundle 'Shougo/vimproc.vim'
+
+" Color Schemes {{{2
+" NeoBundle 'flazz/vim-colorschemes'
+
+" Relative and Absolute Line Numbers {{{2
+" NeoBundle 'myusuf3/numbers.vim'
+
+" Indent Level Indicators {{{2
+" NeoBundle 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=darkgrey
+
+" File Explorers {{{2
+" NeoBundle 'scrooloose/nerdtree'
+map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+map <leader>e :NERDTreeFind<CR>
+nmap <leader>nt :NERDTreeFind<CR>
+let NERDTreeShowBookmarks=1
+let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let NERDTreeChDirMode=0
+let NERDTreeQuitOnOpen=1
+let NERDTreeMouseMode=2
+let NERDTreeShowHidden=1
+let NERDTreeKeepTreeInNewTab=1
+let g:nerdtree_tabs_open_on_gui_startup=0
+
+" Enhanced . repeat {{{2
+" NeoBundle 'tpope/vim-repeat'
+
+" Surround {{{2
+" NeoBundle 'tpope/vim-surround'
+autocmd FileType php let b:surround_45 = "<?php \r ?>"
+autocmd FileType eruby let g:surround_45 = "<% \r %>"
+autocmd FileType eruby let g:surround_61 = "<%= \r %>"
+
+" Substitution and Typo Correction {{{2
+" NeoBundle 'tpope/vim-abolish'
+
+" Git {{{2
+" NeoBundle 'tpope/vim-fugitive'
+" NeoBundle 'airblade/vim-gitgutter'
+let g:gitgutter_highlight_lines = 0
+let g:gitgutter_map_keys = 0
+nnoremap <silent> <leader>gh :GitGutterLineHighlightsToggle<CR>
+nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
+nnoremap <silent> <leader>gp :GitGutterPrevHunk<CR>
+nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
+nnoremap <silent> <leader>gs :GitGutterStageHunk<CR>
+nnoremap <silent> <leader>gu :GitGutterRevertHunk<CR>
+nnoremap <silent> <leader>gr :GitGutterRevertHunk<CR>
+
+" HTML {{{2
+" NeoBundle 'mattn/emmet-vim'
+autocmd FileType html,css,eruby imap <tab> <Plug>(emmet-expand-abbr)
+" let g:user_emmet_leader_key = '<C-S>'
+
+" Emmet global indentation setting 
+" and template for overriding individual filetype indentation
+" (amount of spaces is what will be indented)
+let g:user_emmet_settings = {
+\  'indentation' : '  ',
+\  'html' : {
+\    'indentation' : '  '
+\  },
+\}
+
+" JSON {{{2
+" NeoBundle 'tpope/vim-jdaddy'
+" NeoBundle 'elzr/vim-json'
+
+" JavaScript {{{2
+autocmd FileType javascript set dictionary+=$HOME/.vim/dict/node.dict
+
+" NeoBundle 'jelera/vim-javascript-syntax'
+let g:javascript_enable_domhtmlcss = 1
+
+" NeoBundle 'maksimr/vim-jsbeautify'
+" Specify vim-jsbeautify styling in ~/.editorconfig
+autocmd FileType javascript,json,coffee,coffee.iced-coffee nnoremap <buffer> <localleader>b :call BeautifyRange()<CR>
+function BeautifyRange()
+    setlocal modifiable
+    call RangeJsBeautify()
+endfunction
+
+" NeoBundle 'moll/vim-node'
+" NeoBundle 'geekjuice/vim-spec'
+" NeoBundle 'ahayman/vim-nodejs-complete'
+
+function! RunWithNode()
+    let node_command = "node"
+    let current_file = shellescape(expand('%:p'))
+    let output = system(node_command . " " . current_file)
+    echon output
+endfunction
+command! -nargs=0 RunWithNode call RunWithNode()
+nnoremap <silent> <leader>node :RunWithNode<CR>
+
+" CoffeeScript {{{2
+autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
+autocmd FileType coffee set dictionary+=$HOME/.vim/dict/node.dict
+
+" NeoBundle 'kchmck/vim-coffee-script'
+" NeoBundle 'noc7c9/vim-iced-coffee-script'
+
+let coffee_compiler = '/usr/sbin/iced'
+
+" Automatically run 'cake build' on save
+autocmd BufNewFile,BufReadPost *.coffee compiler cake
+" autocmd BufWritePost *.coffee make build
+
+" <leader>c to CoffeeCompile into scratch buffer
+map <leader>c :CoffeeCompile<CR>
+
+" <leader>r to CoffeeRun into scratch buffer
+map <leader>r :CoffeeRun<CR>
+
+" Visual select lines then <leader>c to CoffeeCompile selection into scratch buffer
+vnoremap <leader>c <esc>:'<,'>:CoffeeCompile<CR>
+
+" :C[n] jumps to line [n] in the CoffeeCompile scratch buffer
+command -nargs=1 C CoffeeCompile | :<args>
+
+" Note: q closes CoffeeCompile scratch buffer
+
+let g:coffee_compile_vert = 1
+let g:coffee_watch_vert = 1
+let g:coffee_run_vert = 1
+
+" Micellaneous Functions and Autocommands {{{1
+
+" Changes the window-local current directory to its file's directory "{{{2
+" (except when file is in /tmp)
+autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
+
+augroup return_to_prev_line_position "{{{2
+    autocmd!
+    autocmd BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \     execute 'normal! g`"zvzz' |
+            \ endif
+augroup END
+
+function! Stab() "{{{2
+    let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+    if l:tabstop > 0
+        let &l:sts = l:tabstop
+        let &l:ts = l:tabstop
+        let &l:sw = l:tabstop
+    endif
+    call SummarizeTabs()
+endfunction
+
+function! SummarizeTabs() "{{{2
+    try
+        echohl ModeMsg
+        echon ' tabstop='.&l:ts
+        echon ' shiftwidth='.&l:sw
+        echon ' softtabstop='.&l:sts
+        if &l:et
+            echon ' expandtab'
+        else
+            echon ' noexpandtab'
+        endif
+    finally
+        echohl None
+    endtry
+endfunction
+
+function! StripTrailingWhitespace() "{{{2
+    " Preparation - save last search and cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Strip trailing white space
+    %s/\s\+$//e
+    " Clean up: restore previous search history and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+function! CoffeeClassSummary() "{{{2
+  g!/^.\+ = require\|^\S\+\|^  [@\S]/d
+endfunction
+
+" Commands to run last (gui and color scheme related) {{{1
+
+" Color the cursor absolute number at the left margin
+autocmd ColorScheme * hi CursorLineNr guifg=#7F7F7F ctermfg=8
+
+" Color the concealed text elements (such as those when using vim-pandoc)
+autocmd ColorScheme * hi Conceal guifg=#F8F8F2 guibg=#272822
+
+" Color the TeX bold italics (e.g. MyColor)
+autocmd ColorScheme * hi texItalBoldStyle ctermfg=16 ctermbg=161 guifg=#F92672
+
+" Color the Conceal (e.g. in pandoc files) to link to Normal
+" '!' forces the link despite existing highlight settings for Conceal
+autocmd ColorScheme * highlight! link Conceal Normal
+
+colorscheme molokai
+
+if has("gui_running")
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=l
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=R
+    if has("gui_gtk2")
+        " Linux gVim
+        set lines=999 columns=999
+        set guifont=Bitstream\ Vera\ Sans\ Mono\ 14
+        colorscheme molokai
+    elseif has("gui_win32")
+        " Windows gVim
+        set lines=999 columns=999
+        set guifont=Bitstream\ Vera\ Sans\ Mono:h14
+    elseif has("gui_running")
+        " OS X MacVim
+        set lines=999 columns=999
+        set guifont=Monaco:h16
+    else
+        " Terminal Vim
+        if exists("+lines")
+            set lines=50
+        endif
+        if exists("+columns")
+            set columns=100
+        endif
+    endif
+endif
+
+if $TMUX == ''
+    set clipboard+=unnamed
+endif
+
+" Remapping to default
+nnoremap <C-i> <C-i>
+
+scriptencoding utf-8
+filetype plugin indent on
+syntax enable
+syntax on
+
+" Manual Filetype overrides
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set tabstop=2
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set softtabstop=2
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set shiftwidth=2
+autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set expandtab
+
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+autocmd FileType pandoc,markdown set tabstop=6
+autocmd FileType pandoc,markdown set softtabstop=4
+autocmd FileType pandoc,markdown set shiftwidth=4
+autocmd FileType pandoc,markdown set nospell
+
+autocmd FileType gitcommit setlocal spell textwidth=72
+autocmd FileType crontab setlocal nobackup nowritebackup
+
+" Manual project specific overrides
+function! ProjectSpecificSettings()
+  let l:path = expand('%:p')
+  if l:path =~ '/home/norman/code/someproject/'
+    if &filetype == 'javascript'
+      setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    elseif &filetype == 'json'
+      setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    elseif &filetype == 'scss'
+      setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    elseif &filetype == 'css'
+      setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    endif
+  endif
+endfunction
+autocmd! BufReadPost,BufNewFile * call ProjectSpecificSettings()
+
+NeoBundleCheck
