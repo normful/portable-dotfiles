@@ -4,19 +4,36 @@
 #
 # Executing: type ls
 # Outputs:   ls is an alias for ls -lhAtr --color=auto
+alias sa='cat ~/.bash_aliases'
 alias ea='vim ~/.bash_aliases'
 alias eg='vim ~/.gitconfig'
+alias ev='vim ~/.vimrc'
+alias eb='vim ~/.bashrc'
+alias ez='vim ~/.zshrc'
 alias c='clear'
 alias q='exit'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
-alias ls='ls -lhAtr'
+alias ls='ls -lhAtr --color=always'
 alias l='ls -lhAtr --color=always'
+# vim
+alias v='vim'
+alias vm='vim'
+alias vi='vim'
+alias vmi='vim'
+alias vbim='vim'
+alias vims='vim'
+alias cim='vim'
+# grep
+alias grep='grep --color=always -n'
+alias grepcontext='grep --color=always -A7 -B7 -n'
 # git
 alias g='git'
 alias gs='git status'
 alias gl='git log'
+# tmux
+alias tmux='tmux -2'
 # make
 alias m='make'
 alias mc='make clean'
