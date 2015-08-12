@@ -48,9 +48,9 @@
     bc    = branch -vv --list --contains @
     bm    = branch -vv --list --merged @
     bnm   = branch -vv --list --no-merged @
-    track = branch -u                 # Usage: git track origin/feature
-    sup = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
-    bd = !sh -c 'git branch -D $0'    # delete branch
+    bu    = branch -u                    # Usage: git bu origin/feature
+    sup   = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+    bd    = !sh -c 'git branch -D $0'    # delete branch
 
     # bundle
     bunc = bundle create              # git bundle create repo.bundle master
@@ -71,6 +71,8 @@
     c      = commit                   # commit
     cm     = commit -m                # commit with message
     cmb    = commit -m 'build'        # commit with 'build' message
+    cc     = commit -C                # commit with same message and timestamp as some ref
+    cclast = commit -C @              # commit with same message and timestamp as last commit
     amend  = commit --amend --no-edit # amend last commit without changing commit message
     amendm = commit --amend           # amend last commit and change commit message
     amenmd = commit --amend           # amend last commit and change commit message (catch typo)
@@ -79,7 +81,11 @@
     # checkout
     co    = checkout                  # checkout
     cb    = checkout -b               # create and switch to a new branch
-    track = checkout -t
+
+    track = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
+    tr    = !git track
+    cot   = !git track
+
     coours   = "!f() { git co --ours   $@ && git add $@; }; f"
     cotheirs = "!f() { git co --theirs $@ && git add $@; }; f"
 
@@ -117,6 +123,7 @@
     # fetch
     f = fetch                         
     fa = fetch --all                 
+    fo = fetch origin
 
     # grep
     grep = grep --break --show-function --function-context
@@ -175,6 +182,7 @@
 
     # reset
     unstage     = reset HEAD          # unstage files
+    usntage     = reset HEAD          # unstage files (catch typo)
     us          = reset HEAD          # unstage files
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     setto       = reset --hard        # goto ref
@@ -195,7 +203,8 @@
 
     sha1 = ls-tree master             # shows hashes of files in current folder
 
-    sh = show --word-diff=color       # show changes in a commit with colored word diffs
+    sh = show --word-diff=color         # show changes in a commit with colored word diffs
+    shu = show -U1000 --word-diff=color # show changes in a commit with colored word diffs and surrounding context
 
     # rev-parse
     rl = rev-list --format=%B --max-count=1 # Usage: git rl @ shows full hash of HEAD and commit message
