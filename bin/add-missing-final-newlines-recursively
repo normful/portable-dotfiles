@@ -1,0 +1,7 @@
+#!/bin/bash
+if [ -z "$1" ]; then
+    echo "usage: add-missing-final-new-lines-recursively /path/to/run/find/on"
+    exit 1
+fi
+
+find $1 -type f -not -path '*/\.*' -exec sed -i '' -e '$a\' {} \;
