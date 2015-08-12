@@ -34,9 +34,6 @@ alias gs='git status'
 alias gl='git log'
 # tmux
 alias tmux='tmux -2'
-# make
-alias m='make'
-alias mc='make clean'
 # ssh
 alias ssh1='eval $(ssh-agent)'
 alias ssh2='ssh-add'
