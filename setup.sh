@@ -11,7 +11,9 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 sudo apt-get update
 
 # additional packages
-sudo apt-get install -y --no-install-recommends autojump tree zsh
+sudo apt-get --yes --no-install-recommends install autojump 
+sudo apt-get --yes --no-install-recommends install tree
+sudo apt-get --yes --no-install-recommends install zsh
 
 # autojump
 echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
@@ -54,5 +56,5 @@ echo "Symlinking opp.zsh"
 ln -s $THIS_DIR/opp $HOME/opp
 ln -s $THIS_DIR/opp.zsh $HOME/opp.zsh
 
-# zsh
-sudo chsh -s /bin/zsh `whoami`
+# change shell to zsh
+chsh -s /bin/zsh
