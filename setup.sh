@@ -1,4 +1,5 @@
-# Note: This script is for a Debian-based distribution
+# Note: This script is for a Debian-based distribution 
+#       and it assumes that the git package is already installed
 
 if [ "$EUID" -eq 0 ]; then 
     echo "Please run this script as a normal user, not the root user"
@@ -11,9 +12,9 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 sudo apt-get update
 
 # additional packages
-sudo apt-get --yes --no-install-recommends install autojump 
-sudo apt-get --yes --no-install-recommends install tree
-sudo apt-get --yes --no-install-recommends install zsh
+dpkg -s autojump 2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install autojump
+dpkg -s tree     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install tree     
+dpkg -s zsh      2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install zsh
 
 # autojump
 echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
