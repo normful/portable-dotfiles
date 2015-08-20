@@ -11,7 +11,7 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 sudo apt-get update
 
 # additional packages
-sudo apt-get install autojump tree zsh
+sudo apt-get install -y --no-install-recommends autojump tree zsh
 
 # autojump
 echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
@@ -35,7 +35,7 @@ ln -s $THIS_DIR/.vim/dict/node.dict $HOME/.vim/dict/node.dict
 
 # bash aliases
 echo "Symlinking .bash_aliases"
-rm $HOME/.bash_aliases
+rm -f $HOME/.bash_aliases
 ln -s $THIS_DIR/.bash_aliases $HOME/.bash_aliases
 echo '. $HOME/.bash_aliases' >> $HOME/.bash_profile
 
@@ -46,7 +46,7 @@ cat $THIS_DIR/.gitconfig >> $HOME/.gitconfig
 # oh-my-zsh
 curl -L http://install.ohmyz.sh | sh
 echo "Symlinking custom.zsh"
-rm $HOME/.oh-my-zsh/custom/custom.zsh
+rm -f $HOME/.oh-my-zsh/custom/custom.zsh
 ln -s $THIS_DIR/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
 
 # opp.zsh
