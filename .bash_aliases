@@ -38,7 +38,8 @@ alias tmux='tmux -2'
 alias ssh1='eval $(ssh-agent)'
 alias ssh2='ssh-add'
 # tree
-alias tree='tree -a -I .git -C'
+alias tree='tree -a -I ".git" -C'
+alias treejs='tree -I ".git" -P "*.js" --prune -C'
 # bundle
 alias bi='bundle install'
 alias be='bundle exec'
