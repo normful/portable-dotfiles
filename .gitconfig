@@ -16,12 +16,13 @@
 [alias]
     # show aliases
     la = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t = \\2/' 
+    sa = !git la
 
     # add
     a  = add                          # stage modified         created
     a2 = add ../../                   # stage modified         created
     a3 = add ../../../                # stage modified         created
-    au = add --update                 # stage modified deleted        
+    au = add --update :/              # stage modified deleted         entire tree
     aa = add --all                    # stage modified deleted created
 
     ai = add -i                       # stage interactive
@@ -74,6 +75,7 @@
     cc     = commit -C                # commit with same message and timestamp as some ref
     cclast = commit -C @              # commit with same message and timestamp as last commit
     amend  = commit --amend --no-edit # amend last commit without changing commit message
+    amned  = commit --amend --no-edit # amend last commit without changing commit message (catch typo)
     amendm = commit --amend           # amend last commit and change commit message
     amenmd = commit --amend           # amend last commit and change commit message (catch typo)
     amenddate = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f"  # amend last commit's timestamp to now without changing commit message
@@ -81,6 +83,7 @@
     # checkout
     co    = checkout                  # checkout
     cb    = checkout -b               # create and switch to a new branch
+    cbb   = checkout -B               # create and switch to a new branch
 
     track = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
     tr    = !git track
@@ -103,6 +106,7 @@
 
     dc    = diff --word-diff=color --cached          # staged changes
     dcu   = diff --word-diff=color --cached -U1000   # staged changes, with context
+    dcs   = diff --word-diff=color --cached --stat   # staged changes
 
     dh    = diff --word-diff=color HEAD              # changes between last commit and (both staged and unstaged changes)
     dhu   = diff --word-dfff=color HEAD  -U1000      # changes between last commit and (both staged and unstaged changes), with context
@@ -124,6 +128,7 @@
     f = fetch                         
     fa = fetch --all                 
     fo = fetch origin
+    fr = !git fetch staging && git fetch production
 
     # grep
     grep = grep --break --show-function --function-context
@@ -147,6 +152,7 @@
     # merge
     merge   = merge --no-ff
     mergeff = merge --ff-only
+    mergesq = merge --squash --no-commit # A "Squashed commit of the following" message is only auto-generated if there are no conflicts (which can be ensured by merging master into feature first)
     ma      = merge --abort
 
     # ls-files
@@ -154,6 +160,7 @@
     index = ls-files --stage          # show contents of .git/index for current directory
 
     # push
+    psuh   = push                     # catch typo
     pd     = push --delete            # git push --delete origin remote-branch-to-delete
     mirror = push --mirror            # git mirror private-backup-repo
 
@@ -222,11 +229,11 @@
     review = !sh -c 'git checkout -b `date +'%b%d-%H%M%p-bu'` && git checkout @{-1} && git checkout origin/`git rev-parse --abbrev-ref HEAD` && git checkout HEAD@{1} && git checkout -b `date +'%b%d-%H%M%p-sq'` && git reset --hard HEAD@{2} && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout @{-5} && git reset --hard @{-1} && git reset --mixed HEAD^'
 
     # stash
-    ss = stash save                   # stash changes with name (save changes and add to stack)
-    sl = stash list                   # list stashes
-    sp = stash pop                    # apply stash (restore changes and pop from stack)
-    sa = stash apply                  # apply stash (restore changes without popping from stack)
-    sd = stash drop                   # drop stashes (destory changes)
+    ss  = stash save                   # stash changes with name (save changes and add to stack)
+    sl  = stash list                   # list stashes
+    sp  = stash pop                    # apply stash (restore changes and pop from stack)
+    sap = stash apply                  # apply stash (restore changes without popping from stack)
+    sdd = stash drop                   # drop stashes (destory changes)
 
     ssh0 = stash show -p --stat --word-diff=color stash@{0}
     ssh1 = stash show -p --stat --word-diff=color stash@{1}
@@ -281,7 +288,10 @@
 [merge]
     defaultToUpstream = true
     summary = true
-    verbosity = 1
+    branchdesc = true
+    log = 1000
+    verbosity = 5
+    tool = vimdiff
     conflictstyle = diff3
 [mergetool]
     prompt = false
