@@ -40,6 +40,9 @@ NeoBundle 'scrooloose/nerdtree'
 " Enhanced . repeat {{{2
 NeoBundle 'tpope/vim-repeat'
 
+" Comments {{{2
+NeoBundle 'tomtom/tcomment_vim'
+
 " Surround {{{2
 NeoBundle 'tpope/vim-surround'
 
@@ -399,6 +402,13 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 
 " Enhanced . repeat {{{2
 " NeoBundle 'tpope/vim-repeat'
+
+" Comments {{{2
+" NeoBundle 'tomtom/tcomment_vim'
+nnoremap <silent> <leader>cl :TComment<CR>
+vnoremap <silent> <leader>cl :TComment<CR>
+nnoremap <silent> <leader>cb :TCommentBlock<CR>
+vnoremap <silent> <leader>cb :TCommentBlock<CR>
 
 " Surround {{{2
 " NeoBundle 'tpope/vim-surround'
