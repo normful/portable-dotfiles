@@ -1,18 +1,18 @@
 [core]
-    autocrlf = input
-    safecrlf = warn
-    editor = vim # or nano (if you prefer)
+    autocrlf     = input
+    safecrlf     = warn
+    editor       = vim # or nano (if you prefer)
 [color]
-    ui = true
+    ui           = true
 [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
+    current      = yellow reverse
+    local        = yellow
+    remote       = green
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+    meta         = yellow bold
+    frag         = magenta bold
+    old          = red bold
+    new          = green bold
 [alias]
     # show aliases
     la = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t = \\2/' 
@@ -20,93 +20,91 @@
 
     # add
     a  = add                          # stage modified         created
-    a2 = add ../../                   # stage modified         created
-    a3 = add ../../../                # stage modified         created
-    au = add --update :/              # stage modified deleted         entire tree
+    a2 = add ../../                   # stage modified         created in 2 levels above
+    a3 = add ../../../                # stage modified         created in 3 levels above
+    au = add --update :/              # stage modified deleted         in entire tree
     aa = add --all                    # stage modified deleted created
 
-    ai = add -i                       # stage interactive
-
-    ap = add --patch                  # stage commits chunk by chunk
-    chunkyadd = add --patch           # stage commits chunk by chunk
-
+    ap = add -p                       # stage commits chunk by chunk
     ae = add -e                       # stage commits by manually editing patch
 
     ane = !git a -N $1 && git a -e $1 # add intent and manually edit patch (for untracked files)
 
     # apply
-    apc = apply --stat                # see stats before patching
-    apc = apply --check               # check before patching
+    apc = apply --stat   # see stats before patching
+    apc = apply --check  # check before patching
 
     # am
-    ams = am --signoff                # Usage: git ams < fixes.patch
+    ams = am --signoff   # Usage: git ams < fixes.patch
 
     # bisect
     bs = bisect
 
     # branch
-    b     = branch -vv --list --contains @
-    bc    = branch -vv --list --contains @
-    bm    = branch -vv --list --merged @
-    bnm   = branch -vv --list --no-merged @
-    bu    = branch -u                    # Usage: git bu origin/feature
-    sup   = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
-    bd    = !sh -c 'git branch -D $0'    # delete branch
+    b   = branch -vv --list --contains @                                       # show info about current branch
+    bd  = branch -D                                                            # force delete branch
+    bu  = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD` # if current branch is foo, then origin/foo is set as the upstream tracking branch for foo
+
+    bm  = branch -vv --list --merged @ 
+    bnm = branch -vv --list --no-merged @ 
 
     # bundle
-    bunc = bundle create              # git bundle create repo.bundle master
+    bunc = bundle create                 # Usage: git bunc repo.bundle master
 
     # clean
-    cdf = clean -df                   # force delete untracked files and directories
-    cdf2 = clean -df ../../           # force delete untracked files and directories
-    cdf3 = clean -df ../../../        # force delete untracked files and directories
+    cdf  = clean -df                     # force delete untracked files and directories
+    cdf2 = clean -df ../../              # force delete untracked files and directories
+    cdf3 = clean -df ../../../           # force delete untracked files and directories
 
     # clone
-    cl    = clone                     # clone
-    cloen = clone                     # clone (catch typo)
-    shallowclone = clone --depth 1    # shallow clone
-    shallowcloen = clone --depth 1    # shallow clone (catch typo)
-    shcl         = clone --depth 1    # shallow clone (catch typo)
+    cl           = clone                 # clone
+    cloen        = clone                 # clone (catch typo)
+    shallowclone = clone --depth 1       # shallow clone
+    shcl         = clone --depth 1       # shallow clone (short form)
+    shallowcloen = clone --depth 1       # shallow clone (catch typo)
 
     # commit
-    c      = commit                   # commit
-    cm     = commit -m                # commit with message
-    cmb    = commit -m 'build'        # commit with 'build' message
-    cc     = commit -C                # commit with same message and timestamp as some ref
-    cclast = commit -C @              # commit with same message and timestamp as last commit
-    amend  = commit --amend --no-edit # amend last commit without changing commit message
-    amned  = commit --amend --no-edit # amend last commit without changing commit message (catch typo)
-    amendm = commit --amend           # amend last commit and change commit message
-    amenmd = commit --amend           # amend last commit and change commit message (catch typo)
-    amenddate = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f"  # amend last commit's timestamp to now without changing commit message
+    c         = commit                   # commit
+    cm        = commit -m                # commit with message
+    amend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message
+    amendm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message
+    amnedm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
+
+    cc        = commit -C                # commit with same message and timestamp as some ref
+    cclast    = commit -C @              # commit with same message and timestamp as last commit
+
+    amned     = commit --amend --no-edit # amend last commit without changing commit message (catch typo)
+    amenmd    = commit --amend           # amend last commit and change commit message       (catch typo)
+    amenddate = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f" # amend last commit's timestamp to now without changing commit message
+
+    cmb       = commit -m 'build'        # commit with 'build' message
 
     # checkout
-    co    = checkout                  # checkout
-    cb    = checkout -b               # create and switch to a new branch
-    cbb   = checkout -B               # create and switch to a new branch
+    co       = checkout     # checkout
+    cb       = checkout -b  # create and switch to a new branch
 
-    track = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
-    tr    = !git track
-    cot   = !git track
+    track    = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
+    tr       = !git track
+    cot      = !git track
 
-    coours   = "!f() { git co --ours   $@ && git add $@; }; f"
-    cotheirs = "!f() { git co --theirs $@ && git add $@; }; f"
+    coours   = "!f() { git checkout --ours   $@ && git add $@; }; f"
+    cotheirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 
     # cherry-pick
-    cp  = cherry-pick -x -s           # cherry pick
-    cpn = cherry-pick -n              # cherry pick changes and stage them, but don't commit
-    cpa = cherry-pick --abort         # cherry pick abort
-    cpc = cherry-pick --continue      # cherry pick continue
+    cp  = cherry-pick -x -s      # cherry pick
+    cpn = cherry-pick -n         # cherry pick changes and stage them, but don't commit
+    cpa = cherry-pick --abort    # abort    cherry pick when in a conflict
+    cpc = cherry-pick --continue # continue cherry pick when in a conflict
 
     # diff
     d     = diff --word-diff=color                   # unstaged changes
     du    = diff --word-diff=color -U1000            # unstaged changes, with context
-
-    ds    = diff --word-diff=color --stat            # unstaged changes statistics
+    ds    = diff --word-diff=color --stat            # unstaged changes, stats
+    da    = diff --word-diff=color -a                # unstaged changes, treating all files as text
 
     dc    = diff --word-diff=color --cached          # staged changes
     dcu   = diff --word-diff=color --cached -U1000   # staged changes, with context
-    dcs   = diff --word-diff=color --cached --stat   # staged changes
+    dcs   = diff --word-diff=color --cached --stat   # staged changes, stats
 
     dh    = diff --word-diff=color HEAD              # changes between last commit and (both staged and unstaged changes)
     dhu   = diff --word-dfff=color HEAD  -U1000      # changes between last commit and (both staged and unstaged changes), with context
@@ -114,8 +112,8 @@
     last  = diff --word-diff=color HEAD^             # changes between second-last commit and (both staged and unstaged changes)
     lastu = diff --word-diff=color HEAD^ -U1000      # changes between second-last commit and (both staged and unstaged changes), with context
 
-    dbase   = diff --base --word-diff=color
-    dours   = diff --ours --word-diff=color
+    dbase   = diff --base   --word-diff=color
+    dours   = diff --ours   --word-diff=color
     dtheirs = diff --theirs --word-diff=color
 
     # fixup
@@ -125,10 +123,9 @@
     fps = format-patch --stdout                      # Usage: git fps [ <since> | <revision range> ] > fixes.patch
 
     # fetch
-    f = fetch                         
-    fa = fetch --all                 
-    fo = fetch origin
-    fr = !git fetch staging && git fetch production
+    f  = fetch         # fetch
+    fo = fetch origin  # fetch changes from the origin remote
+    fa = fetch --all   # fetch changes from all remotes
 
     # grep
     grep = grep --break --show-function --function-context
@@ -148,9 +145,9 @@
     # git lll --grep="search commit messages"
     axe = !sh -c 'git log -S"$0"'                                   # search through the log
     pending = !sh -c 'git --no-pager log "$0"/HEAD..HEAD && echo'   # show commits that haven't been pushed to the remote yet
+    lconflicts = log --min-parents=2 -p -cc                         # show merge commits, and only those with conflicts will displayed with diffs
 
     # merge
-    merge   = merge --no-ff
     mergeff = merge --ff-only
     mergesq = merge --squash --no-commit # A "Squashed commit of the following" message is only auto-generated if there are no conflicts (which can be ensured by merging master into feature first)
     ma      = merge --abort
@@ -172,12 +169,11 @@
     pullwithlog = !sh -c 'git pull "$0" HEAD && git log --pretty=format:\"%Cred%ae %Creset- %C(yellow)%s %Creset(%ar)\" HEAD@{1}..'
 
     # rebase
-    rebaes = rebase                   # catch typo
     rb  = rebase --autosquash -i      # rebase interactive with autosquash
-    rbi = rebase --autosquash -i      # rebase interactive with autosquash
-    rba = rebase --abort              # abort rebase
-    rbc = rebase --continue           # continue rebase
-    rbs = rebase --skip               # skip rebase
+    rba = rebase --abort              # abort    rebase when in a conflict
+    rbc = rebase --continue           # continue rebase when in a conflict
+    rbs = rebase --skip               # skip     rebase when in a conflict
+    rebaes = rebase                   # catch typo
 
     # remote
     r = remote -v                     # show remotes (verbose)
@@ -210,8 +206,13 @@
 
     sha1 = ls-tree master             # shows hashes of files in current folder
 
-    sh = show --word-diff=color         # show changes in a commit with colored word diffs
-    shu = show -U1000 --word-diff=color # show changes in a commit with colored word diffs and surrounding context
+    # show
+    sh   = show --word-diff=color                        # show changes in a commit, with colored word diffs
+    sha  = show --word-diff=color -a                     # show changes in a commit, with colored word diffs, treating all files as text
+    shu  = show --word-diff=color -U1000                 # show changes in a commit, with colored word diffs, and surrounding context
+    shp1 = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
+    shp2 = !sh -c 'git diff --word-diff=color $0^2 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
+    shmc = diff-tree --cc                                # show changes made in resolving a merge conflict (this command is only meaningful if given a merge conflict rev)
 
     # rev-parse
     rl = rev-list --format=%B --max-count=1 # Usage: git rl @ shows full hash of HEAD and commit message
@@ -222,11 +223,11 @@
 
     # squash
     # Usage: git squash s1 master     Checks out a new branch called s1 and creates a squashed commit of all commits from master to HEAD
-    squash = !sh -c 'git checkout -b $0 && git reset --hard $1 && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG'
+    squash = !sh -c 'git checkout -b $0 && git reset --hard $1 && git merge --squash --ff-only HEAD@{1} && git commit -F .git/SQUASH_MSG'
 
     # review
     # Usage: git review               Backs up current commit, creates a squashed commit of all commits from HEAD to HEAD's origin branch, sets original branch to remote branch with changes unstaged, ready for selective restaging
-    review = !sh -c 'git checkout -b `date +'%b%d-%H%M%p-bu'` && git checkout @{-1} && git checkout origin/`git rev-parse --abbrev-ref HEAD` && git checkout HEAD@{1} && git checkout -b `date +'%b%d-%H%M%p-sq'` && git reset --hard HEAD@{2} && git merge --squash HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout @{-5} && git reset --hard @{-1} && git reset --mixed HEAD^'
+    review = !sh -c 'git checkout -b `date +'%b%d-%H%M%p-bu'` && git checkout @{-1} && git checkout origin/`git rev-parse --abbrev-ref HEAD` && git checkout HEAD@{1} && git checkout -b `date +'%b%d-%H%M%p-sq'` && git reset --hard HEAD@{2} && git merge --squash --ff-only HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout @{-5} && git reset --hard @{-1} && git reset --mixed HEAD^'
 
     # stash
     ss  = stash save                   # stash changes with name (save changes and add to stack)
@@ -282,6 +283,12 @@
     autosetupmerge = true
 [diff]
     mnemonicprefix = true
+[diff "bin"]
+    textconv = hexdump -v -C
+[diff "pdf"]
+    textconv = pdfinfo
+[diff "zip"]
+    textconv = unzip -v
 [grep]
     linenumber = true
     patterntype = perl
