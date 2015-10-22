@@ -75,13 +75,17 @@
 
     amned     = commit --amend --no-edit # amend last commit without changing commit message (catch typo)
     amenmd    = commit --amend           # amend last commit and change commit message       (catch typo)
-    amenddate = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f" # amend last commit's timestamp to now without changing commit message
+
+    amenddate   = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f" # amend last commit's timestamp to now without changing commit message
+    amendme     = commit --amend --reset-author
+    amendauthor = commit --amend --reset-author
 
     cmb       = commit -m 'build'        # commit with 'build' message
 
     # checkout
-    co       = checkout     # checkout
-    cb       = checkout -b  # create and switch to a new branch
+    co       = checkout       # checkout
+    cb       = checkout -b    # create and switch to a new branch
+    col      = checkout @{-1} # checkout last branch
 
     track    = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
     tr       = !git track
@@ -157,6 +161,7 @@
     index = ls-files --stage          # show contents of .git/index for current directory
 
     # push
+    pish   = push                     # catch typo
     psuh   = push                     # catch typo
     pd     = push --delete            # git push --delete origin remote-branch-to-delete
     mirror = push --mirror            # git mirror private-backup-repo
