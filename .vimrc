@@ -38,18 +38,22 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'luochen1990/rainbow'
 
 " Vimshell {{{2
-NeoBundle 'Shougo/vimshell.vim'
+" NeoBundle 'Shougo/vimshell.vim'
 
 " UNIX commands {{{2
 NeoBundle 'tpope/vim-eunuch'
+
+" Asynchronous Dispatching {{{2
+NeoBundle 'tpope/vim-dispatch'
 
 " File Explorers {{{2
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'scrooloose/nerdtree'
 
-" File Finder {{{2
+" File Searching {{{2
 NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'tacahiroy/ctrlp-funky'
+" NeoBundle 'rking/ag.vim'
+" NeoBundle 'dkprice/vim-easygrep'
 
 " Autoread fix for terminal vim  {{{2
 NeoBundle 'djoshea/vim-autoread'
@@ -65,8 +69,12 @@ NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}}
 NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen','unite_sources':['junkfile','junkfile/new']}}
 
 " Sessions {{{2
+NeoBundle 'xolox/vim-session'
 " NeoBundle 'tpope/vim-obsession'
 " NeoBundle 'dhruvasagar/vim-prosession'
+
+" Buffers {{{2
+" NeoBundle 'fholgado/minibufexpl.vim'
 
 " File Navigation {{{2
 NeoBundle 'matchit.zip'
@@ -123,19 +131,27 @@ NeoBundle 'tpope/vim-characterize'
 NeoBundle 'dhruvasagar/vim-table-mode'
 " NeoBundle 'godlygeek/tabular'
 
+" Alignment {{{2
+NeoBundle 'junegunn/vim-easy-align'
+
 " Git {{{2
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'idanarye/vim-merginal'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'airblade/vim-gitgutter'
 
 " tmux {{{2
 NeoBundle 'tmux-plugins/vim-tmux'
+NeoBundle 'jpalardy/vim-slime'
+" NeoBundle 'sjl/tslime.vim'
+" NeoBundle 'jgdavey/tslime.vim'
+" NeoBundle 'kovisoft/slimv'
 
 " Heroku {{{2
 NeoBundle 'tpope/vim-heroku'
 
 " Databases {{{2
-NeoBundle 'vim-scripts/dbext.vim'
+" NeoBundle 'vim-scripts/dbext.vim'
 
 " Web APIs {{{2
 NeoBundle 'mattn/webapi-vim'
@@ -147,8 +163,8 @@ NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'LaTeX-Suite-aka-Vim-LaTeX'
 
 " Markdown and Pandoc {{{2
-" NeoBundle 'vim-pandoc/vim-pandoc'
-" NeoBundle 'vim-pandoc/vim-pandoc-syntax'
+NeoBundle 'vim-pandoc/vim-pandoc'
+NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 
 " Binary {{{2
 NeoBundle 'ressu/hexman.vim'
@@ -163,7 +179,7 @@ NeoBundle 'fatih/vim-go'
 NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
 
 " Tags {{{2
-" NeoBundle 'xolox/vim-easytags'
+NeoBundle 'xolox/vim-easytags'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'majutsushi/tagbar'
 
@@ -222,7 +238,21 @@ NeoBundle 'klen/python-mode'
 " Scala {{{2
 NeoBundle 'derekwyatt/vim-scala'
 
-" 日本語 {{{2
+" S-Expressions {{{2
+" NeoBundle 'guns/vim-sexp'
+" NeoBundle 'tpope/vim-sexp-mappings-for-regular-people'
+
+" Racket {{{2
+NeoBundle 'nsue/vim-racket'
+NeoBundle 'MicahElliott/vrod'
+
+" Octave {{{2
+NeoBundle 'jvirtanen/vim-octave'
+
+" Prolog {{{2
+NeoBundle 'nsue/prolog.vim'
+
+" Google Translate {{{2
 NeoBundle 'nsue/googletranslate-vim'
 
 " ICO, PNG, GIF {{{2
@@ -260,6 +290,9 @@ set mousehide                   " hide the mouse cursor while typing
 set scrolloff=3                 " keep 3 lines above and below cursor
 set showmode                    " display the current mode
 set showcmd                     " show (partial) command in bottom right
+
+" Keyboard
+set timeoutlen=500 ttimeoutlen=50
 
 " Windows
 set laststatus=2                " last window always has status line
@@ -400,12 +433,13 @@ command! -bang QA qa<bang>
 command! -bang Qa qa<bang>
 
 " Easier quitting multiple files without saving
-nnoremap <leader>q :conf qa!<CR>
+" nnoremap <leader>q :conf qa!<CR>
 
 " Browse oldfiles - mnemonic: (p)reviously used files
 nnoremap <localleader>p :bro ol<CR>
 
 " Quick file editing
+nnoremap <leader>ea :100vsplit ~/.bash_aliases<CR>
 nnoremap <leader>ev :100vsplit ~/.vimrc<CR>
 nnoremap <leader>eg :100vsplit ~/.gitconfig<CR>
 nnoremap <leader>ez :100vsplit ~/.zshrc<CR>
@@ -423,7 +457,7 @@ nnoremap <leader>hpp :vsplit %:p:s,.hpp$,.X123X,:s,.cpp$,.hpp,:s,.X123X$,.cpp,<C
 " Note -- Toggle between .cpp or .c and .h file within the same folder is
 " S-F2 (provided by c.vim)
 
-" Source aka reload .vimrc
+" Source aka reload .vimrc aka resource .vimrc aka re-source .vimrc
 nnoremap <leader>rv :so $MYVIMRC<CR>
 
 " Switching buffers quickly
@@ -518,7 +552,13 @@ if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
 endif
 
 " Scroll all open windows simultaneously
-nnoremap <silent> <localleader>sb :windo set scrollbind!<CR>
+nnoremap <silent> <localleader>sb :execute "normal! gg"<CR>:windo set scrollbind!<CR>
+
+" Switch all open windows to horizontal split
+nnoremap <silent> <localleader>H :windo wincmd K<CR>
+
+" Switch all open windows to vertical split
+nnoremap <silent> <localleader>V :windo wincmd H<CR>
 
 " Allow saving of files as sudo after forgetting to start vim with sudo
 cmap w!! w !sudo tee > /dev/null %
@@ -580,8 +620,8 @@ let g:rainbow_conf = {
 
 " Vimshell {{{2
 " NeoBundle 'Shougo/vimshell.vim'
-nnoremap <leader>s :80vsplit +:VimShell<CR>
-imap <buffer><C-g> <Plug>(vimshell_history_neocomplete)
+" nnoremap <leader>s :80vsplit +:VimShell<CR>
+" imap <buffer><C-g> <Plug>(vimshell_history_neocomplete)
 
 autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -614,11 +654,27 @@ let g:NERDTreeDirArrows=0
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_open_multiple_files = 'i'
-" NeoBundle 'tacahiroy/ctrlp-funky'
-nnoremap <leader>fu :CtrlPFunky<CR>
-let g:ctrlp_funky_syntax_highlight = 1
-let g:ctrlp_funky_use_cache = 1
-let g:ctrlp_funky_nolim = 1
+
+nmap <leader>p :CtrlP<CR><C-\>w
+
+set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
+nnoremap <leader>vv :grep <cword><CR>:cwindow<CR>
+
+" Silver Searcher ag
+if executable('ag')
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
+endif
+
+" NeoBundle 'dkprice/vim-easygrep'
+" let g:EasyGrepAllOptionsInExplorer=0 " don't show advanced greping options
+" let g:EasyGrepFilesToExclude="tags"  " not usable if I use ag for searching
+" let g:EasyGrepInvertWholeWord=0      " <Leader>vv matches word, and <Leader>vV matches whole word
+"
+" let g:EasyGrepReplaceWindowMode=2      " autowriteall all changes during a search and replace session
+" let g:EasyGrepRecursive=1              " turn on recurse option for replacement
+" let g:EasyGrepCommand=1                " using system 'grepprg' instead of 'vimgrep'
 
 " Autoread fix for terminal vim  {{{2
 " NeoBundle 'djoshea/vim-autoread'
@@ -639,9 +695,12 @@ let g:unite_source_history_yank_enable=1
 let g:unite_source_rec_max_cache_files=5000
 let g:unite_prompt='» '
 
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+
 if executable('ag')
     let g:unite_source_grep_command='ag'
-    let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
     let g:unite_source_grep_recursive_opt=''
 elseif executable('ack')
     let g:unite_source_grep_command='ack'
@@ -663,6 +722,13 @@ nnoremap [unite] <nop>
 nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr><c-u>
 nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async<cr><c-u>
 nnoremap <silent> [unite]g :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+
+" Grep the word under the cursor
+nnoremap <silent> [unite]cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+
+" Reopen grep search results
+nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
 
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
@@ -690,8 +756,21 @@ let g:junkfile#directory=expand("~/.vim/.cache/junk")
 nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
 
 " Sessions {{{2
+" NeoBundle 'xolox/vim-session'
+let g:session_autosave = 'no'
+let g:session_autosave_periodic = 3
+let g:session_autosave_silent = 'yes'
+let g:session_autoload = 'no'
+
 " NeoBundle 'tpope/vim-obsession'
 " NeoBundle 'dhruvasagar/vim-prosession'
+
+" Buffers {{{2
+" NeoBundle 'fholgado/minibufexpl.vim'
+nnoremap bn :bn<CR>
+nnoremap bN :bp<CR>
+nnoremap bp :bp<CR>
+nnoremap bd :bd<CR>
 
 " File Navigation {{{2
 " NeoBundle 'matchit.zip'
@@ -763,24 +842,74 @@ vmap <C-v> <Plug>(expand_region_shrink)
 " NeoBundle 'dhruvasagar/vim-table-mode'
 let g:table_mode_corner = '|'
 
+" Alignment {{{2
+" NeoBundle 'junegunn/vim-easy-align'
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 " Git {{{2
-" NeoBundle 'tpope/vim-fugitive'
+" NeoBundle 'tpope/fugitive'
+" NeoBundle 'idanarye/vim-merginal'
 " NeoBundle 'gregsexton/gitv'
-nnoremap <silent> <leader>gv :Gitv --all<CR>
-nnoremap <silent> <leader>gV :Gitv!<CR>
 " NeoBundle 'airblade/vim-gitgutter'
 let g:gitgutter_highlight_lines = 0
 let g:gitgutter_map_keys = 0
-nnoremap <silent> <leader>gh :GitGutterLineHighlightsToggle<CR>
-nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
-nnoremap <silent> <leader>gp :GitGutterPrevHunk<CR>
-nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
-nnoremap <silent> <leader>gs :GitGutterStageHunk<CR>
-nnoremap <silent> <leader>gu :GitGutterRevertHunk<CR>
-nnoremap <silent> <leader>gr :GitGutterRevertHunk<CR>
+
+" all Git mappings:
+nnoremap <silent> <leader>gs      :Git s<CR>
+
+nnoremap <silent> <leader>gl      :Git l<CR>
+nnoremap <silent> <leader>gsh     :Git sh<CR>
+nnoremap <silent> <leader>gv      :Gitv --all<CR>
+nnoremap <silent> <leader>gV      :Gitv!<CR>
+
+nnoremap <silent> <leader>gb      :Merginal<CR>
+nnoremap <silent> <leader>gfa     :Gfetch --all<CR>
+nnoremap <silent> <leader>gpush   :Gpush push<CR>
+nnoremap <silent> <leader>gmir    :Gpush --mirror n<CR>
+
+nnoremap <silent> <leader>gd      :Gdiff<CR>
+nnoremap <silent> <leader>gdc     :Git dc<CR>
+
+nnoremap <silent> <leader>gn      :GitGutterNextHunk<CR>
+nnoremap <silent> <leader>gN      :GitGutterPrevHunk<CR>
+
+nnoremap <silent> <leader>ga      :GitGutterStageHunk<CR>
+nnoremap <silent> <leader>gu      :GitGutterRevertHunk<CR>
+nnoremap <silent> <leader>gr      :GitGutterRevertHunk<CR>
+
+nnoremap <silent> <leader>gc      :Gcommit<CR>
+nnoremap <silent> <leader>gamend  :Git amend<CR>
+nnoremap <silent> <leader>gamendm :Git amendm<CR>
+
+nnoremap <silent> <leader>grh     :Git rh<CR>
+nnoremap <silent> <leader>gcdf    :Git cdf<CR>
+nnoremap <silent> <leader>gun     :Git un<CR>
+
+nnoremap <silent> <leader>gbl     :Gblame<CR>
+
+nnoremap <silent> <leader>gh      :GitGutterLineHighlightsToggle<CR>
 
 " tmux {{{2
 " NeoBundle 'tmux-plugins/vim-tmux'
+" NeoBundle 'sjl/tslime.vim'
+let g:tslime_ensure_trailing_newlines = 1
+
+" NeoBundle 'jpalardy/vim-slime'
+let g:slime_target = "tmux"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "ll:3.2"}
+let g:slime_no_mappings = 1
+xmap <leader>s <Plug>SlimeRegionSend
+nmap <leader>s <Plug>SlimeMotionSend
+nmap <leader>ss <Plug>SlimeLineSend
+" SlimeConfig
+
+" NeoBundle 'jgdavey/tslime.vim'
+" NeoBundle 'kovisoft/slimv'
 
 " Heroku {{{2
 " NeoBundle 'tpope/vim-heroku'
@@ -808,7 +937,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " NeoBundle 'vim-pandoc/vim-pandoc'
 " NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc_syntax_fill_codeblocks = 1
-autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml", "asm", "java", "c", "python"]
+autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml", "asm", "java", "c", "python", "octave", "racket", "prolog"]
 autocmd! BufRead,BufNewFile,BufEnter *HTML*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *CSS*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *JavaScript*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
@@ -847,7 +976,7 @@ nnoremap <Leader>ct :!ctags-proj.sh<CR>
 " NeoBundle 'majutsushi/tagbar'
 if executable('jsctags')
   let g:tagbar_type_javascript = {
-    \'ctagsbin' : '/usr/local/bin/ctags'
+    \'ctagsbin' : 'jsctags'
     \ }
 endif
 nmap <F8> :TagbarToggle<CR>
@@ -902,7 +1031,7 @@ let g:javascript_enable_domhtmlcss = 1
 " NeoBundle 'maksimr/vim-jsbeautify'
 " Specify vim-jsbeautify styling in ~/.editorconfig
 autocmd FileType javascript,json,coffee,coffee.iced-coffee nnoremap <buffer> <localleader>b :call BeautifyRange()<CR>
-function BeautifyRange()
+function! BeautifyRange()
     setlocal modifiable
     call RangeJsBeautify()
 endfunction
@@ -943,7 +1072,7 @@ map <leader>r :CoffeeRun<CR>
 vnoremap <leader>c <esc>:'<,'>:CoffeeCompile<CR>
 
 " :C[n] jumps to line [n] in the CoffeeCompile scratch buffer
-command -nargs=1 C CoffeeCompile | :<args>
+command! -nargs=1 C CoffeeCompile | :<args>
 
 " Note: q closes CoffeeCompile scratch buffer
 
@@ -959,7 +1088,7 @@ let g:CoffeeAutoTagIncludeVars=1
 " NeoBundle 'tpope/vim-rbenv'
 " NeoBundle 'tpope/vim-rake'
 " NeoBundle 'tpope/vim-rails'
-command -bar -nargs=1 OpenURL :!google-chrome <args>
+command! -bar -nargs=1 OpenURL :!google-chrome <args>
 " NeoBundle 'tpope/vim-bundler'
 " NeoBundle 'ecomba/vim-ruby-refactoring' "docs: https://relishapp.com/despo/vim-ruby-refactoring/docs
 " NeoBundle 'ngmy/vim-rubocop'
@@ -972,7 +1101,73 @@ let g:vimrubocop_config = '$HOME/.rubocop.yml'
 " Scala {{{2
 " NeoBundle 'derekwyatt/vim-scala'
 
-" 日本語 {{{2
+" S-Expressions {{{2
+" NeoBundle 'guns/vim-sexp'
+let g:sexp_enable_insert_mode_mappings = 0
+let g:sexp_filetypes = 'clojure,scheme,lisp,timl,racket'
+" vim-sexp internal mappings
+let s:sexp_mappings = {
+    \ 'sexp_outer_list':                'af',
+    \ 'sexp_inner_list':                'if',
+    \ 'sexp_outer_top_list':            'aF',
+    \ 'sexp_inner_top_list':            'iF',
+    \ 'sexp_outer_string':              'as',
+    \ 'sexp_inner_string':              'is',
+    \ 'sexp_outer_element':             'ae',
+    \ 'sexp_inner_element':             'ie',
+    \ 'sexp_move_to_prev_bracket':      '(',
+    \ 'sexp_move_to_next_bracket':      ')',
+    \ 'sexp_move_to_prev_element_head': '<M-b>',
+    \ 'sexp_move_to_next_element_head': '<M-w>',
+    \ 'sexp_move_to_prev_element_tail': 'g<M-e>',
+    \ 'sexp_move_to_next_element_tail': '<M-e>',
+    \ 'sexp_move_to_prev_top_element':  '[[',
+    \ 'sexp_move_to_next_top_element':  ']]',
+    \ 'sexp_select_prev_element':       '[e',
+    \ 'sexp_select_next_element':       ']e',
+    \ 'sexp_indent':                    '==',
+    \ 'sexp_indent_top':                '=-',
+    \ 'sexp_round_head_wrap_list':      '',
+    \ 'sexp_round_tail_wrap_list':      '',
+    \ 'sexp_square_head_wrap_list':     '',
+    \ 'sexp_square_tail_wrap_list':     '',
+    \ 'sexp_curly_head_wrap_list':      '',
+    \ 'sexp_curly_tail_wrap_list':      '',
+    \ 'sexp_round_head_wrap_element':   '',
+    \ 'sexp_round_tail_wrap_element':   '',
+    \ 'sexp_square_head_wrap_element':  '',
+    \ 'sexp_square_tail_wrap_element':  '',
+    \ 'sexp_curly_head_wrap_element':   '',
+    \ 'sexp_curly_tail_wrap_element':   '',
+    \ 'sexp_insert_at_list_head':       '',
+    \ 'sexp_insert_at_list_tail':       '',
+    \ 'sexp_splice_list':               '',
+    \ 'sexp_raise_list':                '',
+    \ 'sexp_raise_element':             '',
+    \ 'sexp_swap_list_backward':        '',
+    \ 'sexp_swap_list_forward':         '',
+    \ 'sexp_swap_element_backward':     '',
+    \ 'sexp_swap_element_forward':      '',
+    \ 'sexp_emit_head_element':         '',
+    \ 'sexp_emit_tail_element':         '',
+    \ 'sexp_capture_prev_element':      '',
+    \ 'sexp_capture_next_element':      '',
+    \ }
+
+" NeoBundle 'tpope/vim-sexp-mappings-for-regular-people'
+
+" Racket {{{2
+" NeoBundle 'nsue/vim-racket'
+" NeoBundle 'MicahElliott/vrod'
+
+" Octave {{{2
+" NeoBundle 'jvirtanen/vim-octave'
+
+" Prolog {{{2
+" NeoBundle 'nsue/prolog.vim'
+let g:filetype_pl="prolog"
+
+" Google Translate {{{2
 " NeoBundle 'nsue/googletranslate-vim'
 let g:googletranslate_apikey = $GOOGLE_TRANSLATE_API_KEY
 
@@ -980,7 +1175,7 @@ let g:googletranslate_apikey = $GOOGLE_TRANSLATE_API_KEY
 let g:googletranslate_locale = 'ja'
 
 " Places the translation in the "@ register and in a new buffer
-let g:googletranslate_options = ["register", "buffer"]
+let g:googletranslate_options = ["register"]
 
 " ICO, PNG, GIF {{{2
 " NeoBundle 'tpope/vim-afterimage'
@@ -998,6 +1193,11 @@ let g:syntastic_javascript_jshint_exec='/usr/sbin/jshint'
 " NeoBundle 'vim-scripts/SyntaxRange'
 
 " Micellaneous Functions and Autocommands {{{1
+
+" External program to use for = command
+if executable('scmindent.rkt')
+    autocmd filetype lisp,scheme,racket,art setlocal equalprg=scmindent.rkt
+endif
 
 " Changes the window-local current directory to its file's directory "{{{2
 " (except when file is in /tmp)
