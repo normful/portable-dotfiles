@@ -166,6 +166,9 @@ NeoBundle 'LaTeX-Suite-aka-Vim-LaTeX'
 NeoBundle 'vim-pandoc/vim-pandoc'
 NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 
+" reStructuredText {{{2
+NeoBundle 'Rykka/riv.vim'
+
 " Binary {{{2
 NeoBundle 'ressu/hexman.vim'
 
@@ -223,6 +226,10 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'noc7c9/vim-iced-coffee-script'
 NeoBundle 'lukaszkorecki/CoffeeTags'
 
+" TypeScript {{{2
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'Quramy/tsuquyomi'
+
 " Ruby {{{2
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-rbenv'
@@ -232,11 +239,26 @@ NeoBundle 'tpope/vim-bundler'
 NeoBundle 'ecomba/vim-ruby-refactoring' "docs: https://relishapp.com/despo/vim-ruby-refactoring/docs
 NeoBundle 'ngmy/vim-rubocop'
 
+" Puppet {{{2
+NeoBundle 'rodjek/vim-puppet'
+
 " Python {{{2
 NeoBundle 'klen/python-mode'
 
+" Jinja {{{2
+NeoBundle 'lepture/vim-jinja'
+
 " Scala {{{2
 NeoBundle 'derekwyatt/vim-scala'
+
+" Haskell {{{2
+NeoBundle 'lukerandall/haskellmode-vim'
+NeoBundle 'eagletmt/ghcmod-vim'
+NeoBundle 'eagletmt/neco-ghc'
+NeoBundle 'Twinside/vim-hoogle'
+NeoBundle 'neovimhaskell/haskell-vim'
+" NeoBundle 'Twinside/vim-haskellFold'
+" NeoBundle 'enomsg/vim-haskellConcealPlus'
 
 " S-Expressions {{{2
 " NeoBundle 'guns/vim-sexp'
@@ -623,15 +645,13 @@ let g:rainbow_conf = {
 " nnoremap <leader>s :80vsplit +:VimShell<CR>
 " imap <buffer><C-g> <Plug>(vimshell_history_neocomplete)
 
-autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby          setlocal omnifunc=rubycomplete#Complete
-
 " UNIX commands {{{2
 " NeoBundle 'tpope/vim-eunuch'
+
+" Asynchronous Dispatching {{{2
+" NeoBundle 'tpope/vim-dispatch'
+nnoremap <silent> <leader>dcb  :Dispatch! cake build<CR>
+nnoremap <silent> <leader>dgj  :Dispatch! gulp js<CR>
 
 " File Explorers {{{2
 " NeoBundle 'Shougo/vimfiler'
@@ -801,6 +821,17 @@ let g:neocomplete#data_directory='~/.vim/.cache/neocomplete'
 " The following overwrites completefunc which is overwritten by vim-rails
 let g:neocomplete#force_overwrite_completefunc=1
 
+autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby          setlocal omnifunc=rubycomplete#Complete
+
+" Disable haskell-vim omnifunc
+let g:haskellmode_completion_ghc = 0
+autocmd FileType haskell       setlocal omnifunc=necoghc#omnifunc
+
 " Autoend {{{2
 " NeoBundle 'tpope/vim-endwise'
 
@@ -859,39 +890,52 @@ nmap ga <Plug>(EasyAlign)
 let g:gitgutter_highlight_lines = 0
 let g:gitgutter_map_keys = 0
 
-" all Git mappings:
+" All Git mappings {{{3
+
+" git status
 nnoremap <silent> <leader>gs      :Git s<CR>
 
+" git log, show
 nnoremap <silent> <leader>gl      :Git l<CR>
 nnoremap <silent> <leader>gsh     :Git sh<CR>
 nnoremap <silent> <leader>gv      :Gitv --all<CR>
 nnoremap <silent> <leader>gV      :Gitv!<CR>
 
+" git branch, fetch
 nnoremap <silent> <leader>gb      :Merginal<CR>
 nnoremap <silent> <leader>gfa     :Gfetch --all<CR>
+
+" git push
 nnoremap <silent> <leader>gpush   :Gpush push<CR>
 nnoremap <silent> <leader>gmir    :Gpush --mirror n<CR>
 
-nnoremap <silent> <leader>gd      :Gdiff<CR>
+" git diff
+" Note that Gdiff moves focus to the diff window; closing the diff window brings you back to the original window
+nnoremap <silent> <leader>gd      :Gdiff<CR> 
 nnoremap <silent> <leader>gdc     :Git dc<CR>
 
-nnoremap <silent> <leader>gn      :GitGutterNextHunk<CR>
-nnoremap <silent> <leader>gN      :GitGutterPrevHunk<CR>
-
+" git add
 nnoremap <silent> <leader>ga      :GitGutterStageHunk<CR>
 nnoremap <silent> <leader>gu      :GitGutterRevertHunk<CR>
 nnoremap <silent> <leader>gr      :GitGutterRevertHunk<CR>
+nnoremap <silent> <leader>gn      :GitGutterNextHunk<CR>
+nnoremap <silent> <leader>gN      :GitGutterPrevHunk<CR>
 
+" git commit
 nnoremap <silent> <leader>gc      :Gcommit<CR>
-nnoremap <silent> <leader>gamend  :Git amend<CR>
-nnoremap <silent> <leader>gamendm :Git amendm<CR>
+nnoremap <silent> <leader>gw      :Git w<CR>
+nnoremap <silent> <leader>gmend   :Git amend<CR>
+nnoremap <silent> <leader>gmendm  :Git amendm<CR>
 
+" git reset
 nnoremap <silent> <leader>grh     :Git rh<CR>
 nnoremap <silent> <leader>gcdf    :Git cdf<CR>
 nnoremap <silent> <leader>gun     :Git un<CR>
 
+" git blame
 nnoremap <silent> <leader>gbl     :Gblame<CR>
 
+" misc 
 nnoremap <silent> <leader>gh      :GitGutterLineHighlightsToggle<CR>
 
 " tmux {{{2
@@ -906,7 +950,7 @@ let g:slime_no_mappings = 1
 xmap <leader>s <Plug>SlimeRegionSend
 nmap <leader>s <Plug>SlimeMotionSend
 nmap <leader>ss <Plug>SlimeLineSend
-" SlimeConfig
+nmap <leader>sc <Plug>SlimeConfig
 
 " NeoBundle 'jgdavey/tslime.vim'
 " NeoBundle 'kovisoft/slimv'
@@ -937,7 +981,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " NeoBundle 'vim-pandoc/vim-pandoc'
 " NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc_syntax_fill_codeblocks = 1
-autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml", "asm", "java", "c", "python", "octave", "racket", "prolog"]
+autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
 autocmd! BufRead,BufNewFile,BufEnter *HTML*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *CSS*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *JavaScript*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
@@ -945,6 +989,9 @@ autocmd! BufRead,BufNewFile,BufEnter *Scala*.md let g:pandoc#syntax#codeblocks#e
 autocmd! BufRead,BufNewFile,BufEnter *Ruby*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["ruby", "json", "css", "html", "yaml", "sql", "xml"]
 autocmd! BufRead,BufNewFile,BufEnter *PHP*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["php", "json", "css", "html", "sql", "xml"]
 autocmd! BufRead,BufNewFile,BufEnter *Python*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["python", "json", "css", "html", "sql", "xml"]
+
+" reStructuredText {{{2
+" NeoBundle 'Rykka/riv.vim'
 
 " Binary {{{2
 " NeoBundle 'ressu/hexman.vim'
@@ -1095,11 +1142,46 @@ command! -bar -nargs=1 OpenURL :!google-chrome <args>
 nnoremap <silent> <leader>rc :RuboCop<CR>
 let g:vimrubocop_config = '$HOME/.rubocop.yml'
 
+" Puppet {{{2
+" NeoBundle 'rodjek/vim-puppet'
+
 " Python {{{2
 " NeoBundle 'klen/python-mode'
 
+" Jinja {{{2
+" NeoBundle 'lepture/vim-jinja'
+
 " Scala {{{2
 " NeoBundle 'derekwyatt/vim-scala'
+
+" Haskell {{{2
+autocmd BufEnter *.hs set formatprg=pointfree
+
+autocmd FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+autocmd FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
+autocmd FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsInfo<CR>
+
+" NeoBundle 'lukerandall/haskellmode-vim'
+let g:haddock_browser = "open"
+
+" NeoBundle 'eagletmt/ghcmod-vim'
+" NeoBundle 'eagletmt/neco-ghc'
+" NeoBundle 'Twinside/vim-hoogle'
+
+autocmd BufNewFile,BufRead *.hs map <buffer> <F1>   :Hoogle 
+autocmd BufNewFile,BufRead *.hs map <buffer> <C-F1> :HoogleClose<CR>
+autocmd BufNewFile,BufRead *.hs map <buffer> <S-F1> :HoogleLine<CR>
+
+" NeoBundle 'neovimhaskell/haskell-vim'
+let g:haskell_enable_quantification   = 1 "to enable highlighting of forall
+let g:haskell_enable_recursivedo      = 1 "to enable highlighting of mdo and rec
+let g:haskell_enable_arrowsyntax      = 1 "to enable highlighting of proc
+let g:haskell_enable_pattern_synonyms = 1 "to enable highlighting of pattern
+let g:haskell_enable_typeroles        = 1 "to enable highlighting of type roles
+let g:haskell_enable_static_pointers  = 1 "to enable highlighting of static
+
+" NeoBundle 'Twinside/vim-haskellFold'
+" NeoBundle 'enomsg/vim-haskellConcealPlus'
 
 " S-Expressions {{{2
 " NeoBundle 'guns/vim-sexp'
@@ -1175,7 +1257,7 @@ let g:googletranslate_apikey = $GOOGLE_TRANSLATE_API_KEY
 let g:googletranslate_locale = 'ja'
 
 " Places the translation in the "@ register and in a new buffer
-let g:googletranslate_options = ["register"]
+let g:googletranslate_options = ["buffer", "register"]
 
 " ICO, PNG, GIF {{{2
 " NeoBundle 'tpope/vim-afterimage'
@@ -1349,8 +1431,9 @@ autocmd FileType pandoc,markdown set softtabstop=4
 autocmd FileType pandoc,markdown set shiftwidth=4
 autocmd FileType pandoc,markdown set nospell
 
+autocmd FileType rst             set nospell
 autocmd FileType gitcommit setlocal spell textwidth=72
-autocmd FileType crontab setlocal nobackup nowritebackup
+autocmd FileType crontab   setlocal nobackup nowritebackup
 
 " Manual project specific overrides
 function! ProjectSpecificSettings()
