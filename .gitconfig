@@ -30,6 +30,8 @@
 
     ane = !git a -N $1 && git a -e $1 # add intent and manually edit patch (for untracked files)
 
+    w = !git add --all . && git commit -m wip
+
     # apply
     apc = apply --stat   # see stats before patching
     apc = apply --check  # check before patching
@@ -57,7 +59,7 @@
     cdf3 = clean -df ../../../           # force delete untracked files and directories
 
     # clone
-    cl           = clone                 # clone
+    cl           = clone --recursive     # clone (including submodules)
     cloen        = clone                 # clone (catch typo)
     shallowclone = clone --depth 1       # shallow clone
     shcl         = clone --depth 1       # shallow clone (short form)
@@ -66,6 +68,7 @@
     # commit
     c         = commit                   # commit
     cm        = commit -m                # commit with message
+    mc        = commit -m                # commit with message (catch typo)
     amend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message
     amendm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message
     amnedm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
@@ -73,14 +76,14 @@
     cc        = commit -C                # commit with same message and timestamp as some ref
     cclast    = commit -C @              # commit with same message and timestamp as last commit
 
-    amned     = commit --amend --no-edit # amend last commit without changing commit message (catch typo)
-    amenmd    = commit --amend           # amend last commit and change commit message       (catch typo)
-
-    amenddate   = "!f() { git commit --amend --no-edit --date=\"$(date -R)\"; }; f" # amend last commit's timestamp to now without changing commit message
+    amenddate   = "!f() { git commit --amend --no-edit --date=\"$(date)\"; }; f" # amend last commit's timestamp to now without changing commit message
+    amendnow    = "!f() { git commit --amend --no-edit --date=\"$(date)\"; }; f" # amend last commit's timestamp to now without changing commit message
     amendme     = commit --amend --reset-author
     amendauthor = commit --amend --reset-author
 
     cmb       = commit -m 'build'        # commit with 'build' message
+
+    cmempty   = commit --allow-empty -m  # commit empty commit with message
 
     # checkout
     co       = checkout       # checkout
@@ -183,6 +186,7 @@
     # remote
     r = remote -v                     # show remotes (verbose)
     origininfo = remote show origin   # show info about origin
+    remoet = remote                   # catch typo
 
     # refs
     refs = show-ref                   # show refs
@@ -276,6 +280,9 @@
 
     # removes remote branches that have been merged into HEAD
     cleanremotes = !"f() { git branch -r --merged | cut -d \\  -f 3 | while read branch; do test `git rev-parse $branch` == `git rev-parse HEAD` && echo \"skipping branch $branch\" || (echo \"deleting branch $branch\" && echo $branch | sed 's/\\//\\ :/' | xargs -t git push ); done }; f"
+
+    # submodule
+    sm = submodule
 
     # update all remotes, pruning removed tracking branches
     updateremotes = remote update --prune
