@@ -102,7 +102,8 @@ NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tpope/vim-sleuth'
 
 " Snipmate and dependencies {{{2
-NeoBundle 'garbas/vim-snipmate'
+NeoBundle 'SirVer/ultisnips'
+" NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'MarcWeber/vim-addon-mw-utils'
 NeoBundle 'tomtom/tlib_vim'
 
@@ -259,6 +260,7 @@ NeoBundle 'Twinside/vim-hoogle'
 NeoBundle 'neovimhaskell/haskell-vim'
 " NeoBundle 'Twinside/vim-haskellFold'
 " NeoBundle 'enomsg/vim-haskellConcealPlus'
+NeoBundle 'hspec/hspec'
 
 " S-Expressions {{{2
 " NeoBundle 'guns/vim-sexp'
@@ -515,9 +517,6 @@ nnoremap <C-L> <C-W>l
 nnoremap <C-H> <C-W>h
 nnoremap <silent> <leader>o :only<CR>
 nnoremap <silent> <leader>m <C-W>_<C-W><Bar>
-
-" Buffer navigation
-nnoremap <leader>w :bdelete<CR>
 
 " Mark
 nnoremap ' `
@@ -839,6 +838,7 @@ autocmd FileType haskell       setlocal omnifunc=necoghc#omnifunc
 " NeoBundle 'tpope/vim-sleuth'
 
 " Snipmate and dependencies {{{2
+" NeoBundle 'SirVer/ultisnips'
 " NeoBundle 'garbas/vim-snipmate'
 " NeoBundle 'MarcWeber/vim-addon-mw-utils'
 " NeoBundle 'tomtom/tlib_vim'
@@ -906,7 +906,7 @@ nnoremap <silent> <leader>gb      :Merginal<CR>
 nnoremap <silent> <leader>gfa     :Gfetch --all<CR>
 
 " git push
-nnoremap <silent> <leader>gpush   :Gpush push<CR>
+nnoremap <silent> <leader>gpush   :Gpush<CR>
 nnoremap <silent> <leader>gmir    :Gpush --mirror n<CR>
 
 " git diff
@@ -923,9 +923,9 @@ nnoremap <silent> <leader>gN      :GitGutterPrevHunk<CR>
 
 " git commit
 nnoremap <silent> <leader>gc      :Gcommit<CR>
-nnoremap <silent> <leader>gw      :Git w<CR>
-nnoremap <silent> <leader>gmend   :Git amend<CR>
-nnoremap <silent> <leader>gmendm  :Git amendm<CR>
+nnoremap <silent> <leader>gw      :Git w <bar> :write<CR>
+nnoremap <silent> <leader>gmend   :Git mend<CR>
+nnoremap <silent> <leader>gmendm  :Git mendm<CR>
 
 " git reset
 nnoremap <silent> <leader>grh     :Git rh<CR>
@@ -981,7 +981,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " NeoBundle 'vim-pandoc/vim-pandoc'
 " NeoBundle 'vim-pandoc/vim-pandoc-syntax'
 let g:pandoc_syntax_fill_codeblocks = 1
-autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
+autocmd! BufRead,BufNewFile,BufEnter *.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml", "prolog"]
 autocmd! BufRead,BufNewFile,BufEnter *HTML*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *CSS*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["html", "css"]
 autocmd! BufRead,BufNewFile,BufEnter *JavaScript*.md let g:pandoc#syntax#codeblocks#embeds#langs = ["javascript", "coffee", "json", "css", "html", "sql", "xml"]
@@ -1182,6 +1182,10 @@ let g:haskell_enable_static_pointers  = 1 "to enable highlighting of static
 
 " NeoBundle 'Twinside/vim-haskellFold'
 " NeoBundle 'enomsg/vim-haskellConcealPlus'
+" NeoBundle 'hspec/hspec'
+highlight link hspecDescribe Type
+highlight link hspecIt Identifier
+highlight link hspecDescription Comment
 
 " S-Expressions {{{2
 " NeoBundle 'guns/vim-sexp'
