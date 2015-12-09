@@ -101,6 +101,9 @@ set scrolloff=3                 " keep 3 lines above and below cursor
 set showmode                    " display the current mode
 set showcmd                     " show (partial) command in bottom right
 
+" Keyboard
+set timeoutlen=500 ttimeoutlen=50
+
 " Windows
 set laststatus=2                " last window always has status line
 set splitbelow                  " split windows below
@@ -246,6 +249,7 @@ nnoremap <leader>q :conf qa!<CR>
 nnoremap <localleader>p :bro ol<CR>
 
 " Quick file editing
+nnoremap <leader>ea :100vsplit ~/.bash_aliases<CR>
 nnoremap <leader>ev :100vsplit ~/.vimrc<CR>
 nnoremap <leader>eg :100vsplit ~/.gitconfig<CR>
 nnoremap <leader>ez :100vsplit ~/.zshrc<CR>
@@ -263,7 +267,7 @@ nnoremap <leader>hpp :vsplit %:p:s,.hpp$,.X123X,:s,.cpp$,.hpp,:s,.X123X$,.cpp,<C
 " Note -- Toggle between .cpp or .c and .h file within the same folder is
 " S-F2 (provided by c.vim)
 
-" Source aka reload .vimrc
+" Source aka reload .vimrc aka resource .vimrc aka re-source .vimrc
 nnoremap <leader>rv :so $MYVIMRC<CR>
 
 " Switching buffers quickly
@@ -299,9 +303,6 @@ nnoremap <C-L> <C-W>l
 nnoremap <C-H> <C-W>h
 nnoremap <silent> <leader>o :only<CR>
 nnoremap <silent> <leader>m <C-W>_<C-W><Bar>
-
-" Buffer navigation
-nnoremap <leader>w :bdelete<CR>
 
 " Mark
 nnoremap ' `
@@ -358,7 +359,13 @@ if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
 endif
 
 " Scroll all open windows simultaneously
-nnoremap <silent> <localleader>sb :windo set scrollbind!<CR>
+nnoremap <silent> <localleader>sb :execute "normal! gg"<CR>:windo set scrollbind!<CR>
+
+" Switch all open windows to horizontal split
+nnoremap <silent> <localleader>H :windo wincmd K<CR>
+
+" Switch all open windows to vertical split
+nnoremap <silent> <localleader>V :windo wincmd H<CR>
 
 " Allow saving of files as sudo after forgetting to start vim with sudo
 cmap w!! w !sudo tee > /dev/null %
@@ -399,6 +406,12 @@ let NERDTreeMouseMode=2
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
+let g:NERDTreeDirArrows=0
+
+nnoremap bn :bn<CR>
+nnoremap bN :bp<CR>
+nnoremap bp :bp<CR>
+nnoremap bd :bd<CR>
 
 " Enhanced . repeat {{{2
 " NeoBundle 'tpope/vim-repeat'
@@ -420,17 +433,62 @@ autocmd FileType eruby let g:surround_61 = "<%= \r %>"
 " NeoBundle 'tpope/vim-abolish'
 
 " Git {{{2
-" NeoBundle 'tpope/vim-fugitive'
+" NeoBundle 'tpope/fugitive'
+" NeoBundle 'idanarye/vim-merginal'
+" NeoBundle 'gregsexton/gitv'
 " NeoBundle 'airblade/vim-gitgutter'
 let g:gitgutter_highlight_lines = 0
 let g:gitgutter_map_keys = 0
-nnoremap <silent> <leader>gh :GitGutterLineHighlightsToggle<CR>
-nnoremap <silent> <leader>gn :GitGutterNextHunk<CR>
-nnoremap <silent> <leader>gp :GitGutterPrevHunk<CR>
-nnoremap <silent> <leader>gN :GitGutterPrevHunk<CR>
-nnoremap <silent> <leader>gs :GitGutterStageHunk<CR>
-nnoremap <silent> <leader>gu :GitGutterRevertHunk<CR>
-nnoremap <silent> <leader>gr :GitGutterRevertHunk<CR>
+
+" All Git mappings {{{3
+
+" git status
+nnoremap <silent> <leader>gs      :Git s<CR>
+
+" git log, show
+nnoremap <silent> <leader>gl      :Git l<CR>
+nnoremap <silent> <leader>gsh     :Git sh<CR>
+nnoremap <silent> <leader>gv      :Gitv --all<CR>
+nnoremap <silent> <leader>gV      :Gitv!<CR>
+
+" git branch, fetch
+nnoremap <silent> <leader>gb      :Merginal<CR>
+nnoremap <silent> <leader>gfa     :Gfetch --all<CR>
+
+" git push
+nnoremap <silent> <leader>gpush   :Gpush<CR>
+nnoremap <silent> <leader>gmir    :Gpush --mirror n<CR>
+
+" git diff
+" Note that Gdiff moves focus to the diff window; closing the diff window brings you back to the original window
+nnoremap <silent> <leader>gd      :Gdiff<CR> 
+nnoremap <silent> <leader>gdc     :Git dc<CR>
+
+" git add
+nnoremap <silent> <leader>ga      :GitGutterStageHunk<CR>
+nnoremap <silent> <leader>gu      :GitGutterRevertHunk<CR>
+nnoremap <silent> <leader>gr      :GitGutterRevertHunk<CR>
+nnoremap <silent> <leader>gn      :GitGutterNextHunk<CR>
+nnoremap <silent> <leader>gN      :GitGutterPrevHunk<CR>
+
+" git commit
+nnoremap <silent> <leader>gc      :Gcommit<CR>
+nnoremap <silent> <leader>gw      :Git w <bar> :write<CR>
+nnoremap <silent> <leader>gmend   :Git mend<CR>
+nnoremap <silent> <leader>gmendm  :Git mendm<CR>
+
+" git reset
+nnoremap <silent> <leader>grh     :Git rh<CR>
+nnoremap <silent> <leader>gcdf    :Git cdf<CR>
+nnoremap <silent> <leader>gun     :Git un<CR>
+
+" git blame
+nnoremap <silent> <leader>gbl     :Gblame<CR>
+
+" misc 
+nnoremap <silent> <leader>gh      :GitGutterLineHighlightsToggle<CR>
+
+
 
 " HTML {{{2
 " NeoBundle 'mattn/emmet-vim'
