@@ -71,6 +71,8 @@
     mc        = commit -m                # commit with message (catch typo)
     amend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message
     amendm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message
+    anmend    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
+    amnedm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
     amnedm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
 
     cc        = commit -C                # commit with same message and timestamp as some ref
@@ -282,7 +284,9 @@
     cleanremotes = !"f() { git branch -r --merged | cut -d \\  -f 3 | while read branch; do test `git rev-parse $branch` == `git rev-parse HEAD` && echo \"skipping branch $branch\" || (echo \"deleting branch $branch\" && echo $branch | sed 's/\\//\\ :/' | xargs -t git push ); done }; f"
 
     # submodule
-    sm = submodule
+    sm     = submodule
+    smur   = submodule update --remote
+    smfepm = submodule foreach "git checkout master && git pull origin master"
 
     # update all remotes, pruning removed tracking branches
     updateremotes = remote update --prune
@@ -312,6 +316,7 @@
     verbosity = 5
     tool = vimdiff
     conflictstyle = diff3
+    ff = false
 [mergetool]
     prompt = false
 [push]
