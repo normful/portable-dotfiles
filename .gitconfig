@@ -116,7 +116,7 @@
     dcs   = diff --word-diff=color --cached --stat   # staged changes, stats
 
     dh    = diff --word-diff=color HEAD              # changes between last commit and (both staged and unstaged changes)
-    dhu   = diff --word-dfff=color HEAD  -U1000      # changes between last commit and (both staged and unstaged changes), with context
+    dhu   = diff --word-diff=color HEAD  -U1000      # changes between last commit and (both staged and unstaged changes), with context
 
     last  = diff --word-diff=color HEAD^             # changes between second-last commit and (both staged and unstaged changes)
     lastu = diff --word-diff=color HEAD^ -U1000      # changes between second-last commit and (both staged and unstaged changes), with context
