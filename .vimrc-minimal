@@ -108,7 +108,7 @@ set timeoutlen=500 ttimeoutlen=50
 set laststatus=2                " last window always has status line
 set splitbelow                  " split windows below
 set splitright                  " vsplit windows to the right
-set diffopt=vertical
+set diffopt=filler,vertical,iwhite
 
 set title
 set hidden
