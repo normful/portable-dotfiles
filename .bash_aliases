@@ -53,7 +53,10 @@ alias ggrep='git grep'
 # ssh
 alias ssh1='eval $(ssh-agent)'
 alias ssh2='ssh-add'
+# autojump
+alias k='j'
 # tree
+alias t='tree -a -I ".git" -C'
 alias tree='tree -a -I ".git" -C'
 alias treejs='tree -I ".git" -P "*.js" --prune -C'
 # bundle
