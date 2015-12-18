@@ -154,7 +154,8 @@
     # git lll --grep="search commit messages"
     axe = !sh -c 'git log -S"$0"'                                   # search through the log
     pending = !sh -c 'git --no-pager log "$0"/HEAD..HEAD && echo'   # show commits that haven't been pushed to the remote yet
-    lconflicts = log --min-parents=2 -p -cc                         # show merge commits, and only those with conflicts will displayed with diffs
+    lconflicts = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
+    lcon       = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
 
     # merge
     mergeff = merge --ff-only
