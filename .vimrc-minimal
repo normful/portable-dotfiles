@@ -49,6 +49,9 @@ NeoBundle 'tpope/vim-surround'
 " Substitution and Typo Correction {{{2
 NeoBundle 'tpope/vim-abolish'
 
+" Alignment {{{2
+NeoBundle 'junegunn/vim-easy-align'
+
 " Git {{{2
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'airblade/vim-gitgutter'
@@ -431,6 +434,14 @@ autocmd FileType eruby let g:surround_61 = "<%= \r %>"
 
 " Substitution and Typo Correction {{{2
 " NeoBundle 'tpope/vim-abolish'
+
+" NeoBundle 'junegunn/vim-easy-align'
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " Git {{{2
 " NeoBundle 'tpope/fugitive'
