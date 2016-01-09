@@ -17,6 +17,8 @@ dpkg -s curl     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends 
 dpkg -s autojump 2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install autojump
 dpkg -s tree     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install tree     
 dpkg -s zsh      2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install zsh
+dpkg -s tmux     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install tmux
+dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install htop
 
 # autojump
 echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
