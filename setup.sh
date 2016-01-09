@@ -52,6 +52,8 @@ cat $THIS_DIR/.gitconfig >> $HOME/.gitconfig
 
 # oh-my-zsh
 curl -L http://install.ohmyz.sh | sh
+
+# oh-my-zsh customization
 echo "Symlinking custom.zsh"
 rm -f $HOME/.oh-my-zsh/custom/custom.zsh
 ln -s $THIS_DIR/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
