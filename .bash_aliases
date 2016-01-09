@@ -9,15 +9,17 @@ alias eb='vim ~/.bashrc'
 alias ez='vim ~/.zshrc'
 alias essh='vim ~/.ssh/config'
 
-alias l='ls -lhAGtr --color=always'
-alias ls='ls -lhAtr --color=always'
-alias la='ls -lhAG'
-alias lo='ls -lhAG'
+alias l='ls -lhAtr --color=always'
+alias ls='ls -lhA'
+alias la='ls -lhA'
+alias lo='ls -lhA'
 
 alias lsdir='ls *'
 alias ldir='ls -l *'
 
 alias cd..='cd ..'
+
+alias rm='rm -v'
 
 alias c='clear'
 alias q='exit'
