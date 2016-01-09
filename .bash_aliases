@@ -73,6 +73,7 @@ alias tree='tree -a -I ".git" -C'
 alias treejs='tree -I ".git" -P "*.js" --prune -C'
 
 alias tmux='tmux -2'
+alias st='~/setup-tmux-windows.sh'
 
 alias iptableslist='iptables -L -v -n'
 alias iptablesnatlist='iptables -t nat -L -v -n'
