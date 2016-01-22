@@ -53,6 +53,8 @@ alias gw='git w'
 alias ggrep='git grep'
 alias gpuom='git push -u origin master'
 
+alias svnl='svn log -v --diff | less'
+
 alias dudir='du -h -d0'
 alias dusubdirs='du -h -d1'
 alias dusummary='du -h -L 1 . | sort -n -b'
