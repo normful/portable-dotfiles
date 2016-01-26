@@ -327,3 +327,5 @@
 [rerere]
     enabled = true
     autoupdate = true
+[http]
+    postBuffer = 1048576000
