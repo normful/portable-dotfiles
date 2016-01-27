@@ -1,6 +1,6 @@
 # portable-dotfiles
 
-This is a minimal set of public dotfiles. Only use what you need. You'll probably find these files the most useful:
+This is a minimal set of public dotfiles that I _actually use_ (and maintain). Only use what you need. You'll probably find these files the most useful:
 
 - `git` [configuration file and aliases](https://github.com/normful/portable-dotfiles/blob/master/.gitconfig)
 - `bash` [aliases](https://github.com/normful/portable-dotfiles/blob/master/.bash_aliases)
