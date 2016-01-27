@@ -9,31 +9,31 @@ This is a minimal set of public dotfiles. Only use what you need. You'll probabl
 
 A listing of the most commonly used git aliases (also see the comments in the actual aliases themselves). These assume that you've also added a bash alias for `git` itself with `alias g='git'` in your ~/.bashrc, ~/.zshrc, ~/.profile, or etc.
 
-| command                 | action                                                                              |
-|-------------------------|-------------------------------------------------------------------------------------|
-| `g cl`                  | `git clone`                                                                         |
-| `g s`                   | `git status`                                                                        |
-| `g l`                   | `git log` on steroids.                                                              |
-| `g ll`                  | Same as the above, but with a summary of the files changed in each commit.          |
-| `g lll`                 | Same as the above, except with all changes shown.                                   |
-| `g fo`                  | Fetch the latest commits from `origin`.                                             |
-| `g co master`           | Check out the `master` branch.                                                      |
-| `g cb new-branch`       | Create and check out a new `feature` branch.                                        |
-| `g sh @`                | Show the `@` commit (a.k.a. the `HEAD` commit).                                     |
-| `g ap file.txt`         | Selectively stage changes from a file. (recommended)                                |
-| `g a file.txt`          | Blindly stage all changes from a file. (not recommended)                            |
-| `g unstage file.txt`    | Unstage the staged changes from file.txt.                                           |
-| `g dc commit1 commit2`  | See the difference between `commit1` and `commit2`.                                 |
-| `g d`                   | `git diff`, but with word diffs, instead of line diffs.                             |
-| `g cm "commit message"` | Commit the staged changes, with a message, without opening an editor.               |
-| `g amendm`              | Amend the current commit's message, without opening an editor.                      |
-| `g amend`               | Add the staged changes to the last commit.                                          |
-| `g rb`                  | Rebase interactively, allowing for squashing, renaming, reordering of commits, etc. |
-| `g undo`                | Undo the last commit.                                                               |
-| `g rh`                  | Reset all changes to the `HEAD` commit, but leave untracked files.                  |
-| `g cdf`                 | Delete all untracked files.                                                         |
-| `g setto commit`        | "Set (the working directory) to" a particular `commit`.                             |
-| `g goto commit`         | "Go to" a particular `commit`.                                                      |
+| command               | action                                                                              |
+|-----------------------|-------------------------------------------------------------------------------------|
+| `g cl`                | `git clone`                                                                         |
+| `g s`                 | `git status`                                                                        |
+| `g l`                 | `git log` on steroids.                                                              |
+| `g ll`                | Same as the above, but with a summary of the files changed in each commit.          |
+| `g lll`               | Same as the above, except with all changes shown.                                   |
+| `g fo`                | Fetch the latest commits from `origin`.                                             |
+| `g co master`         | Check out the `master` branch.                                                      |
+| `g cb new-branch`     | Create and check out a new `feature` branch.                                        |
+| `g sh @`              | Show the `@` commit (a.k.a. the `HEAD` commit).                                     |
+| `g ap file.txt`       | Selectively stage changes from a file. (recommended)                                |
+| `g a file.txt`        | Blindly stage all changes from a file. (not recommended)                            |
+| `g unstage file.txt`  | Unstage the staged changes from file.txt.                                           |
+| `g dc`                | Show the staged changes.                                                            |
+| `g d commit1 commit2` | See the difference between `commit1` and `commit2`.                                 |
+| `g cm "message"`      | Commit the staged changes, with a message, without opening an editor.               |
+| `g amendm`            | Amend the current commit's message, without opening an editor.                      |
+| `g amend`             | Add the staged changes to the last commit.                                          |
+| `g rb`                | Rebase interactively, allowing for squashing, renaming, reordering of commits, etc. |
+| `g undo`              | Undo the last commit.                                                               |
+| `g rh`                | Reset all changes to the `HEAD` commit, but leave untracked files.                  |
+| `g cdf`               | Delete all untracked files.                                                         |
+| `g setto commit`      | "Set (the working directory) to" a particular `commit`.                             |
+| `g goto commit`       | "Go to" a particular `commit`.                                                      |
 
 ## Installation
 
