@@ -1,6 +1,9 @@
 # portable-dotfiles
 
-This is a minimal set of public dotfiles. Only use what you need.
+This is a minimal set of public dotfiles. Only use what you need. Most people find these files the most useful:
+
+- `git` [configuration file and aliases](https://github.com/normful/portable-dotfiles/blob/master/.gitconfig)
+- `bash` [aliases](https://github.com/normful/portable-dotfiles/blob/master/.bash_aliases)
 
 ## Installation
 
@@ -16,13 +19,15 @@ bash ~/portable-dotfiles/setup.sh
 
 ### Remapping Caps Lock to Escape
 
-On Debian-based distros, `xmodmap remaps_capslock` will map:
+On Debian-based distros, running `xmodmap remaps_capslock` will result in the following key mappings:
 
-- Caps Lock -> Esc
-- Esc       -> Nothing
-- Pause     -> Caps Lock
+| Key       | Action    |
+|-----------|-----------|
+| Caps Lock | Esc       |
+| Esc       | Nothing   |
+| Pause     | Caps Lock |
 
-On OS X, use [Seil](https://pqrs.org/osx/karabiner/seil.html.en). Additionally, KeyRemap4MacBook, a.k.a. [Karabiner](https://pqrs.org/osx/karabiner/) is handy (see the included [config file](https://github.com/normful/portable-dotfiles/blob/master/Library/Application%20Support/KeyRemap4MacBook/private.xml)).
+On OS X, you can use [Seil](https://pqrs.org/osx/karabiner/seil.html.en) to achieve something similar. Additionally, KeyRemap4MacBook, a.k.a. [Karabiner](https://pqrs.org/osx/karabiner/) is handy (see the included [config file](https://github.com/normful/portable-dotfiles/blob/master/Library/Application%20Support/KeyRemap4MacBook/private.xml)).
 
 ### Windows-style window resizing shortcuts on OS X
 
@@ -41,4 +46,6 @@ Install [BetterTouchTool](https://www.boastr.net/) and import the [config file](
 | ⌘⇧M      | Maximize Window                                |
 | ⌘⇧S      | Resize window to Middle Third                  |
 
-You can remember how they work by their position on a standard QWERTY keyboard.
+You can remember how the above key bindings work by their position on a standard QWERTY keyboard. 
+
+For example, E is at the top right of the 9-key square formed by QWE, ASD, and ZXC, so ⌘⇧E resizes the window to the top right.
