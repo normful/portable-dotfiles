@@ -19,8 +19,8 @@ This is a listing of the most commonly used git aliases, in roughly the same ord
 | `g co existing`       | Check out the `existing` branch.                                                    |
 | `g cb feature`        | Create and check out a new `feature` branch.                                        |
 | `g sh @`              | Show the `@` commit (a.k.a. the `HEAD` commit).                                     |
-| `g ap file.txt`       | Selectively stage changes from a file (recommended).                                |
-| `g a file.txt`        | Blindly stage all changes from a file (not recommended).                            |
+| `g a file.txt`        | Stage all changes from a file (potentially dangerous).                              |
+| `g ap file.txt`       | Selectively stage changes from a file (safer).                                      |
 | `g unstage file.txt`  | Unstage the staged changes from a file.                                             |
 | `g dc`                | Show the staged changes.                                                            |
 | `g d commit1 commit2` | See the difference between `commit1` and `commit2`.                                 |
