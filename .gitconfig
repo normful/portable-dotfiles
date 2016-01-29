@@ -70,6 +70,7 @@
     cm        = commit -m                # commit with message
     mc        = commit -m                # commit with message (catch typo)
     amend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message
+    amen      = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message (catch typo)
     amendm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message
     anmend    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
     amnedm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
@@ -149,6 +150,7 @@
     l   = log --graph --abbrev-commit --decorate --all                      --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
     ll  = log --graph --abbrev-commit --decorate --all --stat               --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
     lll = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller
+
     # More usage cases:
     # git lll FILENAME
     # git lll --grep="search commit messages"
@@ -171,6 +173,9 @@
     psuh   = push                     # catch typo
     pd     = push --delete            # git push --delete origin remote-branch-to-delete
     mirror = push --mirror            # git mirror private-backup-repo
+    pom    = push -u origin master
+    puom   = push -u origin master
+    poum   = push -u origin master
 
     # pull rebase
     pullrb = pull --rebase            # git fetch + git rebase onto FETCH_HEAD
@@ -239,7 +244,7 @@
 
     # review
     # Usage: git review               Backs up current commit, creates a squashed commit of all commits from HEAD to HEAD's origin branch, sets original branch to remote branch with changes unstaged, ready for selective restaging
-    review = !sh -c 'git checkout -b `date +'%b%d-%H%M%p-bu'` && git checkout @{-1} && git checkout origin/`git rev-parse --abbrev-ref HEAD` && git checkout HEAD@{1} && git checkout -b `date +'%b%d-%H%M%p-sq'` && git reset --hard HEAD@{2} && git merge --squash --ff-only HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout @{-5} && git reset --hard @{-1} && git reset --mixed HEAD^'
+    review = !sh -c 'git checkout -b `date +'%Y-%b%d-%H%M%p-bu'` && git checkout @{-1} && git checkout origin/`git rev-parse --abbrev-ref HEAD` && git checkout HEAD@{1} && git checkout -b `date +'%Y-%b%d-%H%M%p-sq'` && git reset --hard HEAD@{2} && git merge --squash --ff-only HEAD@{1} && git commit -F .git/SQUASH_MSG && git checkout @{-5} && git reset --hard @{-1} && git reset --mixed HEAD^'
 
     # stash
     ss  = stash save                   # stash changes with name (save changes and add to stack)
@@ -262,11 +267,6 @@
     # tag
     t = tag 
     taglist = tag -l -n1              # show tag list with first line of tag annotation or commit message
-
-    # svn helpers
-    svnr = svn rebase
-    svnd = svn dcommit
-    svnl = svn log --oneline --show-commit
 
     # plumbing
     cf = cat-file      # `git cat-file` on a tree object will mess up your terminal; use ls-tree for tree objects
@@ -292,8 +292,86 @@
     # update all remotes, pruning removed tracking branches
     updateremotes = remote update --prune
 
-    # update all submodules
-    submodulespull = submodule foreach "git checkout master && git pull origin master"
+    #########################
+    ### `git-svn` aliases ###
+    #########################
+
+    # show aliases
+    svnla = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t = \\2/' | grep svn
+    svnsa = !git svnla
+    sasvn = !git svnla
+    lasvn = !git svnla
+
+    # svn help (also note that `git svn` is like --help)
+    svnh     = help svn
+    svnhelp  = help svn
+
+    # svn clone
+    svncl    = svn clone
+    svnclone = svn clone
+    svncloen = svn clone
+
+    # svn create-ignore and show-ignore
+    svnci    = svn create-ignore
+    svnsi    = svn show-ignore
+    svnsix   = !git svn show-ignore >> .git/info/exclude
+
+    # svn log
+    svnl     = svn log --show-commit --oneline
+    svnll    = svn log --show-commit --verbose
+
+    # svn blame
+    svnbl    = svn blame --git-format
+    svnblame = svn blame --git-format
+
+    # svn fetch
+    svnf     = svn fetch
+
+    # svn dcommit
+    svnd     = svn dcommit -v          # verbose
+    svndn    = svn dcommit -v -n       # verbose dry-run
+
+    # Special command used for copying commits from a remote git repo to a remote svn repo
+    #
+    # Mnemonic: port n' dcommit
+    #
+    # Assumptions:
+    #   - `git svn clone` was originally used to set up the current local repo
+    #   - `svn-tracker` is a pre-existing branch with some remote-tracking branch (usually `origin/svn-tracker`)
+    #
+    # Only run this command when:
+    #   - `master` is currently checked out
+    #
+    # Effects:
+    #   1.  Create a temporary local branch `temp-svnpnd` to backup the current commit
+    #   2.  Create a timestamped local branch to backup the current commit
+    #   3.  Rebase `master` on top of `git-svn`
+    #   4.  Verbosely `git svn dcommit`
+    #   5.  Check out the `svn-tracker` branch
+    #   6.  Fast-forward merge `git-svn` into `svn-tracker`
+    #   7.  Push `svn-tracker` to its remote-tracking branch
+    #   8.  Check out `master`
+    #   9.  Set `master` back to `temp-svnpnd`
+    #   10. Force delete `temp-svnpnd`
+    #
+    # Notes:
+    #   - it's ok (but not recommended) to run this command even when `master` is not
+    #     up-to-date with its upstream tracking branch
+    svnpnd = !sh -c 'git checkout -b temp-svnpnd && git checkout -b `date +'%Y-%b%d-%H%M%p-bu'` && git checkout @{-2} && git rebase git-svn && git svn dcommit -v && git checkout svn-tracker && git merge --ff-only git-svn && git push && git checkout master && git reset --hard temp-svnpnd && git branch -D temp-svnpnd'
+
+    ###################################
+    ### less used `git-svn` aliases ###
+    ###################################
+
+    # svn rebase (instead of rebasing, prefer `git svn fetch` and then `git rebase trunk`, `git rebase git-svn`, or whatever is the SVN mainline)
+    svnrb    = svn rebase
+    svnrbn   = svn rebase -n           # dry-run
+    svnrbl   = svn rebase --local
+
+    # svn info
+    svni     = svn info
+    svninfo  = svn info
+
 [apply]
     whitespace = nowarn
 [branch]
