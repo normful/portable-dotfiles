@@ -34,7 +34,7 @@ This is a listing of the most commonly used git aliases, in roughly the same ord
 | `g merge`             | Merge, and always write a merge commit, even if it's possible to fast-forward.      |
 | `g rh`                | Reset all changes to the `HEAD` commit, but leave untracked files.                  |
 | `g cdf`               | Delete all untracked files.                                                         |
-| `g setto commit`      | "Set (the working directory) to" a particular `commit`.                             |
+| `g setto commit`      | Set the current branch to a particular `commit`.                                    |
 | `g goto commit`       | "Go to" a particular `commit`.                                                      |
 
 ## Installation
