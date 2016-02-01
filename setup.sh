@@ -19,6 +19,7 @@ dpkg -s tree     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends 
 dpkg -s zsh      2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install zsh
 dpkg -s tmux     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install tmux
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install htop
+dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install silversearcher-ag
 
 # autojump
 echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
