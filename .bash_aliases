@@ -40,6 +40,7 @@ alias vims='vim'
 alias cim='vim'
 alias cg='vim'
 
+alias vd='vimdiff'
 alias vimdif='vimdiff'
 alias vimdif='vimdiff'
 
@@ -55,9 +56,7 @@ alias gpuom='git push -u origin master'
 
 alias svnl='svn log -v --diff | less'
 
-alias dudir='du -h -d0'
-alias dusubdirs='du -h -d1'
-alias dusummary='du -h -L 1 . | sort -n -b'
+alias dusd='du -sh ./* | gsort -h'
 
 alias ssh1='eval $(ssh-agent)'
 alias ssh2='ssh-add'
@@ -95,3 +94,8 @@ alias sgr='bundle exec shotgun -p 3000'
 alias thin='bundle exec thin start -p 3000 -R config.ru -V'
 
 alias ns='npm start'
+alias nis='npm install --save'
+alias nisd='npm install --save-dev'
+alias snig='sudo npm install -g'
+
+alias ag='ag --ignore-case --literal'
