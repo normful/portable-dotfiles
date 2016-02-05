@@ -4,3 +4,6 @@ git fetch origin
 git checkout master
 git clean -df 
 git reset --hard origin/master
+
+cd $HOME
+bash $HOME/portable-dotfiles/setup.sh
