@@ -53,8 +53,16 @@ ln -s -f $THIS_DIR/.vim/dict/node.dict $HOME/.vim/dict/node.dict
 echo "Setting up .bash_aliases"
 ln -s -f $THIS_DIR/.bash_aliases $HOME/.bash_aliases
 
-echo "Setting up .gitconfig"
+echo "Setting up a general .gitconfig"
 ln -s -f $THIS_DIR/.gitconfig $HOME/.gitconfig
+chown $USER /home/$USER/.gitconfig
+
+if [[ `echo $USER` == "norman" ]]; then
+    echo "Setting up my personalized .gitconfig"
+    mkdir -p $HOME/.config/git
+    ln -s -f $THIS_DIR/.config/git/config $HOME/.config/git/config
+    chown $USER -R /home/$USER/.config/git
+fi
 
 if [[ ! -e $HOME/.oh-my-zsh ]]; then
     echo "Setting up oh-my-zsh"

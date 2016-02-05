@@ -1,0 +1,15 @@
+[user]
+    name         = Norman Sue
+    email        = normful@gmail.com
+[credential]
+    helper       = cache
+
+# all other sections sourced from ~/.gitconfig
+
+[advice]
+    detachedHead     = false
+    implicitIdentity = false
+    resolveConflict  = false
+[mergetool "vimdiff"]
+    cmd="vim -c 'Gdiff' $MERGED" # use fugitive.vim for 3-way merge
+    keepbackup=false

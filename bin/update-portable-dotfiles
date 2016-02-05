@@ -1,9 +1,6 @@
 #!/bin/bash
-chown $USER -R /home/$USER/.config
-chown $USER -R /home/$USER/.gitconfig
-#
-# cd ~/portable-dotfiles
-# git reset --hard
-# git clean -df 
-# git checkout master
-# git pull
+cd $HOME/portable-dotfiles
+git reset --hard
+git clean -df 
+git checkout master
+git pull
