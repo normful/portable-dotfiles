@@ -77,8 +77,11 @@ rm -f $HOME/.oh-my-zsh/custom/custom.zsh
 ln -s -f $THIS_DIR/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
 
 echo "Setting up opp.zsh"
-ln -s -f $THIS_DIR/opp $HOME/opp
-ln -s -f $THIS_DIR/opp.zsh $HOME/opp.zsh
+rm -rf $HOME/opp
+mkdir $HOME/opp
+ln -s -f $THIS_DIR/opp.zsh                 $HOME/opp.zsh
+ln -s -f $THIS_DIR/opp/surround.zsh        $HOME/opp/surround.zsh
+ln -s -f $THIS_DIR/opp/textobj-between.zsh $HOME/opp/textobj-between.zsh
 
 if [ ! -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
     echo "Changing shell to zsh"
