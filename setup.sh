@@ -11,7 +11,6 @@ THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 NOW=$(date +%s)
 TWO_MONTHS_AGO=$((NOW - 5270400))
 LAST_APT_UPDATE=$(stat -c %Y /var/cache/apt/)
-
 if (( $LAST_APT_UPDATE < $TWO_MONTHS_AGO )); then
     sudo apt-get update
 fi
@@ -27,9 +26,9 @@ dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends 
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install ncdu
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install silversearcher-ag
 
-echo "Setting up ~/bin/update-portable-dotfiles"
+echo "Setting up ~/bin/pdu -- mnemonic: portable-dotfiles update"
 mkdir -p $HOME/bin/
-ln -s -f $THIS_DIR/bin/update-portable-dotfiles $HOME/bin/update-portable-dotfiles
+ln -s -f $THIS_DIR/bin/pdu $HOME/bin/pdu
 
 echo "Setting up .bash_profile"
 ln -s -f $THIS_DIR/.bash_profile $HOME/.bash_profile
