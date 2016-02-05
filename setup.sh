@@ -81,7 +81,7 @@ if [[ ! -e $HOME/opp ]]; then
     ln -s -f $THIS_DIR/opp.zsh $HOME/opp.zsh
 fi
 
-if [[ $0 != "-zsh" ]]; then
+if [ ! -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
     echo "Changing shell to zsh"
     chsh -s /bin/zsh
 fi
