@@ -58,13 +58,12 @@ ln -s -f $THIS_DIR/.bash_aliases $HOME/.bash_aliases
 
 echo "Setting up a general .gitconfig"
 ln -s -f $THIS_DIR/.gitconfig $HOME/.gitconfig
-chown $USER /home/$USER/.gitconfig
 
 if [[ `echo $USER` == "norman" ]]; then
+    sudo mkdir -p $HOME/.config/git
+    sudo chown $USER -R /home/$USER/.config
     echo "Setting up my personalized .gitconfig"
-    mkdir -p $HOME/.config/git
     ln -s -f $THIS_DIR/.config/git/config $HOME/.config/git/config
-    chown $USER -R /home/$USER/.config/git
 fi
 
 if [[ ! -e $HOME/.oh-my-zsh ]]; then
