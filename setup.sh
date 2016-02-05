@@ -57,30 +57,28 @@ ln -s -f $THIS_DIR/.vim/dict/node.dict $HOME/.vim/dict/node.dict
 echo "Setting up .bash_aliases"
 ln -s -f $THIS_DIR/.bash_aliases $HOME/.bash_aliases
 
-echo "Setting up a general .gitconfig"
+echo "Setting up a general base .gitconfig"
 ln -s -f $THIS_DIR/.gitconfig $HOME/.gitconfig
 
 if [[ $USER == "norman" ]]; then
     sudo mkdir -p $HOME/.config/git
     sudo chown $USER -R $HOME/.config
-    echo "Setting up Norman's personalized .gitconfig"
+    echo "Setting up Norman's personalized .gitconfig additions"
     ln -s -f $THIS_DIR/.config/git/config $HOME/.config/git/config
 fi
 
 if [[ ! -e $HOME/.oh-my-zsh ]]; then
     echo "Setting up oh-my-zsh"
     curl -L http://install.ohmyz.sh | sh
-
-    echo "Setting up custom.zsh"
-    rm -f $HOME/.oh-my-zsh/custom/custom.zsh
-    ln -s -f $THIS_DIR/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
 fi
 
-if [[ ! -e $HOME/opp ]]; then
-    echo "Setting up opp.zsh"
-    ln -s -f $THIS_DIR/opp $HOME/opp
-    ln -s -f $THIS_DIR/opp.zsh $HOME/opp.zsh
-fi
+echo "Setting up custom.zsh"
+rm -f $HOME/.oh-my-zsh/custom/custom.zsh
+ln -s -f $THIS_DIR/.oh-my-zsh/custom/custom.zsh $HOME/.oh-my-zsh/custom/custom.zsh
+
+echo "Setting up opp.zsh"
+ln -s -f $THIS_DIR/opp $HOME/opp
+ln -s -f $THIS_DIR/opp.zsh $HOME/opp.zsh
 
 if [ ! -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
     echo "Changing shell to zsh"
