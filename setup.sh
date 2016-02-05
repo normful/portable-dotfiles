@@ -49,7 +49,7 @@ mkdir -p $HOME/.vim/.cache/swap
 mkdir -p $HOME/.vim/.cache/undo
 mkdir -p $HOME/.vim/.cache/backup
 mkdir -p $HOME/.vim/dict
-sudo chown $USER -R /home/.vim
+sudo chown $USER -R $HOME/.vim
 
 echo "Setting up node.dict"
 ln -s -f $THIS_DIR/.vim/dict/node.dict $HOME/.vim/dict/node.dict
@@ -62,7 +62,7 @@ ln -s -f $THIS_DIR/.gitconfig $HOME/.gitconfig
 
 if [[ $USER == "norman" ]]; then
     sudo mkdir -p $HOME/.config/git
-    sudo chown $USER -R /home/$USER/.config
+    sudo chown $USER -R $HOME/.config
     echo "Setting up Norman's personalized .gitconfig"
     ln -s -f $THIS_DIR/.config/git/config $HOME/.config/git/config
 fi
