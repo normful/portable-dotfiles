@@ -44,7 +44,7 @@ fi
 echo "Setting up a minimal .vimrc"
 ln -s -f $THIS_DIR/.vimrc-minimal $HOME/.vimrc
 
-echo "Creating vim swap, undo, and backup folders"
+echo "Setting up vim swap, undo, and backup folders"
 mkdir -p $HOME/.vim/.cache/swap
 mkdir -p $HOME/.vim/.cache/undo
 mkdir -p $HOME/.vim/.cache/backup
@@ -62,7 +62,7 @@ ln -s -f $THIS_DIR/.gitconfig $HOME/.gitconfig
 if [[ $USER == "norman" ]]; then
     sudo mkdir -p $HOME/.config/git
     sudo chown $USER -R /home/$USER/.config
-    echo "Setting up my personalized .gitconfig"
+    echo "Setting up Norman's personalized .gitconfig"
     ln -s -f $THIS_DIR/.config/git/config $HOME/.config/git/config
 fi
 
