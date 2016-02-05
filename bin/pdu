@@ -1,0 +1,6 @@
+#!/bin/bash
+cd $HOME/portable-dotfiles
+git fetch origin
+git checkout master
+git clean -df 
+git reset --hard origin/master
