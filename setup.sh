@@ -21,6 +21,11 @@ dpkg -s tmux     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends 
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install htop
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install silversearcher-ag
 
+# script to update these dotfiles
+echo "Symlinking ~/bash_aliases"
+mkdir -p $HOME/bin/
+ln -s $THIS_DIR/bin/update-portable-dotfiles $HOME/bin/update-portable-dotfiles
+
 # autojump
 echo '. /usr/share/autojump/autojump.sh' >> $HOME/.bash_profile
 

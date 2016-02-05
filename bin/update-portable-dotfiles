@@ -1,0 +1,6 @@
+#!/bin/bash
+cd ~/portable-dotfiles
+git reset --hard
+git clean -df 
+git checkout master
+git pull
