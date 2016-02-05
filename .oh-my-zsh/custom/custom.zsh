@@ -2,6 +2,14 @@ ZSH_THEME="dieter"
 
 if [[ -e ~/.bash_profile ]]; then
     . ~/.bash_profile
+ fi
+
+if [[ -e ~/.bash_aliases ]]; then
+    . ~/.bash_aliases
+fi
+
+if [[ -e ~/.bash_aliases_local ]]; then
+    . ~/.bash_aliases_local
 fi
 
 # For vi mode https://github.com/hchbaw/opp.zsh
