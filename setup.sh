@@ -8,10 +8,14 @@ fi
 
 THIS_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
-# apt
-sudo apt-get update
+NOW=$(date +%s)
+TWO_MONTHS_AGO=$((NOW - 5270400))
+LAST_APT_UPDATE=$(stat -c %Y /var/cache/apt/)
 
-# additional packages
+if (( $LAST_APT_UPDATE < $TWO_MONTHS_AGO )); then
+    sudo apt-get update
+fi
+
 dpkg -s git      2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install git
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install vim
 dpkg -s curl     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install curl
