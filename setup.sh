@@ -59,7 +59,7 @@ ln -s -f $THIS_DIR/.bash_aliases $HOME/.bash_aliases
 echo "Setting up a general .gitconfig"
 ln -s -f $THIS_DIR/.gitconfig $HOME/.gitconfig
 
-if [[ `echo $USER` == "norman" ]]; then
+if [[ $USER == "norman" ]]; then
     sudo mkdir -p $HOME/.config/git
     sudo chown $USER -R /home/$USER/.config
     echo "Setting up my personalized .gitconfig"
@@ -81,7 +81,7 @@ if [[ ! -e $HOME/opp ]]; then
     ln -s -f $THIS_DIR/opp.zsh $HOME/opp.zsh
 fi
 
-if [[ `echo $0` != "-zsh" ]]; then
+if [[ $0 != "-zsh" ]]; then
     echo "Changing shell to zsh"
     chsh -s /bin/zsh
 fi
