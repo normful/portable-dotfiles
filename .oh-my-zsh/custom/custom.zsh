@@ -1,12 +1,11 @@
 ZSH_THEME="dieter"
 
-if [ -f ~/.bash_profile ]; then
+if [[ -e ~/.bash_profile ]]; then
     . ~/.bash_profile
 fi
 
-# For vi mode
-# https://github.com/hchbaw/opp.zsh
-if [ -f ~/opp.zsh ]; then
+# For vi mode https://github.com/hchbaw/opp.zsh
+if [[ -e ~/opp.zsh ]]; then
     bindkey -v
     source ~/opp.zsh
     source ~/opp/surround.zsh
