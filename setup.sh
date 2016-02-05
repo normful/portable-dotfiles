@@ -49,6 +49,7 @@ mkdir -p $HOME/.vim/.cache/swap
 mkdir -p $HOME/.vim/.cache/undo
 mkdir -p $HOME/.vim/.cache/backup
 mkdir -p $HOME/.vim/dict
+sudo chown $USER -R /home/.vim
 
 echo "Setting up node.dict"
 ln -s -f $THIS_DIR/.vim/dict/node.dict $HOME/.vim/dict/node.dict
