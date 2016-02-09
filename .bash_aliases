@@ -95,8 +95,9 @@ alias sgr='bundle exec shotgun -p 3000'
 alias thin='bundle exec thin start -p 3000 -R config.ru -V'
 
 alias ns='npm start'
-alias nis='npm install --save'
-alias nisd='npm install --save-dev'
-alias snig='sudo npm install -g'
+alias ni='npm install --silent'
+alias nis='npm install --silent --save'
+alias nisd='npm install --silent --save-dev'
+alias snig='sudo npm install --silent -g'
 
 alias ag='ag --ignore-case --literal'
