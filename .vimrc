@@ -173,6 +173,9 @@ NeoBundle 'Rykka/riv.vim'
 " Binary {{{2
 NeoBundle 'ressu/hexman.vim'
 
+" EBNF {{{2
+NeoBundle 'vim-scripts/ebnf.vim'
+
 " C/C++ {{{2
 NeoBundle 'vim-scripts/c.vim'
 NeoBundle 'CRefVim'
@@ -222,6 +225,9 @@ NeoBundle 'moll/vim-node'
 NeoBundle 'geekjuice/vim-spec'
 " NeoBundle 'ahayman/vim-nodejs-complete'
 
+" JSX {{{2
+NeoBundle 'mxw/vim-jsx'
+
 " CoffeeScript {{{2
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'noc7c9/vim-iced-coffee-script'
@@ -262,6 +268,9 @@ NeoBundle 'neovimhaskell/haskell-vim'
 " NeoBundle 'enomsg/vim-haskellConcealPlus'
 NeoBundle 'hspec/hspec'
 
+" SML {{{2
+NeoBundle 'chilicuil/vim-sml-coursera'
+
 " S-Expressions {{{2
 " NeoBundle 'guns/vim-sexp'
 " NeoBundle 'tpope/vim-sexp-mappings-for-regular-people'
@@ -276,6 +285,14 @@ NeoBundle 'jvirtanen/vim-octave'
 " Prolog {{{2
 NeoBundle 'nsue/prolog.vim'
 
+" Erlang {{{2
+NeoBundle 'vim-erlang/vim-erlang-compiler'
+NeoBundle 'vim-erlang/vim-erlang-omnicomplete'
+NeoBundle 'vim-erlang/vim-erlang-tags'
+NeoBundle 'vim-erlang/vim-erlang-runtime'
+NeoBundle 'vim-erlang/vim-dialyzer'
+NeoBundle 'edkolev/erlang-motions.vim'
+
 " Google Translate {{{2
 NeoBundle 'nsue/googletranslate-vim'
 
@@ -289,6 +306,9 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'vim-scripts/SyntaxRange'
 
 call neobundle#end()
+
+" Kapeli Dash {{{2
+NeoBundle 'rizzatti/dash.vim'
 
 " General Options {{{1
 
@@ -322,7 +342,6 @@ set timeoutlen=500 ttimeoutlen=50
 set laststatus=2                " last window always has status line
 set splitbelow                  " split windows below
 set splitright                  " vsplit windows to the right
-set diffopt=filler,vertical,iwhite
 
 set title
 set hidden
@@ -393,7 +412,7 @@ endif
 
 " Wildmenu
 set wildmenu
-set wildmode=list:longest
+set wildmode=list:longest,full
 set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
@@ -414,6 +433,22 @@ set statusline+=%=      "left/right separator
 set statusline+=\ C%c     "cursor column
 set statusline+=\ L%l/%L   "cursor line/total lines
 set statusline+=\ %P    "percent through file
+
+" Diff
+set diffopt=filler,vertical,iwhite
+
+" see diff-diffexpr in help pages
+set diffexpr=DiffW()
+function DiffW()
+    let opt = ""
+    if &diffopt =~ "icase"
+        let opt = opt . "-i "
+    endif
+    if &diffopt =~ "iwhite"
+        let opt = opt . "-w " "changed from -b
+    endif
+    silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .  " > " . v:fname_out
+endfunction
 
 " General Mappings {{{1
 
@@ -464,6 +499,7 @@ nnoremap <localleader>p :bro ol<CR>
 
 " Quick file editing
 nnoremap <leader>ea :100vsplit ~/.bash_aliases<CR>
+nnoremap <leader>eal :100vsplit ~/.bash_aliases_local<CR>
 nnoremap <leader>ev :100vsplit ~/.vimrc<CR>
 nnoremap <leader>eg :100vsplit ~/.gitconfig<CR>
 nnoremap <leader>ez :100vsplit ~/.zshrc<CR>
@@ -584,6 +620,11 @@ nnoremap <silent> <localleader>V :windo wincmd H<CR>
 " Allow saving of files as sudo after forgetting to start vim with sudo
 cmap w!! w !sudo tee > /dev/null %
 
+" Show active syntax highlight group undor cursor
+nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
 " Navigation
 cnoremap <c-j> <down>
 cnoremap <c-k> <up>
@@ -649,8 +690,10 @@ let g:rainbow_conf = {
 
 " Asynchronous Dispatching {{{2
 " NeoBundle 'tpope/vim-dispatch'
-nnoremap <silent> <leader>dcb  :Dispatch! cake build<CR>
-nnoremap <silent> <leader>dgj  :Dispatch! gulp js<CR>
+" nnoremap <silent> <leader>dcb  :Dispatch! cake build<CR>
+" nnoremap <silent> <leader>dgj  :Dispatch! gulp js<CR>
+nnoremap <silent> <leader>d    :Dispatch<CR>
+autocmd FileType javascript let b:dispatch = 'npm test'
 
 " File Explorers {{{2
 " NeoBundle 'Shougo/vimfiler'
@@ -906,7 +949,7 @@ nnoremap <silent> <leader>gb      :Merginal<CR>
 nnoremap <silent> <leader>gfa     :Gfetch --all<CR>
 
 " git push
-nnoremap <silent> <leader>gpush   :Gpush<CR>
+"nnoremap <silent> <leader>gpush   :Gpush<CR>
 nnoremap <silent> <leader>gmir    :Gpush --mirror n<CR>
 
 " git diff
@@ -920,6 +963,7 @@ nnoremap <silent> <leader>gu      :GitGutterRevertHunk<CR>
 nnoremap <silent> <leader>gr      :GitGutterRevertHunk<CR>
 nnoremap <silent> <leader>gn      :GitGutterNextHunk<CR>
 nnoremap <silent> <leader>gN      :GitGutterPrevHunk<CR>
+nnoremap <silent> <leader>gp      :GitGutterPrevHunk<CR>
 
 " git commit
 nnoremap <silent> <leader>gc      :Gcommit<CR>
@@ -995,6 +1039,9 @@ autocmd! BufRead,BufNewFile,BufEnter *Python*.md let g:pandoc#syntax#codeblocks#
 
 " Binary {{{2
 " NeoBundle 'ressu/hexman.vim'
+
+" EBNF {{{2
+" NeoBundle 'vim-scripts/ebnf.vim'
 
 " C/C++ {{{2
 " NeoBundle 'vim-scripts/c.vim'
@@ -1110,16 +1157,16 @@ autocmd BufNewFile,BufReadPost *.coffee compiler cake
 " autocmd BufWritePost *.coffee make build
 
 " <leader>c to CoffeeCompile into scratch buffer
-map <leader>c :CoffeeCompile<CR>
+autocmd FileType coffee map <leader>c :CoffeeCompile<CR>
 
 " <leader>r to CoffeeRun into scratch buffer
-map <leader>r :CoffeeRun<CR>
+autocmd FileType coffee map <leader>r :CoffeeRun<CR>
 
 " Visual select lines then <leader>c to CoffeeCompile selection into scratch buffer
-vnoremap <leader>c <esc>:'<,'>:CoffeeCompile<CR>
+autocmd FileType coffee vnoremap <leader>c <esc>:'<,'>:CoffeeCompile<CR>
 
 " :C[n] jumps to line [n] in the CoffeeCompile scratch buffer
-command! -nargs=1 C CoffeeCompile | :<args>
+autocmd FileType coffee command! -nargs=1 C CoffeeCompile | :<args>
 
 " Note: q closes CoffeeCompile scratch buffer
 
@@ -1187,6 +1234,9 @@ highlight link hspecDescribe Type
 highlight link hspecIt Identifier
 highlight link hspecDescription Comment
 
+" SML {{{2
+" NeoBundle 'chilicuil/vim-sml-coursera'
+
 " S-Expressions {{{2
 " NeoBundle 'guns/vim-sexp'
 let g:sexp_enable_insert_mode_mappings = 0
@@ -1251,7 +1301,19 @@ let s:sexp_mappings = {
 
 " Prolog {{{2
 " NeoBundle 'nsue/prolog.vim'
-let g:filetype_pl="prolog"
+" Override Perl filetype
+" let g:filetype_pl="prolog"
+
+" Erlang {{{2
+" NeoBundle 'vim-erlang/vim-erlang-compiler'
+" NeoBundle 'vim-erlang/vim-erlang-omnicomplete'
+" NeoBundle 'vim-erlang/vim-erlang-tags'
+" NeoBundle 'vim-erlang/vim-erlang-runtime'
+" NeoBundle 'vim-erlang/vim-dialyzer'
+" NeoBundle 'edkolev/erlang-motions.vim'
+
+" CUDA {{{2
+autocmd BufNewFile,BufRead *.cu set filetype=cu
 
 " Google Translate {{{2
 " NeoBundle 'nsue/googletranslate-vim'
@@ -1269,6 +1331,11 @@ let g:googletranslate_options = ["buffer", "register"]
 " Syntax Checking {q{{2
 " NeoBundle 'scrooloose/syntastic'
 let g:syntastic_check_on_open = 0
+let g:syntastic_always_populate_loc_list = 1
+nnoremap <silent> <leader>en      :lnext<CR>
+nnoremap <silent> <leader>eN      :lprevious<CR>
+nnoremap <silent> <leader>ep      :lprevious<CR>
+
 let g:syntastic_html_checkers = ['w3']
 let g:syntastic_html_validator_parser = "html5"
 let g:syntastic_html_tidy_exec = "/usr/sbin/tidy"
@@ -1277,6 +1344,30 @@ let g:syntastic_javascript_jshint_exec='/usr/sbin/jshint'
 
 " Syntax Highlighting in Range {{{2
 " NeoBundle 'vim-scripts/SyntaxRange'
+
+" Kapeli Dash {{{2
+" NeoBundle 'rizzatti/dash.vim'
+cnoreabbrev D Dash
+:nmap <silent> K <Plug>DashSearch
+let g:dash_map = {
+    \ 'javascript': [ 'javascript', 'bluebird', 'nodejs', 'express', 'mocha', 'sinon', 'chai', 'npm', 'couchdb', 'moment', 'react', 'flux', 'flow', 'jsdoc', 'http', 'sobackbone' ],
+    \ 'coffee':     [ 'javascript', 'bluebird', 'nodejs', 'express', 'mocha', 'sinon', 'chai', 'npm', 'couchdb', 'moment', 'react', 'flux', 'flow', 'jsdoc', 'http', 'coffee', 'socoffee', 'sogulp', 'jquery', 'underscore', 'lodash' ],
+    \ 'html':       [ 'html', 'htmle' ],
+    \ 'jade':       [ 'jade', 'html', 'css' ],
+    \ 'css':        [ 'css' ],
+    \ 'scss':       [ 'sass', 'css' ],
+    \ 'sass':       [ 'sass', 'css' ],
+    \ 'less':       [ 'css' ],
+    \ 'stylus':     [ 'css' ],
+    \ 'sh':         [ 'bash', 'manpages', 'perl', 'python', 'sozsh' ],
+    \ 'yaml':       [ 'ansible', 'soansible', 'jinja', 'yaml' ],
+    \ 'java':       [ 'java', 'java7', 'jee7', 'jee6', 'gradle', 'android', 'ant' ],
+    \ 'markdown':   [ 'pandoc', 'latex' ],
+    \ 'pandoc':     [ 'pandoc', 'latex' ],
+    \ 'matlab':     [ 'matlab' ],
+    \ 'octave':     [ 'octave', 'matlab' ],
+    \ 'asm':        [ 'x86' ],
+\ }
 
 " Micellaneous Functions and Autocommands {{{1
 
@@ -1430,9 +1521,10 @@ autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set shiftwidth=2
 autocmd FileType c,cpp,css,scss,ruby,javascript,html,eruby,slim set expandtab
 
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-autocmd FileType pandoc,markdown set tabstop=6
+autocmd FileType pandoc,markdown set tabstop=4
 autocmd FileType pandoc,markdown set softtabstop=4
 autocmd FileType pandoc,markdown set shiftwidth=4
+autocmd FileType pandoc,markdown set expandtab
 autocmd FileType pandoc,markdown set nospell
 
 autocmd FileType rst             set nospell
