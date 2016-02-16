@@ -5,6 +5,8 @@
     helper       = cache
 
 # all other sections sourced from ~/.gitconfig
+[alias]
+    s = status -s -b -uall
 
 [advice]
     detachedHead     = false
