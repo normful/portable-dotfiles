@@ -58,6 +58,7 @@ alias gpuom='git push -u origin master'
 alias svnl='svn log -v --diff | less'
 
 alias dusd='du -sh ./* | gsort -h'
+alias dusd2='du -s ./* |  sort -g'
 
 alias ssh1='eval $(ssh-agent)'
 alias ssh2='ssh-add'
