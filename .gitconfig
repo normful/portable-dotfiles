@@ -147,8 +147,8 @@
     in = !git init && git add . && git commit -m \"initial commit\"
 
     # log
-    l   = log --graph --abbrev-commit --decorate --all                      --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
-    ll  = log --graph --abbrev-commit --decorate --all --stat               --format=format:'%C(bold dim magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(dim yellow)<%aN>%C(reset)'
+    l   = log --graph --abbrev-commit --decorate --all                      --format=format:'%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    ll  = log --graph --abbrev-commit --decorate --all --stat               --format=format:'%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
     lll = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller
 
     # More usage cases:
