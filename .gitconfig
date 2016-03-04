@@ -228,6 +228,7 @@
     sh   = show --word-diff=color                        # show changes in a commit, with colored word diffs
     sha  = show --word-diff=color -a                     # show changes in a commit, with colored word diffs, treating all files as text
     shu  = show --word-diff=color -U1000                 # show changes in a commit, with colored word diffs, and surrounding context
+    shp  = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shp1 = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shp2 = !sh -c 'git diff --word-diff=color $0^2 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shmc = diff-tree --cc                                # show changes made in resolving a merge conflict (this command is only meaningful if given a merge conflict rev)
