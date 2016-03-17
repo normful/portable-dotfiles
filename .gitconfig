@@ -147,9 +147,18 @@
     in = !git init && git add . && git commit -m \"initial commit\"
 
     # log
-    l   = log --graph --abbrev-commit --decorate --all                      --format=format:'%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    ll  = log --graph --abbrev-commit --decorate --all --stat               --format=format:'%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    l   = log --graph --abbrev-commit --decorate --all                      --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    ll  = log --graph --abbrev-commit --decorate --all --stat               --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
     lll = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller
+
+    # Usage: g lsince "24 hours ago"
+    lsince   = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\"                      --format=\"%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)\" '
+
+    # Usage: g llsince "3 weeks ago"
+    llsince  = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\" --stat               --format=\"%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)\" '
+
+    # Usage: g lllsince "last week"
+    lllsince = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\" -p --word-diff=color --pretty=fuller '
 
     # More usage cases:
     # git lll FILENAME
@@ -202,6 +211,7 @@
 
     # reset
     unstage     = reset HEAD          # unstage files
+    unsatge     = reset HEAD          # unstage files (catch typo)
     usntage     = reset HEAD          # unstage files (catch typo)
     us          = reset HEAD          # unstage files
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
@@ -231,6 +241,7 @@
     shp  = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shp1 = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shp2 = !sh -c 'git diff --word-diff=color $0^2 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
+    shps = !sh -c 'git diff --word-diff=color --stat $0^1 $0'  # show changes between the 1st parent of a rev and the rev itself, with statistics
     shmc = diff-tree --cc                                # show changes made in resolving a merge conflict (this command is only meaningful if given a merge conflict rev)
 
     # rev-parse
