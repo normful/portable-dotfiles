@@ -2,6 +2,7 @@
 
 alias sa='cat ~/.bash_aliases'
 alias ea='vim ~/.bash_aliases'
+alias sal='cat ~/.bash_aliases_local'
 alias eal='vim ~/.bash_aliases_local'
 
 alias eg='vim ~/.gitconfig'
