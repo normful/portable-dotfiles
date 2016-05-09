@@ -311,3 +311,6 @@ docs/_build/
 
 # xindy
 *.xdy
+
+# LibreOffice Word Backup Files
+*.docx#
