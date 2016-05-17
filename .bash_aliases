@@ -75,10 +75,9 @@ alias yaourt='yaourt --noconfirm'
 # autojump
 alias k='j'
 
-alias t='tree -a -I ".git" -C'
-alias tre='tree -a -I ".git" -C'
-alias tree='tree -a -I ".git" -C'
-alias treejs='tree -I ".git" -P "*.js" --prune -C'
+alias t='tree    -ashFC -I ".git|node_modules"'
+alias tre='tree  -ashFC -I ".git|node_modules"'
+alias tree='tree -ashFC -I ".git|node_modules"'
 
 alias tmux='tmux -2'
 alias st='~/setup-tmux-windows.sh'
