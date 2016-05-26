@@ -103,7 +103,7 @@ NeoBundle 'tpope/vim-sleuth'
 
 " Snipmate and dependencies {{{2
 NeoBundle 'SirVer/ultisnips'
-" NeoBundle 'garbas/vim-snipmate'
+NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'MarcWeber/vim-addon-mw-utils'
 NeoBundle 'tomtom/tlib_vim'
 
