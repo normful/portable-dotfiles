@@ -152,21 +152,30 @@
     ll  = log --graph --abbrev-commit --decorate --all --stat               --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
     lll = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller
 
-    # Usage: g lsince "24 hours ago"
-    lsince   = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\"                      --format=\"%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)\" '
-    llsince  = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\" --stat               --format=\"%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)\" '
-    lllsince = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\" -p --word-diff=color --pretty=fuller '
+    # log and grep commit message
+    lg       = !sh -c 'git l   --grep=\"$0\"'
+    llg      = !sh -c 'git ll  --grep=\"$0\"'
+    lllg     = !sh -c 'git lll --grep=\"$0\"'
 
-    # More usage cases:
-    # git lll FILENAME
-    # git lll --grep="search commit messages"
-    axe = !sh -c 'git log -S"$0"'                                   # search through the log
+    # log and search string of code
+    ls       = !sh -c 'git l   -S\"$0\"'
+    lls      = !sh -c 'git ll  -S\"$0\"'
+    llls     = !sh -c 'git lll -S\"$0\"'
+
+    # log and showing commits since some date string authored by you
+    # Example usage: git lsince "24 hours ago"
+    lsince   = !sh -c 'git l   --since=\"$0\" --author=\"$(git config user.name)\"'
+    llsince  = !sh -c 'git ll  --since=\"$0\" --author=\"$(git config user.name)\"'
+    lllsince = !sh -c 'git lll --since=\"$0\" --author=\"$(git config user.name)\"'
+
+    # log and ancestry path
+    lap      = !sh -c 'git l   --ancestry-path \"$0\"'
+    llap     = !sh -c 'git ll  --ancestry-path \"$0\"'
+    lllap    = !sh -c 'git lll --ancestry-path \"$0\"'
+
     pending = !sh -c 'git --no-pager log "$0"/HEAD..HEAD && echo'   # show commits that haven't been pushed to the remote yet
     lconflicts = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
     lcon       = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
-    lap   = log --graph --abbrev-commit --decorate --all                      --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)' --ancestry-path
-    llap  = log --graph --abbrev-commit --decorate --all --stat               --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)' --ancestry-path
-    lllap = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller --ancestry-path
 
     # show branch
     sb = show-branch
@@ -177,7 +186,7 @@
     ma      = merge --abort
 
     # ls-files
-    ls    = ls-files . --exclude-standard
+    lsfiles = ls-files . --exclude-standard
     index = ls-files --stage          # show contents of .git/index for current directory
 
     # push
