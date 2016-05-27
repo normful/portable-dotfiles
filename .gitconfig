@@ -22,6 +22,7 @@
     a  = add                          # stage modified         created
     a2 = add ../../                   # stage modified         created in 2 levels above
     a3 = add ../../../                # stage modified         created in 3 levels above
+    a4 = add ../../../../             # stage modified         created in 4 levels above
     au = add --update :/              # stage modified deleted         in entire tree
     aa = add --all                    # stage modified deleted created
 
@@ -153,11 +154,7 @@
 
     # Usage: g lsince "24 hours ago"
     lsince   = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\"                      --format=\"%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)\" '
-
-    # Usage: g llsince "3 weeks ago"
     llsince  = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\" --stat               --format=\"%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)\" '
-
-    # Usage: g lllsince "last week"
     lllsince = !sh -c 'git log --graph --abbrev-commit --decorate --all --since=\"$0\" --author=\"$(git config user.name)\" -p --word-diff=color --pretty=fuller '
 
     # More usage cases:
@@ -167,6 +164,12 @@
     pending = !sh -c 'git --no-pager log "$0"/HEAD..HEAD && echo'   # show commits that haven't been pushed to the remote yet
     lconflicts = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
     lcon       = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
+    lap   = log --graph --abbrev-commit --decorate --all                      --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)' --ancestry-path
+    llap  = log --graph --abbrev-commit --decorate --all --stat               --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)' --ancestry-path
+    lllap = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller --ancestry-path
+
+    # show branch
+    sb = show-branch
 
     # merge
     mergeff = merge --ff-only
@@ -207,7 +210,8 @@
 
     # refs
     refs = show-ref                   # show refs
-    rl = reflog                       # show log of changes to refs
+    rl   = reflog show --date=relative --format='%C(bold magenta)%h %C(reset)%C(bold red)%gd %C(reset)%C(cyan)%gs %n        %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar) %n        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN> %n'
+    rlco = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | head -n 20'
 
     # reset
     unstage     = reset HEAD          # unstage files
@@ -222,6 +226,7 @@
     un          = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
     und         = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
     undo        = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
+    unro        = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged (catch typo)
     uncommit    = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
     undocommit  = reset --mixed HEAD^ # go back to commit before latest commit, with files from latest commit left unstaged
     undostaged  = reset --soft  HEAD^ # go back before last commit, with files staged
@@ -236,16 +241,19 @@
 
     # show
     sh   = show --word-diff=color                        # show changes in a commit, with colored word diffs
-    sha  = show --word-diff=color -a                     # show changes in a commit, with colored word diffs, treating all files as text
+    shs  = show --word-diff=color --stat                       # show changes in a commit, with colored word diffs, with stats
     shu  = show --word-diff=color -U1000                 # show changes in a commit, with colored word diffs, and surrounding context
+    sha  = show --word-diff=color -a                           # show changes in a commit, with colored word diffs, treating all files as text
     shp  = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shp1 = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shp2 = !sh -c 'git diff --word-diff=color $0^2 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
     shps = !sh -c 'git diff --word-diff=color --stat $0^1 $0'  # show changes between the 1st parent of a rev and the rev itself, with statistics
     shmc = diff-tree --cc                                # show changes made in resolving a merge conflict (this command is only meaningful if given a merge conflict rev)
 
+    # rev-list
+    rlist = rev-list --format=%B --max-count=1 # Usage: git rlist @ shows full hash of HEAD and commit message
+
     # rev-parse
-    rl = rev-list --format=%B --max-count=1 # Usage: git rl @ shows full hash of HEAD and commit message
     rp = rev-parse                          # Usage: git rp @ shows the full hash of HEAD
 
     # shortlog
