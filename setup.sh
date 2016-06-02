@@ -12,9 +12,11 @@ NOW=$(date +%s)
 TWO_MONTHS_AGO=$((NOW - 5270400))
 LAST_APT_UPDATE=$(stat -c %Y /var/cache/apt/)
 if (( $LAST_APT_UPDATE < $TWO_MONTHS_AGO )); then
+    echo "Running sudo apt-get update because it's been more than 2 months"
     sudo apt-get update
 fi
 
+# Install packages if they aren't already
 dpkg -s git      2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install git
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install vim
 dpkg -s curl     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install curl
