@@ -28,8 +28,29 @@ dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends 
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install ncdu
 dpkg -s htop     2>/dev/null >/dev/null || sudo apt-get --no-install-recommends --yes install silversearcher-ag
 
-echo "Setting up ~/bin/pdu -- mnemonic: portable-dotfiles update"
 mkdir -p $HOME/bin/
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    SIFT_VERSION=sift_0.8.0_linux_amd64
+    if [[ ! -e $HOME/$SIFT_VERSION ]]; then
+        echo "Setting up sift"
+        wget https://sift-tool.org/downloads/sift/$SIFT_VERSION.tar.gz -P $HOME
+        tar -xzf $HOME/$SIFT_VERSION.tar.gz
+        ln -s -f $HOME/$SIFT_VERSION/sift $HOME/bin/sift
+        rm -f $HOME/$SIFT_VERSION.tar.gz
+    fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    SIFT_VERSION=sift_0.8.0_darwin_amd64
+    if [[ ! -e $HOME/$SIFT_VERSION ]]; then
+        echo "Setting up sift"
+        wget https://sift-tool.org/downloads/sift/$SIFT_VERSION.zip -P $HOME
+        unzip $HOME/$SIFT_VERSION.zip
+        ln -s -f $HOME/$SIFT_VERSION/sift $HOME/bin/sift
+        rm -f $HOME/$SIFT_VERSION.zip
+    fi
+fi
+
+echo "Setting up ~/bin/pdu -- mnemonic: portable-dotfiles update"
 ln -s -f $THIS_DIR/bin/pdu $HOME/bin/pdu
 
 echo "Setting up .bash_profile"
