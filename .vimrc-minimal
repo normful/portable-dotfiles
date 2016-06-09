@@ -399,6 +399,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=darkgrey ctermbg=darkg
 " File Explorers {{{2
 " NeoBundle 'scrooloose/nerdtree'
 map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+autocmd FileType nerdtree nmap <buffer> o go
 map <leader>e :NERDTreeFind<CR>
 nmap <leader>nt :NERDTreeFind<CR>
 let NERDTreeShowBookmarks=1
