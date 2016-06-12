@@ -70,6 +70,9 @@ alias ssh2="ssh-add"
 
 alias oepn="open"
 
+alias utc="date -u"
+alias gmt="date -u"
+
 alias yaourt="yaourt --noconfirm"
 
 # autojump
