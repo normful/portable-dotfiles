@@ -112,3 +112,5 @@ alias wp="webpack --display-modules"
 
 alias ag="ag --ignore-case --literal"
 alias sift="sift -i -n --binary-skip --git"
+
+alias unban='sudo fail2ban-client set sshd unbanip $1'
