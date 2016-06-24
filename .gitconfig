@@ -162,11 +162,17 @@
     lls      = !sh -c 'git ll  -S\"$0\"'
     llls     = !sh -c 'git lll -S\"$0\"'
 
+    # log and showing commits since some date string
+    # Example usage: git lsince "24 hours ago"
+    lsince   = !sh -c 'git l   --since=\"$0\"'
+    llsince  = !sh -c 'git ll  --since=\"$0\"'
+    lllsince = !sh -c 'git lll --since=\"$0\"'
+
     # log and showing commits since some date string authored by you
     # Example usage: git lsince "24 hours ago"
-    lsince   = !sh -c 'git l   --since=\"$0\" --author=\"$(git config user.name)\"'
-    llsince  = !sh -c 'git ll  --since=\"$0\" --author=\"$(git config user.name)\"'
-    lllsince = !sh -c 'git lll --since=\"$0\" --author=\"$(git config user.name)\"'
+    lmesince   = !sh -c 'git l   --since=\"$0\" --author=\"$(git config user.name)\"'
+    llmesince  = !sh -c 'git ll  --since=\"$0\" --author=\"$(git config user.name)\"'
+    lllmesince = !sh -c 'git lll --since=\"$0\" --author=\"$(git config user.name)\"'
 
     # log and ancestry path
     lap      = !sh -c 'git l   --ancestry-path \"$0\"'
@@ -221,6 +227,7 @@
     refs = show-ref                   # show refs
     rl   = reflog show --date=relative --format='%C(bold magenta)%h %C(reset)%C(bold red)%gd %C(reset)%C(cyan)%gs %n        %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar) %n        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN> %n'
     rlco = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | head -n 20'
+    rlcoall = !sh -c 'git rl | grep \"checkout: moving from\" -A0'
 
     # reset
     unstage     = reset HEAD          # unstage files
@@ -433,7 +440,7 @@
 [rebase]
     autosquash = true
 [rerere]
-    enabled = true
+    enabled = false
     autoupdate = true
 [http]
     postBuffer = 1048576000
