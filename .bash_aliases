@@ -85,6 +85,8 @@ alias tree="tree -ashFC -I '.git|node_modules'"
 alias tmux="tmux -2"
 alias st="~/setup-tmux-windows.sh"
 
+alias rsync="rsync --progress"
+
 alias iptableslist="iptables -L -v -n"
 alias iptablesnatlist="iptables -t nat -L -v -n"
 
