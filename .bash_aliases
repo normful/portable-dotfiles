@@ -73,6 +73,8 @@ alias oepn="open"
 alias utc="date -u"
 alias gmt="date -u"
 
+alias killall='killall -v'
+
 alias yaourt="yaourt --noconfirm"
 
 # autojump
