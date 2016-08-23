@@ -5,7 +5,7 @@ alias ea="vim ~/.bash_aliases"
 alias sal="cat ~/.bash_aliases_local"
 alias eal="vim ~/.bash_aliases_local"
 
-alias e="emacsclient -nw"
+# alias e="emacsclient -nw"
 
 alias v="vim"
 alias vm="vim"
