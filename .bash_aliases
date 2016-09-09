@@ -114,7 +114,7 @@ alias nis="npm install --silent --save"
 alias nisd="npm install --silent --save-dev"
 alias snig="sudo npm install --silent -g"
 
-alias wp="webpack --display-modules"
+alias webpack="webpack --display-modules"
 
 alias ag="ag --ignore-case --literal"
 alias sift="sift -i -n --binary-skip --git"
