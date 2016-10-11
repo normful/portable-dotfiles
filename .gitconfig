@@ -149,7 +149,7 @@
 
     # log
     l   = log --graph --abbrev-commit --decorate --all                      --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    ll  = log --graph --abbrev-commit --decorate --all --stat               --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    ll  = log --graph --abbrev-commit --decorate --all --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
     lll = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller
 
     # log and grep commit message
@@ -173,6 +173,12 @@
     lmesince   = !sh -c 'git l   --since=\"$0\" --author=\"$(git config user.name)\"'
     llmesince  = !sh -c 'git ll  --since=\"$0\" --author=\"$(git config user.name)\"'
     lllmesince = !sh -c 'git lll --since=\"$0\" --author=\"$(git config user.name)\"'
+
+    # log and showing commits since some date string authored by someone
+    # Example usage: git lsomeonesince "24 hours ago" Bob
+    lsomeonesince   = !sh -c 'git l   --since=\"$0\" --author=\"$1\"'
+    llsomeonesince  = !sh -c 'git ll  --since=\"$0\" --author=\"$1\"'
+    lllsomeonesince = !sh -c 'git lll --since=\"$0\" --author=\"$1\"'
 
     # log and ancestry path
     lap      = !sh -c 'git l   --ancestry-path \"$0\"'
@@ -415,6 +421,7 @@
     autosetupmerge = true
 [diff]
     mnemonicprefix = true
+    renameLimit = 999999
 [diff "bin"]
     textconv = hexdump -v -C
 [diff "pdf"]
