@@ -1,5 +1,7 @@
 ZSH_THEME="dieter"
 
+plugins=(vi-mode)
+
 if [[ -e ~/.bash_profile ]]; then
     . ~/.bash_profile > /dev/null
  fi
@@ -10,14 +12,6 @@ fi
 
 if [[ -e ~/.bash_aliases_local ]]; then
     . ~/.bash_aliases_local > /dev/null
-fi
-
-# For vi mode https://github.com/hchbaw/opp.zsh
-if [[ -e ~/opp.zsh ]]; then
-    bindkey -v
-    source ~/opp.zsh > /dev/null
-    source ~/opp/surround.zsh > /dev/null
-    source ~/opp/textobj-between.zsh > /dev/null
 fi
 
 if which tmux > /dev/null 2>&1; then
