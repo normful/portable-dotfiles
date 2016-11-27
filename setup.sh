@@ -1,5 +1,4 @@
 # Note: This idempotent script is for a Debian-based distribution 
-#       and it assumes that the git package is already installed
 
 if [[ "$EUID" -eq 0 ]]; then 
     echo "Please run this script as a normal user, not the root user"
