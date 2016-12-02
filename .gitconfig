@@ -148,9 +148,9 @@
     in = !git init && git add . && git commit -m \"initial commit\"
 
     # log
-    l   = log --graph --abbrev-commit --decorate --all                      --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    ll  = log --graph --abbrev-commit --decorate --all --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    lll = log --graph --abbrev-commit --decorate --all -p --word-diff=color --pretty=fuller
+    l   = log --graph --abbrev-commit --decorate --all --date=rfc-local                                                                                       --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    ll  = log --graph --abbrev-commit --decorate --all --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    lll = log --graph --abbrev-commit --decorate --all --date=rfc-local -p --word-diff=color --pretty=fuller
 
     # log and grep commit message
     lg       = !sh -c 'git l   --grep=\"$0\"'
