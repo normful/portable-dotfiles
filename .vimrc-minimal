@@ -710,6 +710,8 @@ autocmd FileType pandoc,markdown set nospell
 autocmd FileType gitcommit setlocal spell textwidth=72
 autocmd FileType crontab setlocal nobackup nowritebackup
 
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+
 " Manual project specific overrides
 function! ProjectSpecificSettings()
   let l:path = expand('%:p')
