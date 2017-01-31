@@ -74,6 +74,21 @@ NeoBundle 'geekjuice/vim-spec'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'noc7c9/vim-iced-coffee-script'
 
+" Golang {{{2
+NeoBundle 'fatih/vim-go'
+
+" Ruby {{{2
+" NeoBundle 'vim-ruby/vim-ruby'
+" NeoBundle 'tpope/vim-rbenv'
+" NeoBundle 'tpope/vim-rake'
+" NeoBundle 'tpope/vim-rails'
+" NeoBundle 'tpope/vim-bundler'
+" NeoBundle 'ecomba/vim-ruby-refactoring' "docs: https://relishapp.com/despo/vim-ruby-refactoring/docs
+" NeoBundle 'ngmy/vim-rubocop'
+
+" Python {{{2
+NeoBundle 'klen/python-mode'
+
 " Syntax Checking {{{2
 NeoBundle 'scrooloose/syntastic'
 
@@ -453,54 +468,58 @@ let g:gitgutter_highlight_lines = 0
 let g:gitgutter_map_keys = 0
 
 " All Git mappings {{{3
-
-" git status
-nnoremap <silent> <leader>gs      :Git s<CR>
-
-" git log, show
-nnoremap <silent> <leader>gl      :Git l<CR>
-nnoremap <silent> <leader>gsh     :Git sh<CR>
-nnoremap <silent> <leader>gv      :Gitv --all<CR>
-nnoremap <silent> <leader>gV      :Gitv!<CR>
-
-" git branch, fetch
-nnoremap <silent> <leader>gb      :Merginal<CR>
-nnoremap <silent> <leader>gfa     :Gfetch --all<CR>
-
-" git push
-nnoremap <silent> <leader>gpush   :Gpush<CR>
-nnoremap <silent> <leader>gmir    :Gpush --mirror n<CR>
-
-" git diff
-" Note that Gdiff moves focus to the diff window; closing the diff window brings you back to the original window
-nnoremap <silent> <leader>gd      :Gdiff<CR> 
-nnoremap <silent> <leader>gdc     :Git dc<CR>
+"
+" Note that commands starting with :Git need two carriage returns (<CR>) so that
+" 'Press ENTER or type command to continue' is not displayed
 
 " git add
 nnoremap <silent> <leader>ga      :GitGutterStageHunk<CR>
 nnoremap <silent> <leader>gu      :GitGutterRevertHunk<CR>
-nnoremap <silent> <leader>gr      :GitGutterRevertHunk<CR>
 nnoremap <silent> <leader>gn      :GitGutterNextHunk<CR>
+nnoremap <silent> <leader>gp      :GitGutterPrevHunk<CR>
 nnoremap <silent> <leader>gN      :GitGutterPrevHunk<CR>
 
-" git commit
-nnoremap <silent> <leader>gc      :Gcommit<CR>
-nnoremap <silent> <leader>gw      :Git w <bar> :write<CR>
-nnoremap <silent> <leader>gmend   :Git mend<CR>
-nnoremap <silent> <leader>gmendm  :Git mendm<CR>
+" git diff
+nnoremap <silent> <leader>gdc     :Git dc<CR><CR>
+" nnoremap <silent> <leader>gd      :Gdiff<CR> 
+"                                   :Gdiff moves focus to the diff window; closing the diff window brings you back to the original window
 
-" git reset
-nnoremap <silent> <leader>grh     :Git rh<CR>
-nnoremap <silent> <leader>gcdf    :Git cdf<CR>
-nnoremap <silent> <leader>gun     :Git un<CR>
+" git commit
+nnoremap <silent> <leader>gw      :Git w <bar> :write<CR><CR>
+" nnoremap <silent> <leader>gc      :Gcommit<CR>
+" nnoremap <silent> <leader>gmend   :Git mend<CR>
+" nnoremap <silent> <leader>gmendm  :Git mendm<CR>
+
+" git show
+nnoremap <silent> <leader>gsh     :Git sh<CR><CR>
 
 " git blame
-nnoremap <silent> <leader>gbl     :Gblame<CR>
+" <C-w><C-p> moves back to initial window after running :Gblame
+nnoremap <silent> <leader>gbl     :Gblame<CR><C-w><C-p>
 
-" misc 
+" highlight line with diffs
 nnoremap <silent> <leader>gh      :GitGutterLineHighlightsToggle<CR>
 
+" git status
+nnoremap <silent> <leader>gs      :Git status<CR>
 
+" git log
+" nnoremap <silent> <leader>gl      :Git l<CR>
+" nnoremap <silent> <leader>gv      :Gitv --all<CR>
+" nnoremap <silent> <leader>gV      :Gitv!<CR>
+
+" git branch, fetch
+" nnoremap <silent> <leader>gb      :Merginal<CR>
+" nnoremap <silent> <leader>gfa     :Gfetch --all<CR>
+
+" git push
+"nnoremap <silent> <leader>gpush   :Gpush<CR>
+" nnoremap <silent> <leader>gmir    :Gpush --mirror n<CR>
+
+" git reset
+" nnoremap <silent> <leader>grh     :Git rh<CR>
+" nnoremap <silent> <leader>gcdf    :Git cdf<CR>
+" nnoremap <silent> <leader>gun     :Git un<CR>
 
 " HTML {{{2
 " NeoBundle 'mattn/emmet-vim'
@@ -578,6 +597,47 @@ command -nargs=1 C CoffeeCompile | :<args>
 let g:coffee_compile_vert = 1
 let g:coffee_watch_vert = 1
 let g:coffee_run_vert = 1
+
+" Golang {{{2
+" NeoBundle 'fatih/vim-go'
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:go_list_type = "quickfix"
+
+au FileType go nmap <leader>x <Plug>(go-run)
+au FileType go nmap <leader>i <Plug>(go-info)
+
+au FileType go nmap <leader>lb <Plug>(go-build)
+au FileType go nmap <leader>lt <Plug>(go-test)
+au FileType go nmap <leader>lc <Plug>(go-coverage)
+
+au FileType go nmap <leader>lds <Plug>(go-def-split)
+au FileType go nmap <leader>ldv <Plug>(go-def-vertical)
+au FileType go nmap <leader>ldt <Plug>(go-def-tab)
+
+au FileType go nmap <leader>lgd <Plug>(go-doc)
+au FileType go nmap <leader>lgv <Plug>(go-doc-vertical)
+
+au FileType go nmap <leader>lgb <Plug>(go-doc-browser)
+
+au FileType go nmap <leader>ls <Plug>(go-implements)
+
+au FileType go nmap <leader>le <Plug>(go-rename)
+
+" Ruby {{{2
+" NeoBundle 'vim-ruby/vim-ruby'
+" NeoBundle 'tpope/vim-rbenv'
+" NeoBundle 'tpope/vim-rake'
+" NeoBundle 'tpope/vim-rails'
+command! -bar -nargs=1 OpenURL :!google-chrome <args>
+" NeoBundle 'tpope/vim-bundler'
+" NeoBundle 'ecomba/vim-ruby-refactoring' "docs: https://relishapp.com/despo/vim-ruby-refactoring/docs
+" NeoBundle 'ngmy/vim-rubocop'
+nnoremap <silent> <leader>rc :RuboCop<CR>
+let g:vimrubocop_config = '$HOME/.rubocop.yml'
+
+" Python {{{2
+" NeoBundle 'klen/python-mode'
 
 " Micellaneous Functions and Autocommands {{{1
 
