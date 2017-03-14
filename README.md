@@ -51,7 +51,7 @@ bash ~/portable-dotfiles/setup.sh
 
 ### Remapping Caps Lock to Escape
 
-On Debian-based distros, running `xmodmap remaps_capslock` will result in the following key mappings:
+1. On Debian-based distros, running `xmodmap remaps_capslock` will result in the following key mappings:
 
 | Key       | Action    |
 |-----------|-----------|
@@ -59,7 +59,15 @@ On Debian-based distros, running `xmodmap remaps_capslock` will result in the fo
 | Esc       | Nothing   |
 | Pause     | Caps Lock |
 
-On OS X, you can use [Seil](https://pqrs.org/osx/karabiner/seil.html.en) to achieve something similar. Additionally, KeyRemap4MacBook, a.k.a. [Karabiner](https://pqrs.org/osx/karabiner/) is handy (see the included [config file](https://github.com/normful/portable-dotfiles/blob/master/Library/Application%20Support/KeyRemap4MacBook/private.xml)).
+2. On OS X up to El Capitan:
+
+- Use [Seil](https://pqrs.org/osx/karabiner/seil.html.en) to map Caps Lock to Escape.
+- Additionally, KeyRemap4MacBook, a.k.a. [Karabiner](https://pqrs.org/osx/karabiner/) is handy (see the included [config file](https://github.com/normful/portable-dotfiles/blob/master/Library/Application%20Support/KeyRemap4MacBook/private.xml)).
+
+3. On macOS Sierra:
+
+- Seil is no longer necessary for mapping Caps Lock to Escape. macOS does that natively.
+- Karabiner no longer works. You must use Karabiner Elements (actively being developed as a necessary rewrite to Karabiner) instead.
 
 ### Windows-style window resizing shortcuts on OS X
 
