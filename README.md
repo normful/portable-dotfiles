@@ -68,6 +68,8 @@ bash ~/portable-dotfiles/setup.sh
 
 - Seil is no longer necessary for mapping Caps Lock to Escape. macOS does that natively.
 - Karabiner no longer works. You must use Karabiner Elements (actively being developed as a necessary rewrite to Karabiner) instead.
+- As an additional fallback, you can use iTerm2's key remapping.
+    - And as a fallback to that: use iTerm2's "Send Hex Code" conjunction with [Key Codes](https://manytricks.com/keycodes/).
 
 ### Windows-style window resizing shortcuts on OS X
 
