@@ -19,15 +19,24 @@
     sa = !git la
 
     # add
-    a  = add                          # stage modified         created
-    a2 = add ../../                   # stage modified         created in 2 levels above
-    a3 = add ../../../                # stage modified         created in 3 levels above
-    a4 = add ../../../../             # stage modified         created in 4 levels above
-    au = add --update :/              # stage modified deleted         in entire tree
-    aa = add --all                    # stage modified deleted created
+    a   = add                                # stage modified created
+    a2  = add ../../                         # stage modified created                 in 2  levels above
+    a3  = add ../../../                      # stage modified created                 in 3  levels above
+    a4  = add ../../../../                   # stage modified created                 in 4  levels above
+    a5  = add ../../../../../                # stage modified created                 in 5  levels above
+    a6  = add ../../../../../../             # stage modified created                 in 6  levels above
+    a7  = add ../../../../../../../          # stage modified created                 in 7  levels above
+    a8  = add ../../../../../../../../       # stage modified created                 in 8  levels above
+    a9  = add ../../../../../../../../../    # stage modified created                 in 9  levels above
+    a10 = add ../../../../../../../../../../ # stage modified created                 in 10 levels above
 
-    ap = add -p                       # stage commits chunk by chunk
-    ae = add -e                       # stage commits by manually editing patch
+    au  = add --update :/                    # stage modified         deleted         in entire tree
+    aa  = add -A                             # stage modified created deleted 
+    aaf = add -Af                            # stage modified created deleted ignored
+
+    ap = add -p                              # stage commits chunk by chunk
+
+    ae = add -e                              # stage commits by manually editing patch
 
     ane = !git a -N $1 && git a -e $1 # add intent and manually edit patch (for untracked files)
 
@@ -414,7 +423,6 @@
     # svn info
     svni     = svn info
     svninfo  = svn info
-
 [apply]
     whitespace = nowarn
 [branch]
