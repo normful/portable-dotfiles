@@ -4,6 +4,7 @@ This is a minimal set of public dotfiles that I _actually use_ (and maintain). O
 
 - `git` [configuration file and aliases](https://github.com/normful/portable-dotfiles/blob/master/.gitconfig)
 - `bash` [aliases](https://github.com/normful/portable-dotfiles/blob/master/.bash_aliases)
+- [.vimrc](https://github.com/normful/portable-dotfiles/blob/master/.vimrc) if you're a vimmer
 
 ## Git Aliases
 
