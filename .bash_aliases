@@ -117,6 +117,8 @@ alias snig="sudo npm install --silent -g"
 alias webpack="webpack --display-modules"
 
 alias ag="ag --ignore-case --literal"
+alias agl='function __agl() { ag $1 -l -c . | sort -t ":" -k 2 -g; unset -f __agl; }; __agl'
+
 alias sift="sift -i -n --binary-skip --git"
 
 alias unban='sudo fail2ban-client set sshd unbanip $1'
