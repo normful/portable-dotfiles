@@ -103,6 +103,14 @@
     cb       = checkout -b    # create and switch to a new branch
     col      = checkout @{-1} # checkout last branch
 
+    cbnext   = "!f() { $HOME/bin/git-create-and-checkout-next-branch; }; f"
+    cbn      = "!f() { $HOME/bin/git-create-and-checkout-next-branch; }; f"
+
+    con      = "!f() { $HOME/bin/git-checkout-next-branch; }; f"
+
+    cop      = "!f() { $HOME/bin/git-checkout-previous-branch; }; f"
+    coprev   = "!f() { $HOME/bin/git-checkout-previous-branch; }; f"
+
     track    = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
     tr       = !git track
     cot      = !git track
@@ -140,6 +148,7 @@
     fu = !git add --all . && git commit --fixup=@    # add all updated and deleted; then commit with message "fixup! ... @'s message"
 
     # format-patch
+    fp1 = format-patch -1
     fps = format-patch --stdout                      # Usage: git fps [ <since> | <revision range> ] > fixes.patch
 
     # fetch

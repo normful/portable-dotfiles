@@ -1,0 +1,37 @@
+#!/bin/bash
+
+main() {
+    if ! git ls-files >& /dev/null; then
+        echo "Error: This script must be run within a git repository."
+        exit 1
+    fi
+
+    currentBranchName=`git rev-parse --abbrev-ref HEAD`
+
+    if [[ $currentBranchName == *"-"* ]]; then
+        checkoutPrevFromBranchNameWithDashes
+
+    elif  [[ $currentBranchName == *"_"* ]]; then
+        checkoutPrevFromBranchNameWithUnderscores
+
+    else
+        echo "Error: $currentBranchName (the current branch) must have either a dash or underscore for this script to work."
+
+    fi
+}
+
+function checkoutPrevFromBranchNameWithDashes {
+    branchBaseName=`echo $currentBranchName | awk -F '-' '{$NF=""; print $0}' | sed 's/ /-/g'`
+    currentBranchNumber=`echo $currentBranchName | awk -F '-' '{print $NF}'`
+    prevBranchNumber=$(($currentBranchNumber - 1))
+    git checkout $branchBaseName$prevBranchNumber
+}
+
+function checkoutPrevFromBranchNameWithUnderscores {
+    branchBaseName=`echo $currentBranchName | awk -F '_' '{$NF=""; print $0}' | sed 's/ /_/g'`
+    currentBranchNumber=`echo $currentBranchName | awk -F '_' '{print $NF}'`
+    prevBranchNumber=$(($currentBranchNumber - 1))
+    git checkout $branchBaseName$prevBranchNumber
+}
+
+main "$@"
