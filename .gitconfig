@@ -179,6 +179,11 @@
     ll  = log --graph --abbrev-commit --decorate --all --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
     lll = log --graph --abbrev-commit --decorate --all --date=rfc-local -p --word-diff=color --pretty=fuller
 
+    # log showing only first parents of merge commits (i.e. hide constituent commits of merged-in feature branches)
+    lfp     = log --graph --abbrev-commit --decorate --first-parent    --date=rfc-local                                                                                       --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    llfp    = log --graph --abbrev-commit --decorate --first-parent -m --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    lllfp   = log --graph --abbrev-commit --decorate --first-parent -m --date=rfc-local -p --word-diff=color --pretty=fuller                                                  --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+
     # log of a single file, but follow through renames to old filenames
     l1      = !sh -c 'git l   --follow \"$0\"'
     ll1     = !sh -c 'git ll  --follow \"$0\"'
