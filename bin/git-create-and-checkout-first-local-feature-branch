@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Usage Examples
+# ==============
+#
+#    git-create-and-checkout-first-local-feature-branch 12345 bugfix
+#        will create and checkout a branch named user/local/YYYY-MM-DD/12345/bugfix-1
+#   
+#    git-create-and-checkout-first-local-feature-branch new-blog-post
+#        will create and checkout a branch named user/local/YYYY-MM-DD/bugfix-1
+#
+# Usage with a git alias
+# ======================
+#
+#    Paste the following into your ~/.gitconfig
+#
+#    [alias]
+#       cb1 = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
+#
+#    Then you can run the previous commands as:
+#
+#       git cb1 12345 bugfix
+#       git cb1 bugfix
+
+PREFIX=$USER/local
+DATE=$(date +"%Y-%m-%d")
+
+if [[ $1 =~ ^[0-9]+$ ]]; then
+    ID=$1
+    DESCRIPTION=$2
+    git checkout -b "$PREFIX/$DATE/$ID/$DESCRIPTION-1"
+else
+    DESCRIPTION=$1
+    git checkout -b "$PREFIX/$DATE/$DESCRIPTION-1"
+fi

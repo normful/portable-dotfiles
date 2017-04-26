@@ -103,6 +103,12 @@
     cb       = checkout -b    # create and switch to a new branch
     col      = checkout @{-1} # checkout last branch
 
+    cb1      = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
+    cbfirst  = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
+    cblf     = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
+    cblocal  = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
+    cblocal  = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
+
     cbnext   = "!f() { $HOME/bin/git-create-and-checkout-next-branch; }; f"
     cbn      = "!f() { $HOME/bin/git-create-and-checkout-next-branch; }; f"
 
