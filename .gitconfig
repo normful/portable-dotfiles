@@ -466,6 +466,8 @@
     whitespace = nowarn
 [branch]
     autosetupmerge = true
+[blame]
+    date = short
 [diff]
     mnemonicprefix = true
     renameLimit = 999999
