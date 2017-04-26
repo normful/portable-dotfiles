@@ -146,8 +146,9 @@
     last  = diff --word-diff=color HEAD^             # changes between second-last commit and (both staged and unstaged changes)
     lastu = diff --word-diff=color HEAD^ -U1000      # changes between second-last commit and (both staged and unstaged changes), with context
 
-    dup     = diff          --word-diff=color @{upstream}
-    dups    = diff          --word-diff=color @{upstream} --stat
+    dup     = diff          --word-diff=color @...@{upstream}
+    dups    = diff          --word-diff=color @...@{upstream} --stat
+
     dbase   = diff --base   --word-diff=color
     dours   = diff --ours   --word-diff=color
     dtheirs = diff --theirs --word-diff=color
