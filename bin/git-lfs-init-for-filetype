@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Usage Example
+# =============
+#
+#    git-lfs-init-for-filetype pdf
+#        will add all pdf files and mark them for tracking as LFS files
+
+main() {
+    if ! git ls-files >& /dev/null; then
+        echo "Error: This script must be run within a git repository."
+        exit 1
+    fi
+
+    command -v git-lfs >/dev/null 2>&1 || { echo "git-lfs must be installed first." >&2; exit 1; }
+
+    git lfs install
+    git lfs track "*.$1"
+    git add .gitattributes
+    git commit -m "[git] .gitattributes git-lfs tracking for .$1 files"
+
+    find . -name "*.$1" -print0 | xargs -0 git add 
+    git commit -m "[$1] track all .$1 files"
+}
+
+main "$@"

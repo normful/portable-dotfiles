@@ -177,6 +177,10 @@
     # initial commit
     in = !git init && git add . && git commit -m \"initial commit\"
 
+    # Script for adding all files of a filetype and marking them as large binary files for tracking with git-lfs
+    lfsinitforfiletype = "!f() { $HOME/bin/git-lfs-init-for-filetype $@; }; f"
+    lfsinitpdf         = "!f() { $HOME/bin/git-lfs-init-for-filetype pdf; }; f"
+
     # log
     l   = log --graph --abbrev-commit --decorate --all --date=rfc-local                                                                                       --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
     ll  = log --graph --abbrev-commit --decorate --all --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
@@ -503,3 +507,8 @@
     autoupdate = true
 [http]
     postBuffer = 1048576000
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
