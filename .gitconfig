@@ -113,6 +113,7 @@
     cbn      = "!f() { $HOME/bin/git-create-and-checkout-next-branch; }; f"
 
     con      = "!f() { $HOME/bin/git-checkout-next-branch; }; f"
+    conext   = "!f() { $HOME/bin/git-checkout-next-branch; }; f"
 
     cop      = "!f() { $HOME/bin/git-checkout-previous-branch; }; f"
     coprev   = "!f() { $HOME/bin/git-checkout-previous-branch; }; f"
@@ -228,11 +229,11 @@
     llmesince  = !sh -c 'git ll  --since=\"$0\" --author=\"$(git config user.name)\"'
     lllmesince = !sh -c 'git lll --since=\"$0\" --author=\"$(git config user.name)\"'
 
-    # log and showing commits since some date string authored by someone
-    # Example usage: git lsomeonesince "24 hours ago" Bob
-    lsomeonesince   = !sh -c 'git l   --since=\"$0\" --author=\"$1\"'
-    llsomeonesince  = !sh -c 'git ll  --since=\"$0\" --author=\"$1\"'
-    lllsomeonesince = !sh -c 'git lll --since=\"$0\" --author=\"$1\"'
+    # log and showing commits from some person x since some date string ago
+    # Example usage: git lxsince John "24 hours ago"
+    lxsince   = !sh -c 'git l   --author=\"$0\" --since=\"$1\"'
+    llxsince  = !sh -c 'git ll  --author=\"$0\" --since=\"$1\"'
+    lllxsince = !sh -c 'git lll --author=\"$0\" --since=\"$1\"'
 
     # log and ancestry path
     lap      = !sh -c 'git l   --ancestry-path \"$0\"'
@@ -283,6 +284,8 @@
     r = remote -v                     # show remotes (verbose)
     origininfo = remote show origin   # show info about origin
     remoet = remote                   # catch typo
+    rpodry = remote prune --dry-run origin  # delete stale remote-tracking branches already removed at origin, dry-run
+    rpo    = remote prune           origin  # delete stale remote-tracking branches already removed at origin
 
     # refs
     refs = show-ref                   # show refs
