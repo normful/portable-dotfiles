@@ -1,0 +1,23 @@
+#!/bin/bash
+
+main() {
+    if ! git ls-files >& /dev/null; then
+        echo "Error: This script must be run within a git repository."
+        exit 1
+    fi
+
+    currentBranchName=`git rev-parse --abbrev-ref HEAD`
+
+    if [[ "$currentBranchName" =~ ^.*[-_][0-9]+$ ]]; then
+        publicBranchName=${currentBranchName/local\//}
+
+        shopt -s extglob
+        finalPublicBranchName=${publicBranchName/%[-_]+([[:digit:]])/}
+
+        git checkout -b $finalPublicBranchName
+    else
+        echo "Error: $currentBranchName (the current branch) must end in either a dash or underscore, followed by some digits."
+    fi
+}
+
+main "$@"

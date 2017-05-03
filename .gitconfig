@@ -117,6 +117,9 @@
     cop      = "!f() { $HOME/bin/git-checkout-previous-branch; }; f"
     coprev   = "!f() { $HOME/bin/git-checkout-previous-branch; }; f"
 
+    cbpublic = "!f() { $HOME/bin/git-create-and-checkout-public-branch-from-local-branch $@; }; f"
+    cbpub    = "!f() { $HOME/bin/git-create-and-checkout-public-branch-from-local-branch $@; }; f"
+
     track    = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
     tr       = !git track
     cot      = !git track
