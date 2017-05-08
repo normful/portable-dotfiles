@@ -191,6 +191,8 @@ NeoBundle 'vim-scripts/a.vim'
 " Golang {{{2
 NeoBundle 'fatih/vim-go'
 " NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
+NeoBundle 'rjohnsondev/vim-compiler-go'
+NeoBundle 'dgryski/vim-godef'
 
 " Tags {{{2
 NeoBundle 'xolox/vim-easytags'
@@ -234,6 +236,9 @@ NeoBundle 'moll/vim-node'
 NeoBundle 'geekjuice/vim-spec'
 " NeoBundle 'ahayman/vim-nodejs-complete'
 " NeoBundle 'othree/javascript-libraries-syntax.vim'
+
+" Vue.js {{{2
+NeoBundle 'posva/vim-vue'
 
 " JSX {{{2
 NeoBundle 'mxw/vim-jsx'
@@ -1125,7 +1130,9 @@ autocmd FileType markdown,pandoc map <leader>rd :s/^\-\+$//<CR>
 " NeoBundle 'fatih/vim-go'
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-let g:go_list_type = "quickfix"
+
+let g:go_fmt_autosave = 1
+let g:go_list_type = "locationlist"
 
 au FileType go nmap <leader>x <Plug>(go-run)
 au FileType go nmap <leader>i <Plug>(go-info)
@@ -1150,6 +1157,9 @@ au FileType go nmap <leader>ls <Plug>(go-implements)
 au FileType go nmap <leader>le <Plug>(go-rename)
 
 " NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
+" NeoBundle 'rjohnsondev/vim-compiler-go'
+" NeoBundle 'dgryski/vim-godef'
+let g:godef_same_file_in_same_window = 1
 
 " Tags {{{2
 " NeoBundle 'xolox/vim-easytags'
@@ -1259,6 +1269,12 @@ function! RunWithNode()
 endfunction
 command! -nargs=0 RunWithNode call RunWithNode()
 nnoremap <silent> <leader>node :RunWithNode<CR>
+
+" Vue.js {{{2
+" NeoBundle 'posva/vim-vue'
+
+" JSX {{{2
+" NeoBundle 'mxw/vim-jsx'
 
 " CoffeeScript {{{2
 autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
