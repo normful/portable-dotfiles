@@ -19,7 +19,7 @@ main() {
     git add .gitattributes
     git commit -m "[git] .gitattributes git-lfs tracking for .$1 files"
 
-    find . -name "*.$1" -print0 | xargs -0 git add 
+    find . -name "*.$1" -print0 | xargs -0 git add --force
     git commit -m "[$1] track all .$1 files"
 }
 
