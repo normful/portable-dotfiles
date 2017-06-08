@@ -1,0 +1,1 @@
+# Global ignores that `ag` and `rg` use when invoked from vim should go in this file. (Same format as .gitignore)
