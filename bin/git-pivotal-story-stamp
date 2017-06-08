@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# TODO: Fix bug where the stamp is added on a new line of the commit message
+
+main() {
+    if ! git ls-files >& /dev/null; then
+        echo "Error: This script must be run within a git repository." >&2
+        exit 1
+    fi
+
+    int_regexp='^[0-9]+$'
+    if [[ $2 =~ $int_regexp ]]; then
+        renameLastNCommits "$@"
+    else
+        renameCommitsFromBase "$@"
+    fi
+}
+
+function renameLastNCommits {
+    echo "Appending [#$1] to the messages in the commits HEAD~$2...HEAD"
+    git filter-branch -f --msg-filter "cat && echo [#$1]" HEAD~"$2"...HEAD
+}
+
+function renameCommitsFromBase {
+    echo "Appending [#$1] to the messages in the commits $2...HEAD"
+    git filter-branch -f --msg-filter "cat && echo [#$1]" "$2"...HEAD
+}
+
+main "$@"

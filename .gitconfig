@@ -81,6 +81,7 @@
     mc        = commit -m                # commit with message (catch typo)
     amend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message
     amen      = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message (catch typo)
+    maend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message (catch typo)
     amendm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message
     anmend    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
     amnedm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message (catch typo)
@@ -121,12 +122,18 @@
     cbpublic = "!f() { $HOME/bin/git-create-and-checkout-public-branch-from-local-branch $@; }; f"
     cbpub    = "!f() { $HOME/bin/git-create-and-checkout-public-branch-from-local-branch $@; }; f"
 
+    copublic = "!f() { $HOME/bin/git-checkout-public-branch-from-local-branch $@; }; f"
+    copub    = "!f() { $HOME/bin/git-checkout-public-branch-from-local-branch $@; }; f"
+
     track    = !sh -c 'git checkout -t ${2:-origin}/${1}' -  # Usage: git track feature --> checks out a branch called feature that tracks origin/feature
     tr       = !git track
     cot      = !git track
 
     coours   = "!f() { git checkout --ours   $@ && git add $@; }; f"
     cotheirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+
+    # Checkout branch by picking from fuzzy search results interactively. Requires `pick`. From https://github.com/rafaelrinaldi/til/blob/master/git/list-branches-by-date.md
+    copick = "!sh -c \"git checkout $(git for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:iso)%09%(refname:short)' refs/heads | pick | cut -f2)\""
 
     # cherry-pick
     cp  = cherry-pick -x -s      # cherry pick
@@ -152,6 +159,7 @@
 
     dup     = diff          --word-diff=color @...@{upstream}
     dups    = diff          --word-diff=color @...@{upstream} --stat
+    dor     = "!f() { $HOME/bin/git-diff-origin-branch-with-same-name; }; f"
 
     dbase   = diff --base   --word-diff=color
     dours   = diff --ours   --word-diff=color
@@ -196,6 +204,11 @@
     l1      = !sh -c 'git l   --follow \"$0\"'
     ll1     = !sh -c 'git ll  --follow \"$0\"'
     lll1    = !sh -c 'git lll --follow \"$0\"'
+
+    # log of a single file, but show all other files involved in each commit
+    lfd     = !sh -c 'git l   --full-diff \"$0\"'
+    llfd    = !sh -c 'git ll  --full-diff \"$0\"'
+    lllfd   = !sh -c 'git lll --full-diff \"$0\"'
 
     # log and grep commit message
     lg       = !sh -c 'git l   --grep=\"$0\"'
@@ -244,6 +257,15 @@
     lconflicts = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
     lcon       = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
 
+    # log commands for using only colors supported by `:AnsiEsc`, to be `!read` into vim, using color codes that best match `fugitive-:Gblame`
+    lforvim    = log --graph --abbrev-commit --decorate --all             --date=short                                                                                           --format='%C(yellow)%h %C(reset)%C(cyan)%aN %C(reset)%C(green)%ad %C(reset)%C(green)(%ar)%C(reset)%C(red)%d %n''           %C(reset)%C(white)%s %C(reset)'
+    llforvim   = log --graph --abbrev-commit --decorate --all             --date=short     --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(yellow)%h %C(reset)%C(cyan)%aN %C(reset)%C(green)%ad %C(reset)%C(green)(%ar)%C(reset)%C(red)%d %n''           %C(reset)%C(white)%s %C(reset)'
+    lllforvim  = log --graph --abbrev-commit --decorate --all             --date=short     -p --word-diff=color --pretty=fuller
+
+    lfdforvim   = !sh -c 'git lforvim   --full-diff'
+    llfdforvim  = !sh -c 'git llforvim  --full-diff'
+    lllfdforvim = !sh -c 'git lllforvim --full-diff'
+
     # show branch
     sb = show-branch
 
@@ -290,7 +312,7 @@
     # refs
     refs = show-ref                   # show refs
     rl   = reflog show --date=relative --format='%C(bold magenta)%h %C(reset)%C(bold red)%gd %C(reset)%C(cyan)%gs %n        %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar) %n        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN> %n'
-    rlco = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | head -n 20'
+    rlco = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | head -n 30'
     rlcoall = !sh -c 'git rl | grep \"checkout: moving from\" -A0'
 
     # reset
@@ -364,6 +386,28 @@
     # status
     s = status
     #s = status -s -b -uall
+
+    # Command for bulk renaming the commit messages of related to the same Pivotal Story ID.
+    #
+    # Example:
+    #
+    #    A---B---C <---master
+    #             \
+    #              D---E---F <---HEAD
+    #
+    # To append [#100000] to the end of commits D, E, and F in this scenario:
+    #
+    #    git stamp 100000 master
+    #
+    # Alternatively, you can specify the number of previous commits to stamp:
+    #
+    #    git stamp 100000 3
+    #
+    # -----
+    #
+    # TODO: Fix bug in this script that causes the appended [#100000] to be on the second line of the commit message
+    #
+    stamp = "!f() { $HOME/bin/git-pivotal-story-stamp $@; }; f"
 
     # tag
     t = tag 
@@ -515,3 +559,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[gc]
+    reflogExpire = never
