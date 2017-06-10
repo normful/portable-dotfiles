@@ -73,6 +73,7 @@ bash ~/portable-dotfiles/setup.sh
 
 ## Extras
 
+
 ### Remapping Caps Lock to Escape
 
 1. On Debian-based distros, running `xmodmap remaps_capslock` will result in the following key mappings:
@@ -95,8 +96,7 @@ bash ~/portable-dotfiles/setup.sh
     - Note to self: Use settings in these screenshots for now:
         - [Simple Modifications](https://github.com/normful/portable-dotfiles/blob/master/karabiner-elements/Karabiner-Elements-Settings-Simple-Modifications.png)
         - [Function Keys](https://github.com/normful/portable-dotfiles/blob/master/karabiner-elements/Karabiner-Elements-Settings-Function-Keys.png) 
-- As an additional fallback, you can use iTerm2's key remapping.
-    - And as a fallback to that: use iTerm2's "Send Hex Code" conjunction with [Key Codes](https://manytricks.com/keycodes/).
+- As an additional fallback, you can use iTerm2's key remapping and its "Send Hex Code" feature conjunction with [Key Codes](https://manytricks.com/keycodes/) to figure out what key codes to send. [These are the settings](https://github.com/normful/portable-dotfiles/blob/master/iTerm/iTerm-Keys-Settings.png) that I use. 
 
 ### Windows-style window resizing shortcuts on OS X
 
