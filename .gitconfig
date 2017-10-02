@@ -60,6 +60,8 @@
     bm  = branch -vv --list --merged @ 
     bnm = branch -vv --list --no-merged @ 
 
+    rels = "!f() { git branch -r | grep 'origin/release_' | sort -u; }; f"
+
     # bundle
     bunc = bundle create                 # Usage: git bunc repo.bundle master
 
@@ -80,6 +82,7 @@
     cm        = commit -m                # commit with message
     mc        = commit -m                # commit with message (catch typo)
     amend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message
+    aamend    = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message (catch typo)
     amen      = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message (catch typo)
     maend     = commit --amend --no-edit # tack on additional changes from staged files to the last commit, without editing the commit message (catch typo)
     amendm    = commit --amend           # tack on additional changes from staged files to the last commit, editing the commit message
@@ -105,6 +108,9 @@
     col      = checkout @{-1} # checkout last branch
 
     cb1      = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
+    cb1r     = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch review/$(git rev-parse --abbrev-ref HEAD); }; f"
+    cbr1     = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch review/$(git rev-parse --abbrev-ref HEAD); }; f"
+
     cbfirst  = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
     cblf     = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
     cblocal  = "!f() { $HOME/bin/git-create-and-checkout-first-local-feature-branch $@; }; f"
@@ -142,23 +148,25 @@
     cpc = cherry-pick --continue # continue cherry pick when in a conflict
 
     # diff
-    d     = diff --word-diff=color                   # unstaged changes
-    du    = diff --word-diff=color -U1000            # unstaged changes, with context
-    ds    = diff --word-diff=color --stat            # unstaged changes, stats
-    da    = diff --word-diff=color -a                # unstaged changes, treating all files as text
+    d     = diff --word-diff=color                         # unstaged changes
+    du    = diff --word-diff=color -U1000 --stat           # unstaged changes, with context
+    ds    = diff --word-diff=color --stat                  # unstaged changes, stats
+    da    = diff --word-diff=color -a                      # unstaged changes, treating all files as text
 
-    dc    = diff --word-diff=color --cached          # staged changes
-    dcu   = diff --word-diff=color --cached -U1000   # staged changes, with context
-    dcs   = diff --word-diff=color --cached --stat   # staged changes, stats
+    dc    = diff --word-diff=color --cached                # staged changes
+    dcu   = diff --word-diff=color --cached -U1000 --stat  # staged changes, with context
+    dcs   = diff --word-diff=color --cached --stat         # staged changes, stats
 
-    dh    = diff --word-diff=color HEAD              # changes between last commit and (both staged and unstaged changes)
-    dhu   = diff --word-diff=color HEAD  -U1000      # changes between last commit and (both staged and unstaged changes), with context
+    dh    = diff --word-diff=color HEAD                    # changes between last commit and (both staged and unstaged changes)
+    dhu   = diff --word-diff=color HEAD  -U1000 --stat     # changes between last commit and (both staged and unstaged changes), with context
 
-    last  = diff --word-diff=color HEAD^             # changes between second-last commit and (both staged and unstaged changes)
-    lastu = diff --word-diff=color HEAD^ -U1000      # changes between second-last commit and (both staged and unstaged changes), with context
+    last  = diff --word-diff=color HEAD^                   # changes between second-last commit and (both staged and unstaged changes)
+    lastu = diff --word-diff=color HEAD^ -U1000 --stat     # changes between second-last commit and (both staged and unstaged changes), with context
 
     dup     = diff          --word-diff=color @...@{upstream}
     dups    = diff          --word-diff=color @...@{upstream} --stat
+    dupu    = diff          --word-diff=color @...@{upstream} --stat -U1000
+
     dor     = "!f() { $HOME/bin/git-diff-origin-branch-with-same-name; }; f"
 
     dbase   = diff --base   --word-diff=color
@@ -191,14 +199,14 @@
     lfsinitpdf         = "!f() { $HOME/bin/git-lfs-init-for-filetype pdf; }; f"
 
     # log
-    l   = log --graph --abbrev-commit --decorate --all --date=rfc-local                                                                                       --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    ll  = log --graph --abbrev-commit --decorate --all --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    lll = log --graph --abbrev-commit --decorate --all --date=rfc-local -p --word-diff=color --pretty=fuller
+    l       = log --graph --abbrev-commit --decorate --all             --use-mailmap --date=rfc-local                                                                                       --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''           %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    ll      = log --graph --abbrev-commit --decorate --all             --use-mailmap --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''           %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    lll     = log --graph --abbrev-commit --decorate --all             --use-mailmap --date=rfc-local -p --word-diff=color --pretty=fuller
 
     # log showing only first parents of merge commits (i.e. hide constituent commits of merged-in feature branches)
-    lfp     = log --graph --abbrev-commit --decorate --first-parent    --date=rfc-local                                                                                       --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    llfp    = log --graph --abbrev-commit --decorate --first-parent -m --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
-    lllfp   = log --graph --abbrev-commit --decorate --first-parent -m --date=rfc-local -p --word-diff=color --pretty=fuller                                                  --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    lfp     = log --graph --abbrev-commit --decorate --first-parent    --use-mailmap --date=rfc-local                                                                                       --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''           %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    llfp    = log --graph --abbrev-commit --decorate --first-parent -m --use-mailmap --date=rfc-local --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''           %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
+    lllfp   = log --graph --abbrev-commit --decorate --first-parent -m --use-mailmap --date=rfc-local -p --word-diff=color --pretty=fuller                                                  --format='%C(bold magenta)%h %C(reset)%C(bold blue)%ad %C(reset)%C(green)(%ar)%C(reset)%C(bold red)%d %n''           %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN>%C(reset)'
 
     # log of a single file, but follow through renames to old filenames
     l1      = !sh -c 'git l   --follow \"$0\"'
@@ -248,6 +256,12 @@
     llxsince  = !sh -c 'git ll  --author=\"$0\" --since=\"$1\"'
     lllxsince = !sh -c 'git lll --author=\"$0\" --since=\"$1\"'
 
+    # log and showing first parents of merge commits from some person x since some date string ago
+    # Example usage: git lfpxsince John "24 hours ago"
+    lfpxsince   = !sh -c 'git lfp   --author=\"$0\" --since=\"$1\"'
+    llfpxsince  = !sh -c 'git llfp  --author=\"$0\" --since=\"$1\"'
+    lllfpxsince = !sh -c 'git lllfp --author=\"$0\" --since=\"$1\"'
+
     # log and ancestry path
     lap      = !sh -c 'git l   --ancestry-path \"$0\"'
     llap     = !sh -c 'git ll  --ancestry-path \"$0\"'
@@ -258,24 +272,31 @@
     lcon       = log --min-parents=2 -p --cc                        # show merge commits, and only those with conflicts will displayed with diffs
 
     # log commands for using only colors supported by `:AnsiEsc`, to be `!read` into vim, using color codes that best match `fugitive-:Gblame`
-    lforvim    = log --graph --abbrev-commit --decorate --all             --date=short                                                                                           --format='%C(yellow)%h %C(reset)%C(cyan)%aN %C(reset)%C(green)%ad %C(reset)%C(green)(%ar)%C(reset)%C(red)%d %n''           %C(reset)%C(white)%s %C(reset)'
-    llforvim   = log --graph --abbrev-commit --decorate --all             --date=short     --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(yellow)%h %C(reset)%C(cyan)%aN %C(reset)%C(green)%ad %C(reset)%C(green)(%ar)%C(reset)%C(red)%d %n''           %C(reset)%C(white)%s %C(reset)'
-    lllforvim  = log --graph --abbrev-commit --decorate --all             --date=short     -p --word-diff=color --pretty=fuller
+    lforvim    = log --graph --abbrev-commit --decorate --all             --use-mailmap --date=short                                                                                           --format='%C(yellow)%h %C(reset)%C(cyan)%aN %C(reset)%C(green)%ad %C(reset)%C(green)(%ar)%C(reset)%C(red)%d %n''           %C(reset)%C(white)%s %C(reset)'
+    llforvim   = log --graph --abbrev-commit --decorate --all             --use-mailmap --date=short     --stat --stat-width=240 --stat-name-width=200 --stat-graph-width=40 --stat-count=1000 --format='%C(yellow)%h %C(reset)%C(cyan)%aN %C(reset)%C(green)%ad %C(reset)%C(green)(%ar)%C(reset)%C(red)%d %n''           %C(reset)%C(white)%s %C(reset)'
+    lllforvim  = log --graph --abbrev-commit --decorate --all             --use-mailmap --date=short     -p --word-diff=color --pretty=fuller
 
     lfdforvim   = !sh -c 'git lforvim   --full-diff'
     llfdforvim  = !sh -c 'git llforvim  --full-diff'
     lllfdforvim = !sh -c 'git lllforvim --full-diff'
 
-    # show branch
-    sb = show-branch
+    # log for release branch
+    lrel = log --merges --format='%aN %aE: %f' origin/release..HEAD
+
+    # set base (assuming a `base` branch already exists, this sets the `base` branch to some commitish without checking out `base`)
+    sb = !sh -c 'git branch -f base \"$0\"'
 
     # merge
     mergeff = merge --ff-only
-    mergesq = merge --squash --no-commit # A "Squashed commit of the following" message is only auto-generated if there are no conflicts (which can be ensured by merging master into feature first)
+    ergeff  = merge --ff-only            # (catch typo)
+    mf      = merge --ff-only            # shorter alias
+    mff     = merge --ff-only            # shorter alias (catch typo)
+    mmff    = merge --ff-only            # shorter alias (catch typo)
+    mergesq = merge --squash --no-commit # a "Squashed commit of the following" message is only auto-generated if there are no conflicts (which can be ensured by merging master into feature first)
     ma      = merge --abort
 
     # ls-files
-    lsfiles = ls-files . --exclude-standard
+    lsfiles        = ls-files . --exclude-standard
     lsindex        = ls-files --stage          # show contents of .git/index for current directory
     lsignored      = ls-files --others -i --exclude-standard
 
@@ -301,27 +322,39 @@
     rbc = rebase --continue           # continue rebase when in a conflict
     rbs = rebase --skip               # skip     rebase when in a conflict
     rebaes = rebase                   # catch typo
+    rbnow = "!f() { $HOME/bin/git-rebase-interactive-autosquash-now $@; }; f" 
 
     # remote
-    r = remote -v                     # show remotes (verbose)
-    origininfo = remote show origin   # show info about origin
-    remoet = remote                   # catch typo
+    r = remote -v                           # show remotes (verbose)
+    origininfo = remote show origin         # show info about origin
+    remoet = remote                         # catch typo
     rpodry = remote prune --dry-run origin  # delete stale remote-tracking branches already removed at origin, dry-run
     rpo    = remote prune           origin  # delete stale remote-tracking branches already removed at origin
 
     # refs
-    refs = show-ref                   # show refs
-    rl   = reflog show --date=relative --format='%C(bold magenta)%h %C(reset)%C(bold red)%gd %C(reset)%C(cyan)%gs %n        %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar) %n        %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN> %n'
-    rlco = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | head -n 30'
-    rlcoall = !sh -c 'git rl | grep \"checkout: moving from\" -A0'
+    refs = show-ref
+
+    # ref log (for HEAD, by default)
+    rl           = reflog show --date=relative --format='%C(bold magenta)%h %C(reset)%C(bold red)%gd %C(reset)%C(cyan)%gs %n           %C(reset)%C(bold blue)%aD %C(reset)%C(green)(%ar) %n           %C(reset)%C(white)%s %C(reset)%C(yellow)<%aN> %n'
+    rlcoall      = !sh -c 'git rl | grep \"checkout: moving from\" -A0'
+    rlco         = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | less'
+    rlcol        = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | grep local | grep -v review | less'    # mnemonic: ref-log checkout local
+    rlcolocal    = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | grep local | grep -v review | less'    # mnemonic: ref-log checkout local
+    rlcoreview   = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | grep review | less'                    # mnemonic: ref-log checkout local
+    rlcopub      = !sh -c 'git rl | grep \"checkout: moving from\" -A0 | grep -v local | grep -v review | less' # mnemonic: ref-log checkout public
+
+    rlm          = !sh -c 'git reflog show master'
+    rlb          = !sh -c 'git reflog show base'
 
     # reset
     unstage     = reset HEAD          # unstage files
     unsatge     = reset HEAD          # unstage files (catch typo)
+    suntage     = reset HEAD          # unstage files (catch typo)
     usntage     = reset HEAD          # unstage files (catch typo)
     us          = reset HEAD          # unstage files
     rh          = reset --hard        # discard unstaged changes and revert working tree to HEAD state
     setto       = reset --hard        # goto ref
+    steto       = reset --hard        # goto ref (catch typo)
     seto        = reset --hard        # goto ref
     undoto      = reset --mixed       # undo to ref, with files unstaged
     goto        = reset --mixed       # go   to ref, with files unstaged
@@ -342,15 +375,18 @@
     sha1 = ls-tree master             # shows hashes of files in current folder
 
     # show
-    sh   = show --word-diff=color                        # show changes in a commit, with colored word diffs
-    shs  = show --word-diff=color --stat                       # show changes in a commit, with colored word diffs, with stats
-    shu  = show --word-diff=color -U1000                 # show changes in a commit, with colored word diffs, and surrounding context
-    sha  = show --word-diff=color -a                           # show changes in a commit, with colored word diffs, treating all files as text
-    shp  = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
-    shp1 = !sh -c 'git diff --word-diff=color $0^1 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
-    shp2 = !sh -c 'git diff --word-diff=color $0^2 $0'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
-    shps = !sh -c 'git diff --word-diff=color --stat $0^1 $0'  # show changes between the 1st parent of a rev and the rev itself, with statistics
-    shmc = diff-tree --cc                                # show changes made in resolving a merge conflict (this command is only meaningful if given a merge conflict rev)
+    sh   = show --word-diff=color                                         # show changes in a commit, with colored word diffs
+    hs   = show --word-diff=color                                         # show changes in a commit, with colored word diffs (catch typo)
+    shs  = show --word-diff=color --stat                                  # show changes in a commit, with colored word diffs, with stats
+    shu  = show --word-diff=color -U1000 --stat                           # show changes in a commit, with colored word diffs, and surrounding context
+    sha  = show --word-diff=color -a                                      # show changes in a commit, with colored word diffs, treating all files as text
+    shp  = !sh -c 'git diff --word-diff=color $0^1 $0 $1'                 # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
+    shpu = !sh -c 'git diff --word-diff=color -U1000 --stat $0^1 $0 $1'   # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
+    shp1 = !sh -c 'git diff --word-diff=color $0^1 $0 $1'                 # show changes between the 1st parent of a rev and the rev itself, with colored word diffs
+    shp2 = !sh -c 'git diff --word-diff=color $0^2 $0 $1'                 # show changes between the 2nd parent of a rev and the rev itself, with colored word diffs
+    shp2 = !sh -c 'git diff --word-diff=color $0^2 $0 $1'                 # show changes between the 2nd parent of a rev and the rev itself, with colored word diffs
+    shps = !sh -c 'git diff --word-diff=color --stat $0^1 $0 $1'          # show changes between the 1st parent of a rev and the rev itself, with statistics
+    shmc = diff-tree --cc                                                 # show changes made in resolving a merge conflict (this command is only meaningful if given a merge conflict rev)
 
     # rev-list
     rlist = rev-list --format=%B --max-count=1 # Usage: git rlist @ shows full hash of HEAD and commit message
@@ -555,9 +591,9 @@
 [http]
     postBuffer = 1048576000
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 [gc]
     reflogExpire = never
