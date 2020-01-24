@@ -16,7 +16,7 @@ alias vbim="vim"
 alias vims="vim"
 alias cim="vim"
 alias cg="vim"
-alias vn="vim -u NONE"
+alias vu="vim -u NONE"
 
 alias ei="v ~/.emacs.d/init.el"
 alias ev="v ~/.vimrc"
